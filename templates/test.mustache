@@ -1,0 +1,22 @@
+<div x-data="app()">
+
+    <input type="text" x-model="name">
+
+    <button @click="sayHello()">
+        Test
+    </button>
+
+</div>
+
+<script>
+function app() {
+    return {
+
+        name: '',
+
+        sayHello() {
+            alert(this.name);
+        }
+    }
+}
+</script>
