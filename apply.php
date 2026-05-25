@@ -1,4 +1,6 @@
 <?php
+
+use local_scholarship\controllers\ApplicantController;
 require('../../config.php');
 
 $context = context_system::instance();
@@ -15,6 +17,49 @@ $PAGE->add_body_class('local-scholarship-home');
 $PAGE->add_body_class('scholarship-home-bg');
 
 $submitted = optional_param('submitted', 0, PARAM_BOOL);
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_sesskey();
+
+    header('Content-Type: application/json; charset=utf-8');
+
+    try {
+        $controller = new ApplicantController();
+        $result = $controller->store();
+
+        echo json_encode([
+            'success' => true,
+            'apply_confirmation_message' => get_string('confirmation_message', 'local_scholarship'),
+            'apply_confirmation_details' => get_string('confirmation_details', 'local_scholarship', [
+                'firstname' => $result['firstname'] ?? '',
+            ]),
+            'apply_confirmation_coupon' => $result['regcode'] ?? null,
+        ]);
+        exit;
+
+    } catch (\moodle_exception $e) {
+        http_response_code(422);
+
+        echo json_encode([
+            'message' => 'Validation error',
+            'errors' => [
+                'general' => [$e->getMessage()],
+            ],
+        ]);
+        exit;
+
+    } catch (\Throwable $e) {
+        http_response_code(422);
+
+        echo json_encode([
+            'message' => 'Validation error',
+            'errors' => [
+                'general' => [get_string('server_error', 'local_scholarship')],
+            ],
+        ]);
+        exit;
+    }
+}
 
 echo $OUTPUT->header();
 require(__DIR__ . '/templates/register.php');

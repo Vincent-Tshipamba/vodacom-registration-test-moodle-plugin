@@ -17,8 +17,9 @@ require(__DIR__ . '/../partials/values_for_registration.php');
     </div>
 
     <div class="bg-slate-100  pb-24 min-h-screen text-slate-900 ">
-        <form id="scholarship-apply-form" class="space-y-10" x-data="app()" x-init="init()" @submit="submitForm($event)"
+        <form action="<?= new moodle_url('/local/scholarship/apply.php') ?>" id="registrationForm" class="space-y-10" x-data="app()" x-init="init()" @submit="submitForm($event)"
             x-cloak>
+            <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
             <div class="mx-auto px-4 py-10 max-w-4xl">
                 <div id="form-global-error" x-show="errors.general" x-text="errors.general"
                     class="bg-red-50 mb-4 p-4 rounded-md text-red-700 text-sm" style="display: none;">

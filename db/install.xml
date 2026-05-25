@@ -75,7 +75,8 @@
         <FIELD NAME="birthdate" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="phone" TYPE="char" LENGTH="50" NOTNULL="false"/>
         <FIELD NAME="email" TYPE="char" LENGTH="255" NOTNULL="false"/>
-        <FIELD NAME="cityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="diplomacityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="currentcityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="address" TYPE="text" NOTNULL="false"/>
         <FIELD NAME="schoolname" TYPE="char" LENGTH="255" NOTNULL="false"/>
         <FIELD NAME="examcode" TYPE="char" LENGTH="100" NOTNULL="false"/>
@@ -93,7 +94,8 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
         <KEY NAME="editionid" TYPE="foreign" FIELDS="editionid" REFTABLE="local_scholarship_edition" REFFIELDS="id"/>
-        <KEY NAME="cityid" TYPE="foreign" FIELDS="cityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
+        <KEY NAME="diplomacityid" TYPE="foreign" FIELDS="diplomacityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
+        <KEY NAME="currentcityid" TYPE="foreign" FIELDS="currentcityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
         <KEY NAME="statusid" TYPE="foreign" FIELDS="statusid" REFTABLE="local_scholarship_status" REFFIELDS="id"/>
       </KEYS>
       <INDEXES>
