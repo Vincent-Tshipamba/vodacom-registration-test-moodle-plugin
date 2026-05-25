@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 $string['pluginname'] = 'Scholarship';
 $string['dashboard'] = 'Scholarship dashboard';
 $string['privacy:metadata'] = 'The Scholarship plugin does not store personal data yet.';
@@ -30,7 +30,7 @@ $string['home:conditions_badge'] = 'Eligibility conditions';
 $string['home:conditions_title'] = 'Who can apply?';
 $string['home:conditions_description'] = 'Before submitting an application, make sure all essential programme criteria are met.';
 $string['home:condition1'] = 'Be a Vodacom subscriber with a properly identified phone number.';
-$string['home:condition2'] = 'For minors, use a parent’s number for the verification process.';
+$string['home:condition2'] = 'For minors, use a parentâ€™s number for the verification process.';
 $string['home:condition3'] = 'Be Congolese or a refugee residing in the DRC.';
 $string['home:condition4'] = 'Have obtained at least 70% in the State Examination of the current year.';
 $string['home:condition5'] = 'Have checked your results through the Vodacom network.';
@@ -78,3 +78,6 @@ $string['home:faq2_q'] = 'Is the test mandatory?';
 $string['home:faq2_a'] = 'Yes. The test is an integral part of the selection process for shortlisted candidates.';
 $string['home:faq3_q'] = 'How will I be contacted?';
 $string['home:faq3_a'] = 'Notifications related to the process are sent using the information provided in the application.';
+
+require(__DIR__ . '/registration.php');
+require(__DIR__ . '/validation.php');

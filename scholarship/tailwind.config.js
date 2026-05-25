@@ -2,6 +2,7 @@
   content: [
     './templates/**/*.php',
     './index.php',
+    './apply.php',
     './classes/**/*.php',
     './lang/**/*.php'
   ],

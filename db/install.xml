@@ -1,0 +1,559 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/scholarship/db" VERSION="2026052201" COMMENT="XMLDB file for local_scholarship"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd">
+  <TABLES>
+
+    <TABLE NAME="local_scholarship_edition" COMMENT="Scholarship campaign or edition">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="year" TYPE="int" LENGTH="4" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="appstart" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="append" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="quota" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="iscurrent" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="isactive" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="ismixed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="createdby" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="year" UNIQUE="false" FIELDS="year"/>
+        <INDEX NAME="current" UNIQUE="false" FIELDS="iscurrent"/>
+        <INDEX NAME="active" UNIQUE="false" FIELDS="isactive"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_city" COMMENT="Cities in DRC selected by candidates during application process">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="countrycode" TYPE="char" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="countrycode" UNIQUE="false" FIELDS="countrycode"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_status" COMMENT="Application workflow statuses">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="code" TYPE="char" LENGTH="50" NOTNULL="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="isfinal" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="code" UNIQUE="true" FIELDS="code"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_app" COMMENT="Candidate informations and application data">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="editionid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="regcode" TYPE="char" LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="fullname" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="gender" TYPE="char" LENGTH="20" NOTNULL="false"/>
+        <FIELD NAME="birthdate" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="phone" TYPE="char" LENGTH="50" NOTNULL="false"/>
+        <FIELD NAME="email" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="cityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="address" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="schoolname" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="examcode" TYPE="char" LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="percentage" TYPE="number" LENGTH="5" DECIMALS="2" NOTNULL="false"/>
+        <FIELD NAME="schoolfield" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="intendedfield" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="careergoals" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="motivation" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="additionalinfo" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="statusid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="submittedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="editionid" TYPE="foreign" FIELDS="editionid" REFTABLE="local_scholarship_edition" REFFIELDS="id"/>
+        <KEY NAME="cityid" TYPE="foreign" FIELDS="cityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
+        <KEY NAME="statusid" TYPE="foreign" FIELDS="statusid" REFTABLE="local_scholarship_status" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="regcode" UNIQUE="true" FIELDS="regcode"/>
+        <INDEX NAME="submittedat" UNIQUE="false" FIELDS="submittedat"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_statushist" COMMENT="Application status change history">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="applicantid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="oldstatusid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="newstatusid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="changedby" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="note" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="changedby" TYPE="foreign" FIELDS="changedby" REFTABLE="local_scholarship_agent" REFFIELDS="id"/>
+        <KEY NAME="applicantid" TYPE="foreign" FIELDS="applicantid" REFTABLE="local_scholarship_app" REFFIELDS="id"/>
+        <KEY NAME="oldstatusid" TYPE="foreign" FIELDS="oldstatusid" REFTABLE="local_scholarship_status" REFFIELDS="id"/>
+        <KEY NAME="newstatusid" TYPE="foreign" FIELDS="newstatusid" REFTABLE="local_scholarship_status" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="changedby" UNIQUE="false" FIELDS="changedby"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_doctype" COMMENT="Required document types for both applicants and scholars">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="reqcandidate" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="reqscholar" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_document" COMMENT="Uploaded document metadata; file content is stored by Moodle File API">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="applicantid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="doctypeid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="filearea" TYPE="char" LENGTH="100" NOTNULL="true"/>
+        <FIELD NAME="itemid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="filename" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="verifstatus" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="pending"/>
+        <FIELD NAME="reviewedby" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="reviewedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="applicantid" TYPE="foreign" FIELDS="applicantid" REFTABLE="local_scholarship_app" REFFIELDS="id"/>
+        <KEY NAME="doctypeid" TYPE="foreign" FIELDS="doctypeid" REFTABLE="local_scholarship_doctype" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="itemid" UNIQUE="false" FIELDS="itemid"/>
+        <INDEX NAME="verifstatus" UNIQUE="false" FIELDS="verifstatus"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_dept" COMMENT="Internal department">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_agent" COMMENT="Agent linked to a Moodle user">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="departmentid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="jobtitle" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="isactive" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="departmentid" TYPE="foreign" FIELDS="departmentid" REFTABLE="local_scholarship_dept" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="userid" UNIQUE="true" FIELDS="userid"/>
+        <INDEX NAME="isactive" UNIQUE="false" FIELDS="isactive"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_scholar" COMMENT="Approved scholarship beneficiary">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="applicantid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="matricule" TYPE="char" LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="chosenfield" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="scholarstatus" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="active"/>
+        <FIELD NAME="enrolledat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="graduatedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="applicantid" TYPE="foreign" FIELDS="applicantid" REFTABLE="local_scholarship_app" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="matricule" UNIQUE="true" FIELDS="matricule"/>
+        <INDEX NAME="status" UNIQUE="false" FIELDS="scholarstatus"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_univ" COMMENT="University partner">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="cityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="contactname" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="contactphone" TYPE="char" LENGTH="50" NOTNULL="false"/>
+        <FIELD NAME="contactemail" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="website" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="cityid" TYPE="foreign" FIELDS="cityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_univhist" COMMENT="Scholar university history">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="scholarid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="universityid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="iscurrent" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="joinedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="leftat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="scholarid" TYPE="foreign" FIELDS="scholarid" REFTABLE="local_scholarship_scholar" REFFIELDS="id"/>
+        <KEY NAME="universityid" TYPE="foreign" FIELDS="universityid" REFTABLE="local_scholarship_univ" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_acadrec" COMMENT="Scholar academic yearly record">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="scholarid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="yearlabel" TYPE="char" LENGTH="50" NOTNULL="true"/>
+        <FIELD NAME="academiclevel" TYPE="char" LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="regproof" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="paid" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="payproof" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="finalresult" TYPE="char" LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="feedback" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="scholarid" TYPE="foreign" FIELDS="scholarid" REFTABLE="local_scholarship_scholar" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_payment" COMMENT="Scholar payment record">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="scholarid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="acadrecordid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="amount" TYPE="number" LENGTH="12" DECIMALS="2" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="currency" TYPE="char" LENGTH="10" NOTNULL="true" DEFAULT="USD"/>
+        <FIELD NAME="transactionref" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="paymentdate" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="paymentmethod" TYPE="char" LENGTH="100" NOTNULL="false"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="pending"/>
+        <FIELD NAME="processedby" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="processedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="scholarid" TYPE="foreign" FIELDS="scholarid" REFTABLE="local_scholarship_scholar" REFFIELDS="id"/>
+        <KEY NAME="acadrecordid" TYPE="foreign" FIELDS="acadrecordid" REFTABLE="local_scholarship_acadrec" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="status" UNIQUE="false" FIELDS="status"/>
+        <INDEX NAME="paymentdate" UNIQUE="false" FIELDS="paymentdate"/>
+      </INDEXES>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_phasetest" COMMENT="Online test phase">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="editionid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="durationmin" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="starttime" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="endtime" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="numberquestions" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="passingscore" TYPE="number" LENGTH="8" DECIMALS="2" NOTNULL="false"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="draft"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="editionid" TYPE="foreign" FIELDS="editionid" REFTABLE="local_scholarship_edition" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_placetest" COMMENT="Test place refering to a physical address in a city">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="address" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="cityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="cityid" TYPE="foreign" FIELDS="cityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_phaseloc" COMMENT="Link between test phase and test place as a phase can be taken into multiple places">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="phasetestid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="placetestid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="phasetestid" TYPE="foreign" FIELDS="phasetestid" REFTABLE="local_scholarship_phasetest" REFFIELDS="id"/>
+        <KEY NAME="placetestid" TYPE="foreign" FIELDS="placetestid" REFTABLE="local_scholarship_placetest" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_qcategory" COMMENT="Question category">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_question" COMMENT="Test question">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="categoryid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="questiontext" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="categoryid" TYPE="foreign" FIELDS="categoryid" REFTABLE="local_scholarship_qcategory" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_assert" COMMENT="Possible answer for a test question">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="optiontext" TYPE="text" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_questionassert" COMMENT="Link between question and possible answers with indication of the correct answer(s) as a question can have multiple correct answers and an assertion can be linked to multiple questions">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="assertid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="iscorrect" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="questionid" TYPE="foreign" FIELDS="questionid" REFTABLE="local_scholarship_question" REFFIELDS="id"/>
+        <KEY NAME="assertid" TYPE="foreign" FIELDS="assertid" REFTABLE="local_scholarship_assert" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_phaseques" COMMENT="Question assigned to a test phase as a phase can have multiple questions as well as a question can be assigned to multiple phases with different ponderation">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="phasetestid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="questionid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="ponderation" TYPE="number" LENGTH="8" DECIMALS="2" NOTNULL="true" DEFAULT="1"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="phasetestid" TYPE="foreign" FIELDS="phasetestid" REFTABLE="local_scholarship_phasetest" REFFIELDS="id"/>
+        <KEY NAME="questionid" TYPE="foreign" FIELDS="questionid" REFTABLE="local_scholarship_question" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_testsess" COMMENT="Candidate test session">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="applicantid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="phaselocid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="starttime" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="endtime" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="totalscore" TYPE="number" LENGTH="8" DECIMALS="2" NOTNULL="false"/>
+        <FIELD NAME="cheatingattempts" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="autosubmitted" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="scheduled"/>
+        <FIELD NAME="ispassed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="applicantid" TYPE="foreign" FIELDS="applicantid" REFTABLE="local_scholarship_app" REFFIELDS="id"/>
+        <KEY NAME="phaselocid" TYPE="foreign" FIELDS="phaselocid" REFTABLE="local_scholarship_phaseloc" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_candanswer" COMMENT="Candidate answer in a test session">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="testsessionid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="phasequesid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="assertid" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="testsessionid" TYPE="foreign" FIELDS="testsessionid" REFTABLE="local_scholarship_testsess" REFFIELDS="id"/>
+        <KEY NAME="phasequesid" TYPE="foreign" FIELDS="phasequesid" REFTABLE="local_scholarship_phaseques" REFFIELDS="id"/>
+        <KEY NAME="assertid" TYPE="foreign" FIELDS="assertid" REFTABLE="local_scholarship_assert" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_intphase" COMMENT="Interview phase">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="editionid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="durationmin" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="startdate" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="enddate" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="draft"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="editionid" TYPE="foreign" FIELDS="editionid" REFTABLE="local_scholarship_edition" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_intsession" COMMENT="Candidate interview session">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="applicantid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="intphaseid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="scheduledat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="startedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="endedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="averagescore" TYPE="number" LENGTH="8" DECIMALS="2" NOTNULL="false"/>
+        <FIELD NAME="decisionnote" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="applicantid" TYPE="foreign" FIELDS="applicantid" REFTABLE="local_scholarship_app" REFFIELDS="id"/>
+        <KEY NAME="intphaseid" TYPE="foreign" FIELDS="intphaseid" REFTABLE="local_scholarship_intphase" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_evalpanel" COMMENT="Evaluator assigned to an interview session">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="intsessionid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="agentid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="intsessionid" TYPE="foreign" FIELDS="intsessionid" REFTABLE="local_scholarship_intsession" REFFIELDS="id"/>
+        <KEY NAME="agentid" TYPE="foreign" FIELDS="agentid" REFTABLE="local_scholarship_agent" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_evcriteria" COMMENT="Interview evaluation criteria">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
+        <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_phasecriteria" COMMENT="Link between test phases and evaluation criteria">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="phaseid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="evcriteriaid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="ponderation" TYPE="number" LENGTH="8" DECIMALS="2" NOTNULL="true" DEFAULT="10"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="phaseid" TYPE="foreign" FIELDS="phaseid" REFTABLE="local_scholarship_phase" REFFIELDS="id"/>
+        <KEY NAME="evcriteriaid" TYPE="foreign" FIELDS="evcriteriaid" REFTABLE="local_scholarship_criteria" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+
+    <TABLE NAME="local_scholarship_evalscore" COMMENT="Interview score given by an evaluator">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="evalpanelid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="phasecriteriaid" TYPE="int" LENGTH="10" NOTNULL="true"/>
+        <FIELD NAME="scoregiven" TYPE="number" LENGTH="8" DECIMALS="2" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="comment" TYPE="text" NOTNULL="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="evalpanelid" TYPE="foreign" FIELDS="evalpanelid" REFTABLE="local_scholarship_evalpanel" REFFIELDS="id"/>
+        <KEY NAME="phasecriteriaid" TYPE="foreign" FIELDS="phasecriteriaid" REFTABLE="local_scholarship_phasecriteria" REFFIELDS="id"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>
