@@ -35,7 +35,6 @@ window.app = function () {
             // Étape 4: Pièces jointes
             id: null,
             diploma: null,
-            reco_letter: null,
 
             // Étape 5: Ambitions personnelles
             intendedfield: '',
@@ -92,7 +91,6 @@ window.app = function () {
                     photo: null,
                     id: null,
                     diploma: null,
-                    reco_letter: null,
                 }
             };
         },
@@ -123,7 +121,6 @@ window.app = function () {
                         photo: null,
                         id: null,
                         diploma: null,
-                        reco_letter: null,
                     };
                 }
 
@@ -539,20 +536,16 @@ window.app = function () {
                         const data = await response.json();
                         if (data && data.success) {
                             try {
-                                if (data.confirmation_message) {
-                                    const msgEl = document.getElementById('confirmation_message');
-                                    if (msgEl) msgEl.textContent = data.confirmation_message;
-                                }
-                                if (data.confirmation_details) {
+                                if (data.apply_confirmation_details) {
                                     const detailsEl = document.getElementById('confirmation_details');
-                                    if (detailsEl) detailsEl.textContent = data.confirmation_details;
+                                    if (detailsEl) detailsEl.textContent = data.apply_confirmation_details;
                                 }
-                                if (data.confirmation_coupon) {
+                                if (data.apply_confirmation_coupon) {
                                     const couponBlock = document.getElementById('confirmation_coupon_block');
                                     const couponEl = document.getElementById('confirmation_coupon');
                                     const couponInput = document.getElementById('confirmation_coupon_input');
-                                    if (couponEl) couponEl.textContent = data.confirmation_coupon;
-                                    if (couponInput) couponInput.value = data.confirmation_coupon;
+                                    if (couponEl) couponEl.textContent = data.apply_confirmation_coupon;
+                                    if (couponInput) couponInput.value = data.apply_confirmation_coupon;
                                     if (couponBlock) couponBlock.style.display = '';
                                 }
                             } catch (err) {
@@ -580,35 +573,33 @@ window.app = function () {
                         this.errors = {};
 
                         const fieldIdMap = {
-                            firstname: 'first_name',
-                            lastname: 'last_name',
+                            fullname: 'fullname',
                             phone: 'phone',
                             gender: 'gender',
                             birthdate: 'birthdate',
-                            identification_type: 'vulntype',
+                            vulntype: 'vulntype',
                             currentcityid: 'currentcityid',
                             diplomacityid: 'diplomacityid',
                             address: 'address',
                             schoolname: 'schoolname',
-                            study_option: 'schoolfield',
+                            schoolfield: 'schoolfield',
                             other_study_option: 'other_study_option',
                             percentage: 'percentage',
-                            student_code: 'examcode',
+                            examcode: 'examcode',
                             id: 'id',
                             diploma: 'diploma',
-                            reco_letter: 'reco_letter',
-                            university_field: 'intendedfield',
+                            intendedfield: 'intendedfield',
                             other_university_field: 'other_university_field',
                             passion: 'motivation',
                             careergoals: 'careergoals',
-                            additional_info: 'additionalinfo'
+                            additionalinfo: 'additionalinfo'
                         };
 
                         const fieldStepMap = {
-                            first_name: 1, last_name: 1, phone: 1, gender: 1, birthdate: 1, vulntype: 1,
+                            fullname: 1, phone: 1, gender: 1, birthdate: 1, vulntype: 1,
                             currentcityid: 2, diplomacityid: 2, address: 2,
                             schoolname: 3, schoolfield: 3, other_study_option: 3, percentage: 3, examcode: 3,
-                            id: 4, diploma: 4, reco_letter: 4,
+                            id: 4, diploma: 4, 
                             intendedfield: 5, other_university_field: 5, motivation: 5, careergoals: 5, additionalinfo: 5
                         };
 
@@ -660,7 +651,7 @@ window.app = function () {
                     console.error('Erreur lors de la soumission du formulaire:', response.status, response.statusText);
                 })
                 .catch(error => {
-                    console.error('Erreur r�seau lors de la soumission du formulaire:', error);
+                    console.error('Erreur reseau lors de la soumission du formulaire:', error);
                 })
                 .finally(() => {
                     if (!submissionSucceeded) {
@@ -675,11 +666,11 @@ window.app = function () {
         // Obtention du titre de l'étape
         getStepTitle(step) {
             const titles = {
-                1: '{{ __("registration.step_1_title") }}',
-                2: '{{ __("registration.step_2_title") }}',
-                3: '{{ __("registration.step_3_title") }}',
-                4: '{{ __("registration.step_4_title") }}',
-                5: '{{ __("registration.step_5_title") }}'
+                1: M.util.get_string('apply_step_1_title', 'local_scholarship'),
+                2: M.util.get_string('apply_step_2_title', 'local_scholarship'),
+                3: M.util.get_string('apply_step_3_title', 'local_scholarship'),
+                4: M.util.get_string('apply_step_4_title', 'local_scholarship'),
+                5: M.util.get_string('apply_step_5_title', 'local_scholarship')
             };
             return titles[step] || '';
         }

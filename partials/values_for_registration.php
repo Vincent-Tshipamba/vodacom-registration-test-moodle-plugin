@@ -1,4 +1,7 @@
 <?php
+
+use local_scholarship\models\City;
+
 $homeurl = new moodle_url('/local/scholarship/index.php');
 
 $steps = [
@@ -83,38 +86,14 @@ $intendedfields = [
 ];
 
 $vulnerabilities = [
-    'none' => get_string('apply_vulnerability_none', 'local_scholarship'),
-    'disabled' => get_string('apply_vulnerability_disabled', 'local_scholarship'),
-    'albinos' => get_string('apply_vulnerability_albino', 'local_scholarship'),
-    'refugee' => get_string('apply_vulnerability_refugee', 'local_scholarship'),
-    'orphan' => get_string('apply_vulnerability_orphan', 'local_scholarship'),
+    'NONE' => get_string('apply_vulnerability_none', 'local_scholarship'),
+    'DISABLED' => get_string('apply_vulnerability_disabled', 'local_scholarship'),
+    'ALBINOS' => get_string('apply_vulnerability_albino', 'local_scholarship'),
+    'REFUGEE' => get_string('apply_vulnerability_refugee', 'local_scholarship'),
+    'ORPHAN' => get_string('apply_vulnerability_orphan', 'local_scholarship'),
 ];
 
-$cities = [
-    ['id' => 1, 'name' => 'Kinshasa'],
-    ['id' => 2, 'name' => 'Lubumbashi'],
-    ['id' => 3, 'name' => 'Mbuji-Mayi'],
-    ['id' => 4, 'name' => 'Kisangani'],
-    ['id' => 5, 'name' => 'Kananga'],
-    ['id' => 6, 'name' => 'Likasi'],
-    ['id' => 7, 'name' => 'Goma'],
-    ['id' => 8, 'name' => 'Bukavu'],
-    ['id' => 9, 'name' => 'Kolwezi'],
-    ['id' => 10, 'name' => 'Matadi'],
-    ['id' => 11, 'name' => 'Boma'],
-    ['id' => 12, 'name' => 'Uvira'],
-    ['id' => 13, 'name' => 'Bunia'],
-    ['id' => 14, 'name' => 'Kikwit'],
-    ['id' => 15, 'name' => 'Kalemie'],
-    ['id' => 16, 'name' => 'Isiro'],
-    ['id' => 17, 'name' => 'Kindu'],
-    ['id' => 18, 'name' => 'Butembo'],
-    ['id' => 19, 'name' => 'Tshikapa'],
-    ['id' => 20, 'name' => 'Mwene-Ditu'],
-    ['id' => 21, 'name' => 'Gemena'],
-    ['id' => 22, 'name' => 'Lisala'],
-    ['id' => 23, 'name' => 'Beni'],
-];
+$cities = City::get_all();
 
 $document_types = [
     [

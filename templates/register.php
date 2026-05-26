@@ -44,7 +44,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                             <?= get_string('apply_confirmation_message', 'local_scholarship'); ?>
                         </p>
                         <p id="confirmation_details" class="mb-8 text-gray-500  text-sm">
-                            <?= get_string('apply_confirmation_details', 'local_scholarship'); ?>
+                            
                         </p>
 
                         <div id="confirmation_coupon_block" class="bg-gray-100  mb-6 p-4 rounded-lg">
@@ -55,7 +55,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                 <input type="hidden" id="confirmation_coupon_input" value="1234">
                                 <p id="confirmation_coupon"
                                     class="font-mono font-bold text-gray-800 -xl">
-                                    1234
+                                    
                                 </p>
                                 <button type="button" data-copy-to-clipboard-target="confirmation_coupon_input"
                                     data-tooltip-target="tooltip-copy-confirmation-coupon-button"
@@ -271,16 +271,6 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     <p x-show="errors.birthdate" class="mt-1 text-red-500 text-sm"
                                         x-text="errors.birthdate"></p>
                                 </div>
-                                <!-- Age (auto-calculated) -->
-                                <div x-show="formData.birthdate">
-                                    <label class="block mb-1 font-medium text-sm">
-                                        <?= get_string('apply_age_label', 'local_scholarship') ?>
-                                    </label>
-                                    <div class="bg-gray-100  px-4 py-2 rounded-lg">
-                                        <span
-                                            x-text="formData.age + ' ' + '<?= get_string('apply_years_old', 'local_scholarship') ?>'"></span>
-                                    </div>
-                                </div>
 
                                 <!-- Type d'identification -->
                                 <div>
@@ -295,7 +285,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                                         name="vulntype" value="<?= $value ?>"
                                                         x-model="formData.vulntype"
                                                         class=" border-gray-300  focus:ring-red-500 w-4 h-4 text-red-500"
-                                                        <?php if ($value === 'none'): ?>
+                                                        <?php if ($value === 'NONE'): ?>
                                                             checked 
                                                         <?php endif; ?>
                                                     >
@@ -307,6 +297,17 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     </div>
                                     <p x-show="errors.vulntype" class="mt-1 text-red-500 text-sm"
                                         x-text="errors.vulntype"></p>
+                                </div>
+
+                                <!-- Age (auto-calculated) -->
+                                <div x-show="formData.birthdate">
+                                    <label class="block mb-1 font-medium text-sm">
+                                        <?= get_string('apply_age_label', 'local_scholarship') ?>
+                                    </label>
+                                    <div class="bg-gray-100  px-4 py-2 rounded-lg">
+                                        <span
+                                            x-text="formData.age + ' ' + '<?= get_string('apply_years_old', 'local_scholarship') ?>'"></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -505,7 +506,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                                             <?= get_string('or_drag_drop', 'local_scholarship') ?>
                                                         </div>
                                                         <p class="mt-1 text-gray-500 text-xs"
-                                                            x-text="formData[<?= strtolower($document['name']) ?>]'">
+                                                            x-text="formData['<?= strtolower($document['name']) ?>']">
                                                         </p>
                                                     </div>
                                                     <input id="<?= strtolower($document['name']) ?>"

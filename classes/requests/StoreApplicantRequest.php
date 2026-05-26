@@ -25,7 +25,9 @@ class StoreApplicantRequest
         $data->examcode = required_param('examcode', PARAM_ALPHANUMEXT);
         $data->percentage = required_param('percentage', PARAM_FLOAT);
         $data->schoolfield = required_param('schoolfield', PARAM_TEXT);
+        $data->other_study_option = optional_param('other_study_option', '', PARAM_TEXT);
         $data->intendedfield = required_param('intendedfield', PARAM_TEXT);
+        $data->other_university_field = optional_param('other_university_field', '', PARAM_TEXT);
 
         $data->motivation = required_param('motivation', PARAM_TEXT);
         $data->careergoals = required_param('careergoals', PARAM_TEXT);

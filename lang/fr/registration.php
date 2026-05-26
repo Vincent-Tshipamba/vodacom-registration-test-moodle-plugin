@@ -83,7 +83,7 @@ $string['apply_additional_info_label'] = 'Informations complémentaires';
 $string['apply_additional_info_placeholder'] = 'Toute autre information que vous jugez utile...';
 
 // Page de soumission
-$string['apply_submit'] = 'Soumettre ma candidature';
+$string['apply_submit'] = 'Soumettre';
 $string['apply_submitting'] = 'Soumission en cours';
 $string['upload_file'] = 'Télécharger un fichier';
 $string['or_drag_drop'] = 'ou glisser-déposer';
@@ -91,7 +91,7 @@ $string['or_drag_drop'] = 'ou glisser-déposer';
 // Confirmation page
 $string['apply_confirmation_title'] = 'Confirmation d\'inscription';
 $string['apply_confirmation_message'] = 'Votre inscription a été enregistrée avec succès !';
-$string['apply_confirmation_details'] = 'Nous vous contacterons très bientôt, une fois vos informations examinées. A bientôt :firstname !';
+$string['apply_confirmation_details'] = 'Nous vous contacterons très bientôt, une fois vos informations examinées. A bientôt {$a->fullname} !';
 $string['apply_confirmation_coupon'] = 'Votre numéro de suivi est : ';
 $string['copy_label'] = 'Copier le code au presse-papiers';
 $string['copy'] = 'Copier';

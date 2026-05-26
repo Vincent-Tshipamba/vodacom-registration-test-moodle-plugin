@@ -4,6 +4,8 @@ defined('MOODLE_INTERNAL') || die();
 $string['pluginname'] = 'Bourse';
 $string['dashboard'] = 'Tableau de bord de la bourse';
 $string['privacy:metadata'] = 'Le plugin Bourse ne stocke pas encore de données personnelles.';
+$string['nocurrentedition'] = 'Aucune édition active de la bourse n\'a été trouvée.';
+$string['server_error'] = 'Une erreur est survenue lors de la soumission de votre candidature. Veuillez réessayer plus tard.';
 
 // Homepage
 $string['home:title'] = 'Boostez votre avenir avec la bourse Vodacom';

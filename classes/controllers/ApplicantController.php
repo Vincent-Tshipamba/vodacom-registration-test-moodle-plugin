@@ -4,13 +4,14 @@ namespace local_scholarship\controllers;
 
 use local_scholarship\models\Applicant;
 use local_scholarship\models\Edition;
+use local_scholarship\models\Status;
 use local_scholarship\requests\StoreApplicantRequest;
 
 defined('MOODLE_INTERNAL') || die();
 
 class ApplicantController
 {
-    public function store():
+    public function store()
     {
         global $DB;
 
@@ -41,8 +42,24 @@ class ApplicantController
 
         try {
             $data->regcode = $this->generate_unique_regcode();
+            $status = Status::get_status_by_name('PENDING');
+            $data->statusid = $status ? $status->id : 1;
             $data->submittedat = time();
 
+            if (($data->schoolfield ?? null) === 'other') {
+                $otherStudy = trim((string) $data->other_study_option);
+                if ($otherStudy !== '') {
+                    $data->schoolfield = $otherStudy;
+                }
+            }
+            
+            if (($data->intendedfield ?? null) === 'other') {
+                $otherUni = trim((string) $data->other_university_field);
+                if ($otherUni !== '') {
+                    $data->intendedfield = $otherUni;
+                }
+            }
+            
             // Vérification future du code EXETAT dans un fichier Excel.
             // À activer quand le fichier sera disponible.
             //
@@ -71,10 +88,10 @@ class ApplicantController
 
             return [
                 'success' => true,
-                'message' => get_string('apply_confirmation_message', 'local_scholarship'),
                 'regcode' => $data->regcode,
                 'applicantid' => $applicantid,
                 'existing' => false,
+                'fullname' => $data->fullname,
             ];
 
         } catch (\Throwable $e) {

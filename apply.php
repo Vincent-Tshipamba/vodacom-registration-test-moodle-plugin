@@ -11,7 +11,15 @@ $PAGE->set_pagelayout('base');
 $PAGE->set_title(get_string('apply_title', 'local_scholarship'));
 $PAGE->set_heading(get_string('apply_title', 'local_scholarship'));
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/build/tailwind.css'));
+$PAGE->requires->strings_for_js([
+    'apply_step_1_title',
+    'apply_step_2_title',
+    'apply_step_3_title',
+    'apply_step_4_title',
+    'apply_step_5_title',
+], 'local_scholarship');
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/registration-form.js'), true);
+$PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/copy-to-clipboard.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/build/app.js'), true);
 $PAGE->add_body_class('local-scholarship-home');
 $PAGE->add_body_class('scholarship-home-bg');
@@ -29,9 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         echo json_encode([
             'success' => true,
-            'apply_confirmation_message' => get_string('confirmation_message', 'local_scholarship'),
-            'apply_confirmation_details' => get_string('confirmation_details', 'local_scholarship', [
-                'firstname' => $result['firstname'] ?? '',
+            'apply_confirmation_details' => get_string('apply_confirmation_details', 'local_scholarship', [
+                'fullname' => $result['fullname'] ?? '',
             ]),
             'apply_confirmation_coupon' => $result['regcode'] ?? null,
         ]);
@@ -54,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode([
             'message' => 'Validation error',
             'errors' => [
-                'general' => [get_string('server_error', 'local_scholarship')],
+                'general' => [$e->getMessage()],
             ],
         ]);
         exit;

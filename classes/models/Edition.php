@@ -31,7 +31,6 @@ class Edition
 
         return $DB->get_record('local_scholarship_edition', [
             'iscurrent' => 1,
-            'isactive' => 1,
         ]) ?: null;
     }
 
