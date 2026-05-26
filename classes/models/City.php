@@ -45,4 +45,11 @@ class City
         
         return array_values($records);
     }
+
+    public static function get_all(): array
+    {
+        global $DB;
+
+        return $DB->get_records(self::TABLE);
+    }
 }
