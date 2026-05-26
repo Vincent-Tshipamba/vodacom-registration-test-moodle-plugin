@@ -202,7 +202,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             class="text-red-500">*</span>
                                     </label>
                                     <input type="text" id="fullname" name="fullname" x-model="formData.fullname"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.fullname }"
                                         data-error-required="<?= get_string('validation_fullname_required', 'local_scholarship') ?>"
                                         placeholder="<?= get_string('apply_input_fullname_placeholder', 'local_scholarship') ?>">
@@ -225,7 +225,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             x-model="formData.phone" inputmode="tel" maxlength="9"
                                             pattern="8[0-3][0-9]{7}" @input="handlePhoneNumberInput()"
                                             @blur="validatePhoneNumberField()"
-                                            class=" py-2 pr-4 pl-16 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                            class=" py-2 pr-4 pl-16 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                             :class="{ 'border-red-500': errors.phone }"
                                             data-error-phone-regex="<?= get_string('validation_phone_regex', 'local_scholarship') ?>"
                                             data-error-phone="<?= get_string('validation_phone_invalid', 'local_scholarship') ?>"
@@ -247,7 +247,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                                 <label class="inline-flex items-center">
                                                     <input type="radio" name="gender" value="<?= $value ?>"
                                                         x-model="formData.gender"
-                                                        class=" border-gray-300  focus:ring-red-500 w-4 h-4 text-red-500">
+                                                        class="w-4 h-4 text-red-600 border-4 border-gray-200 focus:ring-red-500">
                                                     <span class="ml-2"><?= $label ?></span>
                                                 </label>
                                         <?php endforeach; ?>
@@ -264,7 +264,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     </label>
                                     <input type="date" id="birthdate" name="birthdate"
                                         x-model="formData.birthdate" @change="calculateAge"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.birthdate }"
                                         data-error-required="<?= get_string('validation_birthdate_required', 'local_scholarship') ?>"
                                         data-error-age="<?= get_string('validation_age_requirement', 'local_scholarship') ?>">
@@ -284,7 +284,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                                     <input type="radio" id="<?= $value ?>"
                                                         name="vulntype" value="<?= $value ?>"
                                                         x-model="formData.vulntype"
-                                                        class=" border-gray-300  focus:ring-red-500 w-4 h-4 text-red-500"
+                                                        class=" w-4 h-4 text-red-600 border-4 border-gray-200 focus:ring-red-500"
                                                         <?php if ($value === 'NONE'): ?>
                                                             checked 
                                                         <?php endif; ?>
@@ -323,7 +323,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     </label>
                                     <select id="currentcityid" name="currentcityid"
                                         x-model="formData.currentcityid"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full "
                                         :class="{ 'border-red-500': errors.currentcityid }"
                                         data-error-exists="<?= get_string('validation_current_city_exists', 'local_scholarship') ?>"
                                         data-error-required="<?= get_string('validation_current_city_required', 'local_scholarship') ?>"
@@ -332,7 +332,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             <?= get_string('apply_current_city_placeholder', 'local_scholarship') ?>
                                         </option>
                                         <?php foreach ($cities as $city): ?>
-                                                <option value="<?= $city['id'] ?>"><?= $city['name'] ?></option>
+                                                <option value="<?= $city->id ?>"><?= $city->name ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <p x-show="errors.currentcityid" class="mt-1 text-red-500 text-sm"
@@ -355,7 +355,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             <?= get_string('apply_educational_city_placeholder', 'local_scholarship') ?>
                                         </option>
                                         <?php foreach ($cities as $city): ?>
-                                            <option value="<?= $city['id'] ?>"><?= $city['name'] ?></option>
+                                            <option value="<?= $city->id ?>"><?= $city->name ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <p class="mt-1 text-gray-500  text-xs">
@@ -372,7 +372,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             class="text-red-500">*</span>
                                     </label>
                                     <textarea id="address" name="address" rows="3" x-model="formData.address"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.address }"
                                         data-error-required="<?= get_string('validation_address_required', 'local_scholarship') ?>"
                                         placeholder="<?= get_string('apply_input_address_placeholder', 'local_scholarship') ?>"></textarea>
@@ -392,7 +392,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     <input type="text" id="schoolname" name="schoolname"
                                         x-model="formData.schoolname"
                                         data-error-required="<?= get_string('validation_schoolname_required', 'local_scholarship') ?>"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.schoolname }"
                                         placeholder="<?= get_string('apply_schoolname_placeholder', 'local_scholarship') ?>">
                                     <p x-show="errors.schoolname" class="mt-1 text-red-500 text-sm"
@@ -426,7 +426,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     </label>
                                     <input type="text" id="other_study_option" name="other_study_option"
                                         x-model="formData.other_study_option"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.other_study_option }"
                                         data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
                                         placeholder="<?= get_string('apply_other_study_option_placeholder', 'local_scholarship') ?>">
@@ -446,7 +446,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             @input="formData.percentage = formData.percentage.replace(/\D/g,'')"
                                             data-error-required="<?= get_string('validation_percentage_required', 'local_scholarship') ?>"
                                             data-error-percentage="<?= get_string('validation_percentage', 'local_scholarship') ?>"
-                                            class=" py-2 pr-4 pl-12 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                            class=" py-2 pr-4 pl-12 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                             :class="{ 'border-red-500': errors.percentage }"
                                             placeholder="<?= get_string('apply_percentage_placeholder', 'local_scholarship') ?>" required>
                                         <div
@@ -466,7 +466,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     </label>
                                     <input type="text" id="examcode" name="examcode"
                                         x-model="formData.examcode" inputmode="numeric"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.examcode }"
                                         data-error-required="<?= get_string('validation_examcode_required', 'local_scholarship') ?>"
                                         data-error-pattern="<?= get_string('validation_examcode_regex', 'local_scholarship') ?>"
@@ -554,14 +554,14 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         x-text="errors.intendedfield"></p>
 
                                     <!-- Champ pour "Autre" -->
-                                    <div x-show="formData.intendedfield === 'other'" class="mt-2">
+                                    <div x-show="formData.intendedfield === 'other'" class="mt-3" x-transition>
                                         <label for="other_university_field" class="block mb-1 font-medium text-sm">
                                             <?= get_string('apply_other_university_field_label', 'local_scholarship') ?> <span
                                                 class="text-red-500">*</span>
                                         </label>
                                         <input type="text" id="other_university_field"
                                             name="other_university_field" x-model="formData.other_university_field"
-                                            class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                            class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                             :class="{ 'border-red-500': errors.other_university_field }"
                                             data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
                                             placeholder="<?= get_string('apply_other_university_field_placeholder', 'local_scholarship') ?>">
@@ -576,7 +576,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     </label>
                                     <textarea id="motivation" name="motivation" rows="3"
                                         x-model="formData.motivation"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
                                         :class="{ 'border-red-500': errors.motivation }"
                                         placeholder="<?= get_string('apply_passion_placeholder', 'local_scholarship') ?>"></textarea>
@@ -590,7 +590,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             class="text-red-500">*</span>
                                     </label>
                                     <textarea id="careergoals" name="careergoals" rows="3" x-model="formData.careergoals"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
                                         :class="{ 'border-red-500': errors.careergoals }"
                                         placeholder="<?= get_string('apply_careergoals_placeholder', 'local_scholarship') ?>"></textarea>
@@ -603,12 +603,12 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <?= get_string('apply_additional_info_label', 'local_scholarship') ?>
                                     </label>
                                     <textarea id="additionalinfo" name="additionalinfo" rows="3" x-model="formData.additionalinfo"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
+                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         placeholder="<?= get_string('apply_additional_info_placeholder', 'local_scholarship') ?>"></textarea>
                                 </div>
                             </div>
                         </div>
-
+                    
                         <!-- Bottom Navigation -->
                         <div class="right-0 bottom-0 left-0 fixed bg-white  shadow-md py-5"
                             x-show="step != 'complete'">

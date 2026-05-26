@@ -1,9 +1,11 @@
 ﻿module.exports = {
   content: [
     './templates/**/*.php',
-    '/**/*.php',
+    './index.php',
+    './apply.php',
     './classes/**/*.php',
     './lang/**/*.php',
+    './assets/**/*.js',
     './node_modules/flowbite/**/*.js',
   ],
   theme: {
