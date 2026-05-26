@@ -34,4 +34,28 @@ class Edition
             'isactive' => 1,
         ]) ?: null;
     }
+
+    public static function create(\stdClass $data): int
+    {
+        global $DB;
+
+        $record = (object)[
+            'name' => $data->name,
+            'year' => $data->year,
+            'description' => $data->description ?? '',
+            'quota' => $data->quota ?? 0,
+            'appstartdate' => isset($data->appstartdate) ? strtotime($data->appstartdate) : null,
+            'appenddate' => isset($data->appenddate) ? strtotime($data->appenddate) : null,
+            'iscurrent' => isset($data->iscurrent) ? (int)$data->iscurrent : 0,
+            'ismixed' => isset($data->ismixed) ? (int)$data->ismixed : 0,
+            'status' => $data->status ?? 'OPEN',
+            'timecreated' => time(),
+            'timemodified' => time(),
+        ];
+
+        if (!$DB->record_exists('local_scholarship_edition', ['year' => $record->year])) {
+            return $DB->insert_record('local_scholarship_edition', $record);
+        }
+        return 0;
+    }
 }
