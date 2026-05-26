@@ -10,12 +10,12 @@
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="year" TYPE="int" LENGTH="4" NOTNULL="true"/>
         <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
-        <FIELD NAME="appstart" TYPE="int" LENGTH="10" NOTNULL="false"/>
-        <FIELD NAME="append" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="appstartdate" TYPE="int" LENGTH="10" NOTNULL="false"/>
+        <FIELD NAME="appenddate" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="quota" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="iscurrent" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="isactive" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="1"/>
         <FIELD NAME="ismixed" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="50" NOTNULL="true" DEFAULT="OPEN"/>
         <FIELD NAME="createdby" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
@@ -26,7 +26,6 @@
       <INDEXES>
         <INDEX NAME="year" UNIQUE="false" FIELDS="year"/>
         <INDEX NAME="current" UNIQUE="false" FIELDS="iscurrent"/>
-        <INDEX NAME="active" UNIQUE="false" FIELDS="isactive"/>
       </INDEXES>
     </TABLE>
 
@@ -40,28 +39,19 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
-      <INDEXES>
-        <INDEX NAME="countrycode" UNIQUE="false" FIELDS="countrycode"/>
-      </INDEXES>
     </TABLE>
 
     <TABLE NAME="local_scholarship_status" COMMENT="Application workflow statuses">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="code" TYPE="char" LENGTH="50" NOTNULL="true"/>
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="description" TYPE="text" NOTNULL="false"/>
-        <FIELD NAME="isfinal" TYPE="int" LENGTH="1" NOTNULL="true" DEFAULT="0"/>
-        <FIELD NAME="sortorder" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
-      <INDEXES>
-        <INDEX NAME="code" UNIQUE="true" FIELDS="code"/>
-      </INDEXES>
     </TABLE>
 
     <TABLE NAME="local_scholarship_app" COMMENT="Candidate informations and application data">
@@ -226,9 +216,10 @@
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="name" TYPE="char" LENGTH="255" NOTNULL="true"/>
         <FIELD NAME="cityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
-        <FIELD NAME="contactname" TYPE="char" LENGTH="255" NOTNULL="false"/>
         <FIELD NAME="contactphone" TYPE="char" LENGTH="50" NOTNULL="false"/>
         <FIELD NAME="contactemail" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="contactpersonname" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="contactpersonphone" TYPE="char" LENGTH="50" NOTNULL="false"/>
         <FIELD NAME="website" TYPE="char" LENGTH="255" NOTNULL="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>
         <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true"/>
