@@ -1,10 +1,10 @@
 ﻿module.exports = {
   content: [
     './templates/**/*.php',
-    './index.php',
-    './apply.php',
+    '/**/*.php',
     './classes/**/*.php',
-    './lang/**/*.php'
+    './lang/**/*.php',
+    './node_modules/flowbite/**/*.js',
   ],
   theme: {
     extend: {
@@ -24,5 +24,7 @@
       }
     }
   },
-  plugins: []
+  plugins: [
+    require('flowbite/plugin')
+  ]
 };
