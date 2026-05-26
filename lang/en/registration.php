@@ -20,8 +20,8 @@ $string['apply_complete'] = 'Complete submission';
 // Step 1 : Personal information
 $string['apply_browse_photo'] = 'Choose a photo';
 $string['apply_browse_photo_label'] = 'JPG/PNG/JPEG format, max 2MB';
-$string['apply_input_full_name_label'] = 'Full name';
-$string['apply_input_full_name_placeholder'] = 'Your full name';
+$string['apply_input_fullname_label'] = 'Full name';
+$string['apply_input_fullname_placeholder'] = 'Your full name';
 $string['apply_input_gender_label'] = 'Gender';
 $string['apply_gender_male'] = 'Male';
 $string['apply_gender_female'] = 'Female';
@@ -45,16 +45,16 @@ $string['apply_educational_city_label'] = 'Diploma issuing city';
 $string['apply_educational_city_help'] = 'Leave empty if identical to your current city of residence';
 $string['apply_current_city_placeholder'] = 'Your current city...';
 $string['apply_current_city_label'] = 'Current city';
-$string['apply_input_full_address_label'] = 'Full address';
-$string['apply_input_full_address_placeholder'] = 'Municipality, district, avenue, reference';
+$string['apply_input_address_label'] = 'Full address';
+$string['apply_input_address_placeholder'] = 'Municipality, district, avenue, reference';
 
 // Step 3 : Academic information
-$string['apply_school_name_label'] = 'School attended';
-$string['apply_school_name_placeholder'] = 'Name of your school...';
-$string['apply_national_exam_code_label'] = 'National exam code';
-$string['apply_national_exam_code_placeholder'] = '14 digits';
-$string['apply_diploma_score_label'] = 'Obtained percentage';
-$string['apply_diploma_score_placeholder'] = 'E.g. 78';
+$string['apply_schoolname_label'] = 'School attended';
+$string['apply_schoolname_placeholder'] = 'Name of your school...';
+$string['apply_examcode_label'] = 'National exam code';
+$string['apply_examcode_placeholder'] = '14 digits';
+$string['apply_percentage_label'] = 'Obtained percentage';
+$string['apply_percentage_placeholder'] = 'E.g. 78';
 $string['apply_study_option_label'] = 'Studied option';
 $string['apply_study_option_placeholder'] = 'E.g. Biochemistry, General Pedagogy...';
 $string['apply_personalized_option_field_value'] = 'Other (Please specify)';
@@ -77,8 +77,8 @@ $string['apply_other_university_field_label'] = 'Specify the intended field';
 $string['apply_other_university_field_placeholder'] = 'Enter the field name';
 $string['apply_passion_label'] = 'Why this field?';
 $string['apply_passion_placeholder'] = 'Explain why this field interests you and what you want to build through it.';
-$string['apply_career_goals_label'] = 'Your career goals';
-$string['apply_career_goals_placeholder'] = 'Where do you see yourself in 5 years?...';
+$string['apply_careergoals_label'] = 'Your career goals';
+$string['apply_careergoals_placeholder'] = 'Where do you see yourself in 5 years?...';
 $string['apply_additional_info_label'] = 'Additional information';
 $string['apply_additional_info_placeholder'] = 'Any other information you consider useful...';
 

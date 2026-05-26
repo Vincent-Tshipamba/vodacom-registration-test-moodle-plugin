@@ -20,8 +20,8 @@ $string['apply_complete'] = 'Soumission complète';
 // Step 1 : Informations personnelles
 $string['apply_browse_photo'] = 'Choisir une photo';
 $string['apply_browse_photo_label'] = 'Format JPG/PNG/JPEG, max 2MB';
-$string['apply_input_full_name_label'] = 'Nom complet';
-$string['apply_input_full_name_placeholder'] = 'Votre nom complet';
+$string['apply_input_fullname_label'] = 'Nom complet';
+$string['apply_input_fullname_placeholder'] = 'Votre nom complet';
 $string['apply_input_gender_label'] = 'Genre';
 $string['apply_gender_male'] = 'Masculin';
 $string['apply_gender_female'] = 'Féminin';
@@ -45,16 +45,16 @@ $string['apply_educational_city_label'] = 'Ville d\'obtention du diplôme';
 $string['apply_educational_city_help'] = 'Laissez vide si identique à la ville de résidence actuelle';
 $string['apply_current_city_placeholder'] = 'Votre ville actuelle...';
 $string['apply_current_city_label'] = 'Ville actuelle';
-$string['apply_input_full_address_label'] = 'Adresse complète';
-$string['apply_input_full_address_placeholder'] = 'Commune, quartier, avenue, référence';
+$string['apply_input_address_label'] = 'Adresse complète';
+$string['apply_input_address_placeholder'] = 'Commune, quartier, avenue, référence';
 
 // Step 3 : Informations scolaires
-$string['apply_school_name_label'] = 'École fréquentée';
-$string['apply_school_name_placeholder'] = 'Nom de votre école...';
-$string['apply_national_exam_code_label'] = 'Code de l\'examen d\'Etat';
-$string['apply_national_exam_code_placeholder'] = '14 chiffres';
-$string['apply_diploma_score_label'] = 'Pourcentage obtenu';
-$string['apply_diploma_score_placeholder'] = 'Ex. 78';
+$string['apply_schoolname_label'] = 'École fréquentée';
+$string['apply_schoolname_placeholder'] = 'Nom de votre école...';
+$string['apply_examcode_label'] = 'Code de l\'examen d\'Etat';
+$string['apply_examcode_placeholder'] = '14 chiffres';
+$string['apply_percentage_label'] = 'Pourcentage obtenu';
+$string['apply_percentage_placeholder'] = 'Ex. 78';
 $string['apply_study_option_label'] = 'Option étudiée';
 $string['apply_study_option_placeholder'] = 'Ex: Biochimie, Pédagogie Générale...';
 $string['apply_personalized_option_field_value'] = 'Autre (Veuillez spécifier)';
@@ -77,8 +77,8 @@ $string['apply_other_university_field_label'] = 'Précisez la filière visée';
 $string['apply_other_university_field_placeholder'] = 'Entrez le nom de votre filière';
 $string['apply_passion_label'] = 'Pourquoi cette filière ?';
 $string['apply_passion_placeholder'] = 'Expliquez pourquoi cette filière vous attire et ce que vous souhaitez y construire.';
-$string['apply_career_goals_label'] = 'Vos objectifs de carrière';
-$string['apply_career_goals_placeholder'] = 'Où vous voyez-vous dans 5 ans ?...';
+$string['apply_careergoals_label'] = 'Vos objectifs de carrière';
+$string['apply_careergoals_placeholder'] = 'Où vous voyez-vous dans 5 ans ?...';
 $string['apply_additional_info_label'] = 'Informations complémentaires';
 $string['apply_additional_info_placeholder'] = 'Toute autre information que vous jugez utile...';
 

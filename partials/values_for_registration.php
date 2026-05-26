@@ -27,7 +27,7 @@ $study_options = [
     'other' => get_string('apply_other_study_option_label', 'local_scholarship'),
 ];
 
-$intended_fields = [
+$intendedfields = [
     // Informatique & Technologies
     'field_software' => get_string('field_software', 'local_scholarship'),
     'field_computer' => get_string('field_computer', 'local_scholarship'),

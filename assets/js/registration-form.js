@@ -13,23 +13,23 @@ window.app = function () {
         formData: {
             // Étape 1: Informations personnelles
             photo: null,
-            full_name: '',
-            phone_number: '',
+            fullname: '',
+            phone: '',
             gender: 'male',
-            date_of_birth: '',
+            birthdate: '',
             age: 0,
-            vulnerability_type: 'none',
+            vulntype: 'NONE',
 
             // Étape 2: Adresse
-            educational_city_id: '',
-            current_city_id: '',
-            full_address: '',
+            diplomacityid: '',
+            currentcityid: '',
+            address: '',
 
             // Étape 3: Informations scolaires
-            school_name: '',
-            option_studied: '',
+            schoolname: '',
+            schoolfield: '',
             other_study_option: '',
-            national_exam_code: '',
+            examcode: '',
             percentage: '',
 
             // Étape 4: Pièces jointes
@@ -38,11 +38,11 @@ window.app = function () {
             reco_letter: null,
 
             // Étape 5: Ambitions personnelles
-            intended_field: '',
+            intendedfield: '',
             other_university_field: '',
-            intended_field_motivation: '',
-            career_goals: '',
-            additional_infos: ''
+            motivation: '',
+            careergoals: '',
+            additionalinfo: ''
         },
         errors: {},
 
@@ -160,37 +160,37 @@ window.app = function () {
         },
 
         validatePhoneNumberField() {
-            const field = document.getElementById('phone_number');
+            const field = document.getElementById('phone');
             if (!field) return true;
 
-            const normalizedValue = this.normalizePhoneNumber(this.formData.phone_number);
-            this.formData.phone_number = normalizedValue;
+            const normalizedValue = this.normalizePhoneNumber(this.formData.phone);
+            this.formData.phone = normalizedValue;
 
             if (!normalizedValue) {
-                if (this.errors.phone_number && this.errors.phone_number !== field.dataset.errorRequired) {
-                    delete this.errors.phone_number;
+                if (this.errors.phone && this.errors.phone !== field.dataset.errorRequired) {
+                    delete this.errors.phone;
                 }
                 return false;
             }
 
             if (!this.isValidVodacomNumber(normalizedValue)) {
-                this.errors.phone_number = field.dataset.errorPhoneRegex;
+                this.errors.phone = field.dataset.errorPhoneRegex;
                 return false;
             }
 
-            delete this.errors.phone_number;
+            delete this.errors.phone;
             return true;
         },
 
         handlePhoneNumberInput() {
-            this.formData.phone_number = this.normalizePhoneNumber(this.formData.phone_number);
+            this.formData.phone = this.normalizePhoneNumber(this.formData.phone);
             this.validatePhoneNumberField();
             this.queueDraftSave();
         },
         // Calcul de l'âge à partir de la date de naissance
         calculateAge() {
-            if (this.formData.date_of_birth) {
-                const birthDate = new Date(this.formData.date_of_birth);
+            if (this.formData.birthdate) {
+                const birthDate = new Date(this.formData.birthdate);
                 const today = new Date();
                 let age = today.getFullYear() - birthDate.getFullYear();
                 const monthDiff = today.getMonth() - birthDate.getMonth();
@@ -201,13 +201,13 @@ window.app = function () {
 
                 this.formData.age = age;
 
-                const field = document.getElementById('date_of_birth');
+                const field = document.getElementById('birthdate');
                 if (!field) return;
 
                 if (age < 16 || age > 20) {
-                    this.errors.date_of_birth = field.dataset.errorAge;
-                } else if (this.errors.date_of_birth === field.dataset.errorAge) {
-                    delete this.errors.date_of_birth;
+                    this.errors.birthdate = field.dataset.errorAge;
+                } else if (this.errors.birthdate === field.dataset.errorAge) {
+                    delete this.errors.birthdate;
                 }
 
                 setTimeout(() => {
@@ -349,19 +349,19 @@ window.app = function () {
                         'required': true,
                     },
                     {
-                        'name': 'full_name',
-                        'id': 'full_name',
+                        'name': 'fullname',
+                        'id': 'fullname',
                         'required': true,
                     },
                     {
-                        'name': 'phone_number',
-                        'id': 'phone_number',
+                        'name': 'phone',
+                        'id': 'phone',
                         'validatePhoneNumber': true,
                         'required': true,
                     },
                     {
-                        'name': 'date_of_birth',
-                        'id': 'date_of_birth',
+                        'name': 'birthdate',
+                        'id': 'birthdate',
                         'validateAge': true,
                     },
                 ];
@@ -370,20 +370,20 @@ window.app = function () {
             } else if (step === 2) { // Validation de l'etape 2
                 const stepTwoFieldsToValidate = [
                     {
-                        'name': 'current_city_id',
-                        'id': 'current_city_id',
+                        'name': 'currentcityid',
+                        'id': 'currentcityid',
                         'required': true,
                     },
                     {
-                        'name': 'educational_city_id',
-                        'id': 'educational_city_id',
+                        'name': 'diplomacityid',
+                        'id': 'diplomacityid',
                         'useADefaultValue': true,
-                        'defaultValueField': 'current_city_id',
+                        'defaultValueField': 'currentcityid',
                         'required': true,
                     },
                     {
-                        'name': 'full_address',
-                        'id': 'full_address',
+                        'name': 'address',
+                        'id': 'address',
                         'required': true,
                     },
                 ];
@@ -392,13 +392,13 @@ window.app = function () {
             } else if (step === 3) {
                 const stepThreeFieldsToValidate = [
                     {
-                        'name': 'school_name',
-                        'id': 'school_name',
+                        'name': 'schoolname',
+                        'id': 'schoolname',
                         'required': true,
                     },
                     {
-                        'name': 'option_studied',
-                        'id': 'option_studied',
+                        'name': 'schoolfield',
+                        'id': 'schoolfield',
                         'hasPersonalizedOption': true,
                         'personalizedOptionValue': 'other',
                         'personalizedOptionField': 'other_study_option',
@@ -411,8 +411,8 @@ window.app = function () {
                         'required': true,
                     },
                     {
-                        'name': 'national_exam_code',
-                        'id': 'national_exam_code',
+                        'name': 'examcode',
+                        'id': 'examcode',
                         'validateCode': true,
                         'required': true,
                     }
@@ -436,21 +436,21 @@ window.app = function () {
             } else if (step === 5) {
                 const stepFiveFieldsToValidate = [
                     {
-                        'name': 'intended_field',
-                        'id': 'intended_field',
+                        'name': 'intendedfield',
+                        'id': 'intendedfield',
                         'hasPersonalizedOption': true,
                         'personalizedOptionValue': 'other',
                         'personalizedOptionField': 'other_university_field',
                         'required': true,
                     },
                     {
-                        'name': 'intended_field_motivation',
-                        'id': 'intended_field_motivation',
+                        'name': 'motivation',
+                        'id': 'motivation',
                         'required': true,
                     },
                     {
-                        'name': 'career_goals',
-                        'id': 'career_goals',
+                        'name': 'careergoals',
+                        'id': 'careergoals',
                         'required': true,
                     }
                 ];
@@ -582,34 +582,34 @@ window.app = function () {
                         const fieldIdMap = {
                             firstname: 'first_name',
                             lastname: 'last_name',
-                            phone: 'phone_number',
+                            phone: 'phone',
                             gender: 'gender',
-                            birthdate: 'date_of_birth',
-                            identification_type: 'vulnerability_type',
-                            current_city_id: 'current_city_id',
-                            educational_city_id: 'educational_city_id',
-                            full_address: 'full_address',
-                            school_name: 'school_name',
-                            study_option: 'option_studied',
+                            birthdate: 'birthdate',
+                            identification_type: 'vulntype',
+                            currentcityid: 'currentcityid',
+                            diplomacityid: 'diplomacityid',
+                            address: 'address',
+                            schoolname: 'schoolname',
+                            study_option: 'schoolfield',
                             other_study_option: 'other_study_option',
-                            diploma_score: 'percentage',
-                            student_code: 'national_exam_code',
+                            percentage: 'percentage',
+                            student_code: 'examcode',
                             id: 'id',
                             diploma: 'diploma',
                             reco_letter: 'reco_letter',
-                            university_field: 'intended_field',
+                            university_field: 'intendedfield',
                             other_university_field: 'other_university_field',
-                            passion: 'intended_field_motivation',
-                            career_goals: 'career_goals',
-                            additional_info: 'additional_infos'
+                            passion: 'motivation',
+                            careergoals: 'careergoals',
+                            additional_info: 'additionalinfo'
                         };
 
                         const fieldStepMap = {
-                            first_name: 1, last_name: 1, phone_number: 1, gender: 1, date_of_birth: 1, vulnerability_type: 1,
-                            current_city_id: 2, educational_city_id: 2, full_address: 2,
-                            school_name: 3, option_studied: 3, other_study_option: 3, percentage: 3, national_exam_code: 3,
+                            first_name: 1, last_name: 1, phone: 1, gender: 1, birthdate: 1, vulntype: 1,
+                            currentcityid: 2, diplomacityid: 2, address: 2,
+                            schoolname: 3, schoolfield: 3, other_study_option: 3, percentage: 3, examcode: 3,
                             id: 4, diploma: 4, reco_letter: 4,
-                            intended_field: 5, other_university_field: 5, intended_field_motivation: 5, career_goals: 5, additional_infos: 5
+                            intendedfield: 5, other_university_field: 5, motivation: 5, careergoals: 5, additionalinfo: 5
                         };
 
                         let firstErrorFieldId = null;
