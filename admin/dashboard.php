@@ -102,6 +102,7 @@ foreach ($editionstats as $edition) {
                 </div>
             </div>
 
+            <!-- ADMITTED -->
             <div
                 class="bg-white rounded-lg shadow-lg border-slate-200 p-7 min-h-[190px] flex flex-col justify-between hover:scale-105 transition-transform">
                 <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -145,6 +146,8 @@ foreach ($editionstats as $edition) {
                     </div>
                 </div>
             </div>
+
+            <!-- SHORTLISTED -->
             <div
                 class="bg-white rounded-lg shadow-lg border-slate-200 p-7 min-h-[190px] flex flex-col justify-between hover:scale-105 transition-transform">
                 <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -172,6 +175,8 @@ foreach ($editionstats as $edition) {
                     </div>
                 </div>
             </div>
+
+            <!-- PENDING -->
             <div
                 class="bg-white rounded-lg shadow-lg border-slate-200 p-7 min-h-[190px] flex flex-col justify-between hover:scale-105 transition-transform">
                 <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -200,6 +205,8 @@ foreach ($editionstats as $edition) {
                     </div>
                 </div>
             </div>
+
+            <!-- TEST_PASSED -->
             <div
                 class="bg-white rounded-lg shadow-lg border-slate-200 p-7 min-h-[190px] flex flex-col justify-between hover:scale-105 transition-transform">
                 <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -228,6 +235,7 @@ foreach ($editionstats as $edition) {
                 </div>
             </div>
 
+            <!-- INTERVIEW_PASSED -->
             <div
                 class="bg-white rounded-lg shadow-lg border-slate-200 p-7 min-h-[190px] flex flex-col justify-between hover:scale-105 transition-transform">
                 <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -256,6 +264,7 @@ foreach ($editionstats as $edition) {
                 </div>
             </div>
 
+            <!-- REJECTED -->
             <div
                 class="bg-white rounded-lg shadow-lg border-slate-200 p-7 min-h-[190px] flex flex-col justify-between hover:scale-105 transition-transform">
                 <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -288,7 +297,6 @@ foreach ($editionstats as $edition) {
                     </div>
                 </div>
             </div>
-
         </div>
 
         <div
