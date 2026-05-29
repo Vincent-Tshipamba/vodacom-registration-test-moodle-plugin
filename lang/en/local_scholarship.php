@@ -79,5 +79,7 @@ $string['home:faq2_a'] = 'Yes. The test is an integral part of the selection pro
 $string['home:faq3_q'] = 'How will I be contacted?';
 $string['home:faq3_a'] = 'Notifications related to the process are sent using the information provided in the application.';
 
+require(__DIR__ . '/admin_general.php');
+require(__DIR__ . '/dashboard.php');
 require(__DIR__ . '/registration.php');
 require(__DIR__ . '/validation.php');

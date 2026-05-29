@@ -1,11 +1,13 @@
 ﻿module.exports = {
   content: [
+    './admin/**/*.php',
     './templates/**/*.php',
     './index.php',
     './apply.php',
     './classes/**/*.php',
     './lang/**/*.php',
     './assets/**/*.js',
+    './node_modules/preline/dist/*.js',
     './node_modules/flowbite/**/*.js',
   ],
   theme: {

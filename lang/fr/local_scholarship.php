@@ -87,5 +87,7 @@ $string['home:faq3_a'] = 'Les notifications liées au processus sont envoyées e
 
 // $string['apply_title'] = 'Formulaire de candidature';
 
+require(__DIR__ . '/admin_general.php');
+require(__DIR__ . '/dashboard.php');
 require(__DIR__ . '/registration.php');
 require(__DIR__ . '/validation.php');
