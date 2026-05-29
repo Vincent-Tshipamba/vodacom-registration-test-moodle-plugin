@@ -5,11 +5,15 @@ use local_scholarship\controllers\AdminController;
 
 require('../../../config.php');
 
+require_login();
+
+// TODO: Ajouter une verification de permission pour s'assurer que seul les admins peuvent accéder à cette page
+
 $context = context_system::instance();
 
 $PAGE->set_url(new moodle_url('/local/scholarship/admin/index.php'));
 $PAGE->set_context($context);
-$PAGE->set_pagelayout('base');
+$PAGE->set_pagelayout('admin');
 $PAGE->set_title(get_string('dashboard_title', 'local_scholarship'));
 $PAGE->set_heading(get_string('dashboard_title', 'local_scholarship'));
 
