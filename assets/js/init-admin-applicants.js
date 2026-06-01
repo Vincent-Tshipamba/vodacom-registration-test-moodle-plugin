@@ -262,7 +262,7 @@ async function loadMoreApplicants() {
                     return;
                 } else {
                     document.getElementById('applicantsGrid').appendChild(item);
-                    lucide.createIcons();
+                    lucide.createIcons({icons: lucide.icons});
                 }
             });
 

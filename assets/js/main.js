@@ -10,8 +10,14 @@ Alpine.start();
 
 window.lucide = require('lucide');
 
-document.addEventListener('DOMContentLoaded', () => {
+function initIcons() {
     window.lucide.createIcons({
         icons: lucide.icons
     });
-});
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initIcons);
+} else {
+    initIcons();
+}

@@ -7,6 +7,8 @@ Contact: Themesdesign@gmail.com
 File: Main Js File
 */
 
+import { icons } from "lucide";
+
 // const { document } = require("postcss");
 var navbarMenuHTML = document.querySelector(".app-menu").innerHTML;
 var moreMenuWidth = 150;
@@ -61,7 +63,7 @@ function updateHorizontalMenus() {
                 );
             }
         }
-        lucide.createIcons();
+        lucide.createIcons({icons: lucide.icons});
     });
 
     applyScrollbarLogic();
