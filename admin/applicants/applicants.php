@@ -43,6 +43,7 @@ $applicants = $data->applicants;
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
 <script src="https://unpkg.com/jszip/dist/jszip.min.js"></script>
 <script src="../../assets/js/init-admin-applicants.js"></script>
+<script src="../../assets/js/details-applicant.js"></script>
 
 <!-- Grid View -->
 <div id="gridView" class="w-full">

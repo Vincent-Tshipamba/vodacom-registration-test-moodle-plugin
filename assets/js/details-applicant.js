@@ -23,6 +23,11 @@ function showDocument(event, fileUrl, fileId, fileType, candidateId, name, isPdf
             <img src="${fileUrl}" alt="${fileType}" class="w-full max-h-[65vh] object-contain">
         `;
     }
+    // if the dropdown is open, close it and return
+    const dropdown = document.getElementById(`dropdown-${candidateId}`);
+    if (!dropdown.classList.contains('hidden')) {
+        dropdown.classList.add('hidden');
+    }
     Swal.fire({
         title: title,
         html: `${contentHtml}`,

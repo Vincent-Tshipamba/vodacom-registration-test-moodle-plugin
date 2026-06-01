@@ -13,7 +13,7 @@ $statusLabels = [
 $statusClasses = [
     'PENDING' => [
         'classes' => 'bg-orange-100 text-orange-700',
-        'svg' => '<svg width="16" height="16" viewBox="0 0 1024 1024" class="icon" version="1.1"
+        'svg' => '<svg fill="currentColor" width="16" height="16" viewBox="0 0 1024 1024" class="icon" version="1.1"
                         xmlns="http://www.w3.org/2000/svg">
                         <path d="M182.99 146.2h585.14v402.29h73.14V73.06H109.84v877.71H512v-73.14H182.99z"
                             fill="currentColor" />
@@ -25,11 +25,11 @@ $statusClasses = [
     ],
     'REJECTED' => [
         'classes' => 'bg-red-100 text-red-700',
-        'svg' => '<svg width="16" height="16" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg"
+        'svg' => '<svg fill="currentColor" width="16" height="16" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink">
                         <title>cancelled</title>
                         <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                            <g id="add" fill="#000000" transform="translate(42.666667, 42.666667)">
+                            <g id="add" fill="currentColor" transform="translate(42.666667, 42.666667)">
                                 <path
                                     d="M213.333333,1.42108547e-14 C331.15408,1.42108547e-14 426.666667,95.5125867 426.666667,213.333333 C426.666667,331.15408 331.15408,426.666667 213.333333,426.666667 C95.5125867,426.666667 4.26325641e-14,331.15408 4.26325641e-14,213.333333 C4.26325641e-14,95.5125867 95.5125867,1.42108547e-14 213.333333,1.42108547e-14 Z M42.6666667,213.333333 C42.6666667,307.589931 119.076736,384 213.333333,384 C252.77254,384 289.087204,370.622239 317.987133,348.156908 L78.5096363,108.679691 C56.044379,137.579595 42.6666667,173.894198 42.6666667,213.333333 Z M213.333333,42.6666667 C173.894198,42.6666667 137.579595,56.044379 108.679691,78.5096363 L348.156908,317.987133 C370.622239,289.087204 384,252.77254 384,213.333333 C384,119.076736 307.589931,42.6666667 213.333333,42.6666667 Z"
                                     id="Combined-Shape">
@@ -41,7 +41,7 @@ $statusClasses = [
     ],
     'SHORTLISTED' => [
         'classes' => 'bg-yellow-100 text-yellow-700',
-        'svg' => '<svg fill="#000000" width="16" height="16" viewBox="0 0 32 32" data-name="Layer 1" id="Layer_1"
+        'svg' => '<svg fill="currentColor" width="16" height="16" viewBox="0 0 32 32" data-name="Layer 1" id="Layer_1"
                         xmlns="http://www.w3.org/2000/svg">
                         <title />
                         <path

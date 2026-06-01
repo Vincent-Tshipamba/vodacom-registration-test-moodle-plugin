@@ -153,7 +153,9 @@ class AdminController
             $applicants = $DB->get_records_sql("
                 SELECT a.id,
                     a.fullname,
+                    a.address,
                     a.phone,
+                    a.regcode,
                     a.examcode,
                     a.percentage,
                     a.submittedat,
@@ -167,6 +169,10 @@ class AdminController
                 WHERE a.editionid = ?
                 ORDER BY a.submittedat DESC, a.timecreated DESC
             ", [$currentedition->id]);
+        }
+
+        foreach ($applicants as $applicant) {
+            $applicant->documents = Applicant::get_documents($applicant->id);
         }
 
         return (object) [
@@ -214,40 +220,9 @@ class AdminController
         $applicant->age = self::getAge(new \DateTimeImmutable($applicant->birthdate));
         $applicant->history = $history;
 
-        $documents = $DB->get_records_sql("
-            SELECT d.*, dt.name AS doctypename
-            FROM {local_scholarship_document} d
-            LEFT JOIN {local_scholarship_doctype} dt ON dt.id = d.doctypeid
-            WHERE d.applicantid = ?
-            ORDER BY dt.sortorder ASC, d.timecreated ASC
-            ", [$id]);
-        
-        $context = \context_system::instance();
-        $applicant->documents = [];
-        
-        foreach ($documents as $doc) {
-            $url = \moodle_url::make_pluginfile_url(
-                $context->id,
-                'local_scholarship',
-                $doc->filearea,
-                $doc->itemid,
-                '/',
-                $doc->filename
-            )->out(false);
+        $app_documents = Applicant::get_documents($id);
 
-            $ext = strtolower(pathinfo($doc->filename, PATHINFO_EXTENSION));
-            $type = strtoupper($doc->doctypename);
-
-            $applicant->documents[$type] = [
-                'id' => $doc->id,
-                'url' => $url,
-                'type' => $type,
-                'label' => $doc->doctypename,
-                'ext' => $ext,
-                'is_pdf' => $ext === 'pdf',
-                'status' => $doc->verifstatus,
-            ];
-        }
+        $applicant->documents = $app_documents;
 
         return (object) [
             'applicant' => (object) $applicant,
