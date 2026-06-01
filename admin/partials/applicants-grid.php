@@ -1,5 +1,5 @@
 <?php foreach ($applicants as $candidat): ?>
-    <div class="card cursor-pointer hover:bg-gray-100 hover:scale-105 shadow-lg transition-all duration-200"
+    <div class="card cursor-pointer hover:bg-gray-100 hover:shadow-xl shadow-lg transition-all duration-200"
         onclick="if (event.target.closest('a, button, .dropdown, .dropdown-menu, input, select, textarea, label')) return; window.location.href='<?= new moodle_url('/local/scholarship/admin/applicants/show', ['id' => $candidat->id]) ?>'">
         <div class="card-body">
             <div
@@ -34,7 +34,7 @@
                     </button>
 
                     <div id="dropdown-<?= $candidat->id ?>"
-                        class="scholarship-dropdown-menu hidden absolute right-0 top-11 z-[99999] bg-white shadow-lg border border-slate-200 rounded-md min-w-[12rem] py-2">
+                        class="scholarship-dropdown-menu hidden absolute right-0 top-11 z-50 bg-white shadow-lg border border-slate-200 rounded-md min-w-[12rem] py-2">
                         <?php foreach ($candidat->documents as $type => $doc): ?>
                             <a href="#" onclick="showDocument(
                             event,

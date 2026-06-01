@@ -151,7 +151,7 @@ document.addEventListener('click', function (e) {
         dropdown.classList.toggle('hidden');
 
         if (window.lucide) {
-            window.lucide.createIcons();
+            window.lucide.createIcons({icons: window.lucide.icons});
         }
 
         return;

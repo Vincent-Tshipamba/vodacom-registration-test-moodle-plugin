@@ -21,7 +21,11 @@ $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/dat
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/buttons.dataTables.css'));
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/select.dataTables.css'));
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.dataTables.min.css'));
-
+echo html_writer::div('', '', [
+    'id' => 'scholarship-config',
+    'data-document-status-url' => (new moodle_url('/local/scholarship/admin/applicants/document-status.php'))->out(false),
+    'data-sesskey' => sesskey(),
+]);
 
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/build/app.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/lucide.js'), true);
