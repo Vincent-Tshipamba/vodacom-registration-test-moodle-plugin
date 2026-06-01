@@ -137,4 +137,73 @@ class AdminController
             'isRegistrationOpen' => $isregistrationopen,
         ];
     }
+
+    public static function applicants(): \stdClass
+    {
+        global $DB;
+
+        $currentedition = Edition::get_current_edition();
+
+        $applicants = [];
+
+        if ($currentedition) {
+            $applicants = $DB->get_records_sql("
+                SELECT a.id,
+                    a.fullname,
+                    a.phone,
+                    a.examcode,
+                    a.percentage,
+                    a.submittedat,
+                    c.name AS diplomacityname,
+                    ci.name AS currentcityname,
+                    s.name AS statusname
+                FROM {local_scholarship_app} a
+                LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
+                LEFT JOIN {local_scholarship_city} c ON c.id = a.diplomacityid
+                LEFT JOIN {local_scholarship_city} ci ON ci.id = a.currentcityid
+                WHERE a.editionid = ?
+                ORDER BY a.submittedat DESC, a.timecreated DESC
+            ", [$currentedition->id]);
+        }
+
+        return (object) [
+            'applicants' => $applicants,
+        ];
+    }
+
+    public static function applicant_details(): \stdClass
+    {
+        global $DB;
+
+        $id = optional_param('id', null, PARAM_INT);
+
+        $applicant = null;
+
+        if ($id) {
+            $applicant = $DB->get_record_sql("
+                SELECT a.*,
+                    ci.name AS currentcityname,
+                    c.name AS diplomacityname,
+                    s.name AS statusname
+                FROM {local_scholarship_app} a
+                LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
+                LEFT JOIN {local_scholarship_city} ci ON ci.id = a.currentcityid
+                LEFT JOIN {local_scholarship_city} c ON c.id = a.diplomacityid
+                WHERE a.id = ?
+            ", [$id]);
+        }
+        $applicant->birthdate = date('Y-m-d', $applicant->birthdate);
+        $applicant->age = self::getAge(new \DateTimeImmutable($applicant->birthdate));
+
+        return (object) [
+            'applicant' => (object) $applicant,
+        ];
+    }
+
+    private static function getAge(\DateTimeInterface $birthdate): int
+    {
+        $today = new \DateTimeImmutable('today');
+
+        return $birthdate->diff($today)->y;
+    }
 }
