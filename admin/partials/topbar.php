@@ -1,7 +1,7 @@
 <header
     class="sticky top-0 mx-auto mb-4 w-fit h-full bg-white/90 backdrop-blur-md rounded-full border-r border-slate-200 p-1 shadow-lg">
     <nav class="flex items-center justify-center">
-        <a href="<?= new moodle_url('/local/scholarship/admin/index.php') ?>"
+        <a href="<?= new moodle_url('/local/scholarship/admin/') ?>"
             class="flex items-center gap-3 px-3 py-2 rounded-xl bg-blue-50 text-blue-600 font-semibold">
             <span>
                 <svg width="24" height="24" viewBox="0 0 24 24" id="meteor-icon-kit__regular-dashboard" fill="none"
@@ -14,7 +14,7 @@
             <span class="hidden md:block">Dashboard</span>
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-3 py-1 rounded-xl text-slate-600 hover:text-slate-900 font-medium">
+        <a href="<?= new moodle_url('/local/scholarship/admin/applicants/') ?>" class="flex items-center gap-3 px-3 py-1 rounded-xl text-slate-600 hover:text-slate-900 font-medium">
             <span>
                 <svg class="hover:text-slate-800" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path

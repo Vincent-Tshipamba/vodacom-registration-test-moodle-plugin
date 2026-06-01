@@ -91,3 +91,4 @@ require(__DIR__ . '/admin_general.php');
 require(__DIR__ . '/dashboard.php');
 require(__DIR__ . '/registration.php');
 require(__DIR__ . '/validation.php');
+require(__DIR__ . '/applicants.php');

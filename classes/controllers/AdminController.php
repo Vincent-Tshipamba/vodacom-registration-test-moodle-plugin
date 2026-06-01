@@ -2,7 +2,10 @@
 
 namespace local_scholarship\controllers;
 
+use local_scholarship\models\Applicant;
 use local_scholarship\models\Edition;
+use local_scholarship\models\HistoriqueStatusChange;
+use local_scholarship\models\Status;
 
 class AdminController
 {
@@ -190,10 +193,26 @@ class AdminController
                 LEFT JOIN {local_scholarship_city} ci ON ci.id = a.currentcityid
                 LEFT JOIN {local_scholarship_city} c ON c.id = a.diplomacityid
                 WHERE a.id = ?
+            ", [$id], MUST_EXIST);
+
+            $history = $DB->get_records_sql("
+                SELECT hist.*,
+                    u.firstname as changerfirstname,
+                    u.lastname as changerlastname,
+                    os.name AS oldstatusname,
+                    ns.name AS newstatusname
+                FROM {local_scholarship_statushist} hist
+                LEFT JOIN {user} u ON u.id = hist.changedby
+                LEFT JOIN {local_scholarship_status} os ON os.id = hist.oldstatusid
+                LEFT JOIN {local_scholarship_status} ns ON ns.id = hist.newstatusid
+                WHERE hist.applicantid = ?
+                ORDER BY hist.timecreated DESC
             ", [$id]);
         }
+
         $applicant->birthdate = date('Y-m-d', $applicant->birthdate);
         $applicant->age = self::getAge(new \DateTimeImmutable($applicant->birthdate));
+        $applicant->history = $history;
 
         return (object) [
             'applicant' => (object) $applicant,
@@ -205,5 +224,49 @@ class AdminController
         $today = new \DateTimeImmutable('today');
 
         return $birthdate->diff($today)->y;
+    }
+
+    public static function update_applicant_status()
+    {
+        global $USER;
+
+        require_sesskey();
+
+        $id = optional_param('id', null, PARAM_INT);
+        $status = optional_param('application_status', null, PARAM_TEXT);
+
+        // retrieve applicant
+        $applicant = Applicant::find($id);
+        if (!$applicant) {
+            throw new \moodle_exception('applicantnotfound', 'local_scholarship');
+        }
+
+        // retrieve status
+        $new_status = Status::get_status_by_name($status);
+        if (!$new_status) {
+            throw new \moodle_exception('statusnotfound', 'local_scholarship');
+        }
+
+        Applicant::update($id, (object) [
+            'statusid' => $new_status->id,
+        ]);
+
+        HistoriqueStatusChange::create((object) [
+            'applicantid' => $applicant->id,
+            'oldstatusid' => $applicant->statusid,
+            'newstatusid' => $new_status->id,
+            'changedby' => $USER->id,
+            'note' => null,
+            'timecreated' => time(),
+        ]);
+
+        $message = get_string('statusupdated', 'local_scholarship');
+        $url = new \moodle_url('/local/scholarship/admin/applicants/show', ['id' => $id]);
+        redirect(
+            $url,
+            $message,
+            null,
+            \core\output\notification::NOTIFY_SUCCESS
+        );
     }
 }

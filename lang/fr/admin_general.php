@@ -15,3 +15,10 @@ $string['SHORTLISTED'] = 'Présélectionné(e)';
 $string['TEST_PASSED'] = 'Test réussi';
 $string['INTERVIEW_PASSED'] = 'Entretien réussi';
 $string['ADMITTED'] = 'Admis(e)';
+
+$string['MALE'] = 'Masculin';
+$string['FEMALE'] = 'Féminin';
+
+$string['applicantnotfound'] = 'Candidat(e) introuvable';
+$string['statusnotfound'] = 'Statut introuvable';
+$string['statusupdated'] = 'Statut mis à jour avec succès';

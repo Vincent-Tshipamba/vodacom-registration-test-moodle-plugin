@@ -2,6 +2,7 @@
 
 namespace local_scholarship\controllers;
 
+use DateTimeImmutable;
 use local_scholarship\models\Applicant;
 use local_scholarship\models\Edition;
 use local_scholarship\models\Status;
@@ -43,6 +44,8 @@ class ApplicantController
         try {
             $data->regcode = $this->generate_unique_regcode();
             $status = Status::get_status_by_name('PENDING');
+            $birthdate = new DateTimeImmutable($data->birthdate);
+            $data->birthdate = $birthdate->getTimestamp();
             $data->statusid = $status ? $status->id : 1;
             $data->submittedat = time();
 

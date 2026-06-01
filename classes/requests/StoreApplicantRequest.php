@@ -12,7 +12,7 @@ class StoreApplicantRequest
 
         $data->fullname = required_param('fullname', PARAM_TEXT);
         $data->gender = required_param('gender', PARAM_ALPHA);
-        $data->birthdate = optional_param('birthdate', 0, PARAM_INT);
+        $data->birthdate = required_param('birthdate', PARAM_TEXT);
         $data->phone = required_param('phone', PARAM_TEXT);
         $data->email = optional_param('email', '', PARAM_EMAIL);
         $data->vulntype = optional_param('vulntype', '', PARAM_TEXT);

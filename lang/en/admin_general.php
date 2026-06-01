@@ -14,3 +14,10 @@ $string['SHORTLISTED'] = 'Shortlisted';
 $string['TEST_PASSED'] = 'Test Passed';
 $string['INTERVIEW_PASSED'] = 'Interview Passed';
 $string['ADMITTED'] = 'Admitted';
+
+$string['MALE'] = 'Male';
+$string['FEMALE'] = 'Female';
+
+$string['applicantnotfound'] = 'Applicant not found';
+$string['statusnotfound'] = 'Status not found';
+$string['statusupdated'] = 'Status updated successfully';

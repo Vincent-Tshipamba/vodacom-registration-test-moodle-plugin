@@ -4,7 +4,7 @@ namespace local_scholarship\models;
 
 defined('MOODLE_INTERNAL') || die();
 
-class applicant
+class Applicant
 {
     public ?int $id;
     public ?string $fullname;
@@ -67,6 +67,16 @@ class applicant
         $data->timemodified = time();
 
         return $DB->insert_record('local_scholarship_app', $data);
+    }
+
+    public static function update(int $id, \stdClass $data): void
+    {
+        global $DB;
+
+        $data->id = $id;
+        $data->timemodified = time();
+
+        $DB->update_record('local_scholarship_app', $data);
     }
 
     public static function find(int $id): ?\stdClass
