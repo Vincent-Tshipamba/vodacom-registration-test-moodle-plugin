@@ -27,6 +27,12 @@ $PAGE->requires->js(new moodle_url('/local/scholarship/assets/build/app.js'), tr
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/lucide.js'), true);
 
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/sweetalert2.js'), true);
+echo html_writer::div('', '', [
+    'id' => 'scholarship-config',
+    'data-document-status-url' => (new moodle_url('/local/scholarship/admin/applicants/document-status.php'))->out(false),
+    'data-sesskey' => sesskey(),
+]);
+$PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/details-applicant.js'), true);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_sesskey();

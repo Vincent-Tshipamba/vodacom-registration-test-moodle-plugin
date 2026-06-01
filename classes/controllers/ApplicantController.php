@@ -55,14 +55,14 @@ class ApplicantController
                     $data->schoolfield = $otherStudy;
                 }
             }
-            
+
             if (($data->intendedfield ?? null) === 'other') {
                 $otherUni = trim((string) $data->other_university_field);
                 if ($otherUni !== '') {
                     $data->intendedfield = $otherUni;
                 }
             }
-            
+
             // Vérification future du code EXETAT dans un fichier Excel.
             // À activer quand le fichier sera disponible.
             //
@@ -87,6 +87,22 @@ class ApplicantController
 
             $applicantid = Applicant::create($data);
 
+            $applicantfullname = Applicant::slug($data->fullname);
+
+            $documenttypes = $DB->get_records('local_scholarship_doctype', ['reqcandidate' => 1]);
+
+            foreach ($documenttypes as $doctype) {
+                $inputname = strtolower($doctype->name);
+
+                $this->store_application_documents(
+                    $applicantid,
+                    $applicantfullname,
+                    $doctype->id,
+                    $doctype->name,
+                    $inputname
+                );
+            }
+
             $transaction->allow_commit();
 
             return [
@@ -100,6 +116,82 @@ class ApplicantController
         } catch (\Throwable $e) {
             $transaction->rollback($e);
         }
+    }
+
+    private function store_application_documents(int $applicantid, string $applicantfullname, int $doctypeid, string $doctypename, string $inputname)
+    {
+        global $DB;
+
+        if (empty($_FILES[$inputname]) || $_FILES[$inputname]['error'] === UPLOAD_ERR_NO_FILE) {
+            return;
+        }
+
+        if ($_FILES[$inputname]['error'] !== UPLOAD_ERR_OK) {
+            throw new \moodle_exception('fileuploaderror', 'local_scholarship');
+        }
+
+        $context = \context_system::instance();
+        $fs = get_file_storage();
+
+        $originalname = $_FILES[$inputname]['name'];
+        $extension = pathinfo($originalname, PATHINFO_EXTENSION);
+
+        $filename = $this->generate_document_filename(
+            $applicantfullname,
+            $doctypename,
+            $extension
+        );
+
+        $filerecord = [
+            'contextid' => $context->id,
+            'component' => 'local_scholarship',
+            'filearea' => 'applicationdocs',
+            'itemid' => $applicantid,
+            'filename' => $filename,
+            'filepath' => '/',
+        ];
+
+        $existing = $fs->get_file(
+            $filerecord['contextid'],
+            $filerecord['component'],
+            $filerecord['filearea'],
+            $filerecord['itemid'],
+            $filerecord['filepath'],
+            $filerecord['filename']
+        );
+
+        if ($existing) {
+            $existing->delete();
+        }
+
+        $fs->create_file_from_pathname(
+            $filerecord,
+            $_FILES[$inputname]['tmp_name']
+        );
+
+        $DB->insert_record('local_scholarship_document', (object) [
+            'applicantid' => $applicantid,
+            'doctypeid' => $doctypeid,
+            'filearea' => 'applicationdocs',
+            'itemid' => $applicantid,
+            'filename' => $filename,
+            'verifstatus' => 'PENDING',
+            'reviewedby' => null,
+            'reviewedat' => null,
+            'timecreated' => time(),
+            'timemodified' => time(),
+        ]);
+    }
+
+    private function generate_document_filename(string $applicantfullname, string $doctypename, string $extension): string
+    {
+        $date = date('Ymd_His');
+        ;
+        $safeext = strtolower(clean_param($extension, PARAM_ALPHANUMEXT));
+        $safetype = strtolower(clean_param($doctypename, PARAM_ALPHANUMEXT));
+        $base = "{$applicantfullname}_{$safetype}_{$date}";
+
+        return "$base.$safeext";
     }
 
     private function generate_unique_regcode(): string

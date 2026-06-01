@@ -9,25 +9,25 @@ require('../../partials/values_for_registration.php');
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
             <a href="<?= new moodle_url('/local/scholarship/admin') ?>"
-                class="inline-flex items-center font-medium text-gray-700 hover:text-indigo-800 dark:text-gray-300 text-base">
+                class="inline-flex items-center font-medium text-gray-700 hover:text-indigo-800 hover:font-bold text-base">
                 Dashboard
             </a>
         </li>
         <li>
             <div class="flex items-center">
-                <svg class="mx-1 w-5 h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="mx-1 w-5 h-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M7.5 15L11.0858 11.4142C11.7525 10.7475 12.0858 10.4142 12.0858 10C12.0858 9.58579 11.7525 9.25245 11.0858 8.58579L7.5 5"
                         stroke="#E5E7EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <a href="<?= new moodle_url('/local/scholarship/admin/applicants') ?>"
-                    class="ml-1 md:ml-2 font-medium text-gray-700 hover:text-indigo-800 hover:font-bold dark:hover:font-bold dark:hover:text-gray-200 dark:text-gray-300 text-base">
+                    class="ml-1 md:ml-2 font-medium text-gray-700 hover:text-indigo-800 hover:font-bold dark:hover:font-bold text-base">
                     Applicants</a>
             </div>
         </li>
         <li aria-current="page">
             <div class="flex items-center">
-                <svg class="mx-1 w-5 h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg class="mx-1 w-5 h-5 text-gray-700" viewBox="0 0 20 20" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M7.5 15L11.0858 11.4142C11.7525 10.7475 12.0858 10.4142 12.0858 10C12.0858 9.58579 11.7525 9.25245 11.0858 8.58579L7.5 5"
                         stroke="#E5E7EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
@@ -43,9 +43,9 @@ require('../../partials/values_for_registration.php');
         class="top-0 left-0 z-0 absolute w-full h-36 object-cover">
     <div class="top-[-72px] z-10 relative flex justify-center items-center">
         <button type="button"
-            onclick="showProfilePhoto('<?= $applicant->documents->photo['url'] ?>', <?= $applicant->documents->photo['id'] ?>, '<?= addslashes($applicant->fullname) ?>')"
+            onclick="showProfilePhoto('<?= $applicant->documents['PHOTO']['url'] ?>', <?= $applicant->documents['PHOTO']['id'] ?>, '<?= addslashes($applicant->fullname) ?>')"
             class="group relative rounded-full focus:outline-none focus:ring-4 focus:ring-blue-400/30">
-            <img src="<?= new moodle_url('/local/scholarship/assets/img/profil.jpg') ?>"
+            <img src="<?= $applicant->documents['PHOTO']['url'] ?>"
                 alt="<?= $applicant->fullname . ' avatar' ?>" loading="lazy"
                 class="bg-[#0a0022] border-4 border-gray-600 border-solid rounded-full w-36 h-36 object-cover transition duration-200 group-hover:scale-[1.02]">
             <span
@@ -230,7 +230,39 @@ require('../../partials/values_for_registration.php');
                     <?= get_string('applicant_documents', 'local_scholarship') ?>
                 </h1>
                 <div class="gap-4 grid grid-cols-1 sm:grid-cols-3 w-full">
+                    <?php foreach ($applicant->documents as $type => $doc): ?>
+                        <a href="#" onclick="showDocument(
+                            event,
+                            '<?= s($doc['url']) ?>',
+                            <?= (int) $doc['id'] ?>,
+                            '<?= s($doc['type']) ?>',
+                            <?= (int) $applicant->id ?>,
+                            '<?= s($applicant->fullname) ?>',
+                            '<?= $doc['is_pdf'] ? '1' : '0' ?>')"
+                            class="bg-white shadow-sm hover:shadow-md border rounded-lg overflow-hidden transition">
 
+                            <div class="flex justify-center items-center bg-gray-100 h-40">
+                                <?php if (in_array($doc['ext'], ['jpg', 'jpeg', 'png', 'webp'])): ?>
+                                    <img src="<?= s($doc['url']) ?>" alt="<?= s($doc['label']) ?>" class="w-full h-full object-cover">
+                            
+                                <?php elseif ($doc['is_pdf']): ?>
+                                    <iframe src="<?= s($doc['url']) ?>" class="w-full h-full pointer-events-none"></iframe>
+                            
+                                <?php else: ?>
+                                    <div class="flex flex-col items-center text-gray-600">
+                                        <i data-lucide="file-text" class="mb-2 w-12 h-12"></i>
+                                        <span class="text-sm uppercase">
+                                            <?= s($doc['ext']) ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+                            
+                            <div class="p-3 font-medium text-gray-800 text-sm text-center">
+                                <?= s($doc['label']) ?>
+                            </div>
+                        </a>
+                    <?php endforeach; ?>
                 </div>
             </div>
             <div class="my-3 w-full">
@@ -270,7 +302,7 @@ require('../../partials/values_for_registration.php');
                                 <dt class="mb-1 text-gray-500 md:text-lg">
                                     <?= get_string('applicant_additionalinfo', 'local_scholarship') ?>
                                 </dt>
-                                <dd class="font-semibold text-lg"><?= $applicant->additional_infos ?></dd>
+                                <dd class="font-semibold text-lg"><?= $applicant->additionalinfo ?></dd>
                             </div>
                         </dl>
                     </div>
@@ -287,7 +319,8 @@ require('../../partials/values_for_registration.php');
                     <div>
                         <p class="text-gray-500 text-sm">Modifie par</p>
                         <p class="mt-1 font-semibold text-gray-900"><?= $history->changerfirstname ?>
-                            <?= $history->changerlastname ?></p>
+                            <?= $history->changerlastname ?>
+                        </p>
                     </div>
                     <div>
                         <p class="text-gray-500 text-sm">Date</p>
