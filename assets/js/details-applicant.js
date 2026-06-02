@@ -25,7 +25,7 @@ function showDocument(event, fileUrl, fileId, fileType, candidateId, name, isPdf
     }
     // if the dropdown is open, close it and return
     const dropdown = document.getElementById(`dropdown-${candidateId}`);
-    if (!dropdown.classList.contains('hidden')) {
+    if (dropdown && !dropdown.classList.contains('hidden')) {
         dropdown.classList.add('hidden');
     }
     Swal.fire({
