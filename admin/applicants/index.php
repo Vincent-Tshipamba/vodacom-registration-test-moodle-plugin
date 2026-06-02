@@ -23,6 +23,7 @@ $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/sel
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.dataTables.min.css'));
 echo html_writer::div('', '', [
     'id' => 'scholarship-config',
+    'data-search-url' => (new moodle_url('/local/scholarship/admin/applicants/search.php'))->out(false),
     'data-document-status-url' => (new moodle_url('/local/scholarship/admin/applicants/document-status.php'))->out(false),
     'data-sesskey' => sesskey(),
 ]);
