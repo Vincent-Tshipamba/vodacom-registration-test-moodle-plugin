@@ -21,11 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
             topStart: {
                 buttons: ['copy', 'excel', 'pdf', 'print']
             },
-            top1: {
-                searchPanes: {
-                    viewTotal: true,
-                }
-            }
+            // top1: {
+            //     searchPanes: {
+            //         viewTotal: true,
+            //     }
+            // }
         },
         columnDefs: [
             {
@@ -59,29 +59,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Infinite scroll for grid view
     const grid = document.getElementById('applicantsGrid');
     const loadMoreContainer = document.getElementById('load-more-container');
-
-    // Search functionality
-    const searchModalButton = document.getElementById('searchModalButton');
-    const searchModal = document.getElementById('searchModal');
-    const searchInput = document.getElementById('searchInput');
-    const searchResults = document.getElementById('searchResults');
-    const noResults = document.getElementById('noResults');
-    let searchTimeout;
-    // Search input event listener
-    if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
-            clearTimeout(searchTimeout);
-            const query = e.target.value.trim();
-            if (query.length < 2) {
-                searchResults.classList.add('hidden');
-                noResults.classList.add('hidden');
-                return;
-            }
-            searchTimeout = setTimeout(() => {
-                searchApplicants(query);
-            }, 300);
-        });
-    }
 
     // Initialize modals
     const modals = document.querySelectorAll('[data-modal-toggle]');
@@ -173,6 +150,30 @@ function setupModal() {
     function openModal() {
         modal.classList.remove('hidden');
         document.body.classList.add('overflow-hidden');
+
+        const searchInput = document.getElementById('searchInput');
+        const searchResults = document.getElementById('searchResults');
+        const noResults = document.getElementById('noResults');
+
+        let searchTimeout;
+
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(searchTimeout);
+
+                const query = e.target.value.trim();
+
+                if (query.length < 2) {
+                    searchResults.classList.add('hidden');
+                    noResults.classList.add('hidden');
+                    return;
+                }
+
+                searchTimeout = setTimeout(() => {
+                    searchApplicants(query);
+                }, 300);
+            });
+        }
     }
 
     function closeModalHandler() {
@@ -190,55 +191,79 @@ function setupModal() {
     }
 }
 
+async function searchApplicants(query) {
+    try {
+        const config = document.getElementById('scholarship-config');
+
+        const searchUrl = config.dataset.searchUrl;
+        const sesskey = config.dataset.sesskey;
+
+        const formData = new FormData();
+        formData.append('query', query);
+        formData.append('sesskey', sesskey);
+        console.log(searchUrl);
+        
+
+        const response = await fetch(searchUrl, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+        
+
+        const results = await response.json();
+        displaySearchResults(results);
+
+    } catch (error) {
+        console.error('Error searching applicants:', error);
+    }
+}
+
 function displaySearchResults(results) {
     const resultsContainer = document.querySelector('#searchResults ul');
+
     resultsContainer.innerHTML = '';
-    if (results.length === 0) {
+
+    if (!results || results.length === 0) {
         noResults.classList.remove('hidden');
         searchResults.classList.add('hidden');
         return;
     }
+
     noResults.classList.add('hidden');
 
     results.forEach(applicant => {
         const li = document.createElement('li');
-        let url = '';
-        url = url.replace(':id', applicant.id);
-        li.className = 'p-3 hover:bg-gray-100 dark:hover:bg-gray-600 cursor-pointer';
+
+        li.className = 'p-3 hover:bg-gray-100 cursor-pointer';
+
         li.innerHTML = `
-                        <a href="${url}" class="block">
-                            <div class="font-medium text-gray-900 dark:text-white">
-                                ${applicant.first_name} ${applicant.last_name}
-                            </div>
-                            <div class="text-gray-500 dark:text-gray-400 text-sm">
-                                ${applicant.registration_code ? '• ' + applicant.registration_code : ''}
-                            </div>
-                        </a>
-                    `;
+            <a href="${applicant.url}" class="block">
+                <div class="font-medium text-gray-900">
+                    ${escapeHtml(applicant.fullname || '')}
+                </div>
+                <div class="text-gray-500 text-sm">
+                    ${applicant.regcode ? '• ' + escapeHtml(applicant.regcode) : ''}
+                    ${applicant.phone ? ' • ' + escapeHtml(applicant.phone) : ''}
+                </div>
+            </a>
+        `;
+
         resultsContainer.appendChild(li);
     });
+
     searchResults.classList.remove('hidden');
 }
 
-// Search applicants function
-async function searchApplicants(query) {
-    try {
-        const response = await fetch(
-            '', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({
-                query
-            })
-        });
-        const results = await response.json();
-        displaySearchResults(results);
-    } catch (error) {
-        console.error('Error searching applicants:', error);
-    }
+function escapeHtml(value) {
+    return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
 }
 
 // Load more applicants function

@@ -22,7 +22,7 @@ $applicants = $data->applicants;
         </button>
     </div>
     <!-- Search Button -->
-    <button id="searchModalButton" type="button" class="bg-blue-600 hover:bg-blue-700 text-white btn">
+    <button id="searchModalButton" type="button" class="bg-blue-600 hover:bg-blue-700 text-white btn cursor-pointer z-10">
         <i data-lucide="search" class="inline-block mr-2 size-4"></i>
         Recherche avancée
     </button>

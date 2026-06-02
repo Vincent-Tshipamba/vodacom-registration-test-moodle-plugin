@@ -180,6 +180,64 @@ class AdminController
         ];
     }
 
+    public static function search()
+    {
+        global $DB;
+
+        $query = required_param('query', PARAM_TEXT);
+        $query = trim($query);
+
+        $like = '%' . $DB->sql_like_escape($query) . '%';
+
+        $params = [
+            'fullname' => $like,
+            'phone' => $like,
+            'regcode' => $like,
+            'examcode' => $like,
+        ];
+
+        $sql = "
+            SELECT id,
+                fullname,
+                birthdate,
+                phone,
+                percentage,
+                address,
+                careergoals,
+                regcode,
+                examcode
+            FROM {local_scholarship_app}
+            WHERE " . $DB->sql_like('fullname', ':fullname', false) . "
+                OR " . $DB->sql_like('phone', ':phone', false) . "
+                OR " . $DB->sql_like('regcode', ':regcode', false) . "
+                OR " . $DB->sql_like('examcode', ':examcode', false) . "
+        ORDER BY timecreated DESC
+        ";
+
+        $records = $DB->get_records_sql($sql, $params, 0, 5);
+
+        $results = [];
+
+        foreach ($records as $record) {
+            $results[] = [
+                'id' => (int) $record->id,
+                'fullname' => $record->fullname,
+                'birthdate' => date('Y-m-d', $record->birthdate),
+                'phone' => $record->phone,
+                'percentage' => $record->percentage,
+                'address' => $record->address,
+                'careergoals' => $record->careergoals,
+                'regcode' => $record->regcode,
+                'examcode' => $record->examcode,
+                'url' => (new \moodle_url('/local/scholarship/admin/applicants/show', [
+                    'id' => $record->id,
+                ]))->out(false),
+            ];
+        }
+
+        return $results;
+    }
+
     public static function applicant_details(): \stdClass
     {
         global $DB;
