@@ -1,25 +1,25 @@
 <header
-    class="sticky top-0 mx-auto mb-4 w-fit h-full bg-white/90 backdrop-blur-md rounded-full border-r border-slate-200 p-1 shadow-lg">
+    class="sticky top-0 mx-auto mb-4 w-fit h-fit bg-white/90 backdrop-blur-md rounded-full border-r border-slate-200 p-1 shadow-lg">
     <nav class="flex items-center justify-center">
         <a href="<?= new moodle_url('/local/scholarship/admin/') ?>"
-            class="flex items-center gap-3 px-3 py-2 rounded-xl bg-blue-50 text-blue-600 font-semibold">
+            class="flex items-center gap-3 px-3 py-2 rounded-xl <?php if ($PAGE->url->get_path() === '/local/scholarship/admin/index.php'): ?> bg-blue-50 text-blue-600 font-semibold <?php else: ?> text-slate-600 hover:text-slate-900 font-medium <?php endif; ?>">
             <span>
                 <svg width="24" height="24" viewBox="0 0 24 24" id="meteor-icon-kit__regular-dashboard" fill="none"
                     xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" clip-rule="evenodd"
                         d="M3 2C2.44772 2 2 2.44772 2 3V6C2 6.55228 2.44772 7 3 7H6C6.55228 7 7 6.55228 7 6V3C7 2.44772 6.55228 2 6 2H3ZM3 0H6C7.65685 0 9 1.34315 9 3V6C9 7.65685 7.65685 9 6 9H3C1.34315 9 0 7.65685 0 6V3C0 1.34315 1.34315 0 3 0ZM14 16H21C22.6569 16 24 17.3431 24 19V21C24 22.6569 22.6569 24 21 24H14C12.3431 24 11 22.6569 11 21V19C11 17.3431 12.3431 16 14 16ZM14 18C13.4477 18 13 18.4477 13 19V21C13 21.5523 13.4477 22 14 22H21C21.5523 22 22 21.5523 22 21V19C22 18.4477 21.5523 18 21 18H14ZM3 11H6C7.65685 11 9 12.3431 9 14V21C9 22.6569 7.65685 24 6 24H3C1.34315 24 0 22.6569 0 21V14C0 12.3431 1.34315 11 3 11ZM3 13C2.44772 13 2 13.4477 2 14V21C2 21.5523 2.44772 22 3 22H6C6.55228 22 7 21.5523 7 21V14C7 13.4477 6.55228 13 6 13H3ZM21 0C22.6569 0 24 1.34315 24 3V11C24 12.6569 22.6569 14 21 14H14C12.3431 14 11 12.6569 11 11V3C11 1.34315 12.3431 0 14 0H21ZM13 3V11C13 11.5523 13.4477 12 14 12H21C21.5523 12 22 11.5523 22 11V3C22 2.44772 21.5523 2 21 2H14C13.4477 2 13 2.44772 13 3Z"
-                        fill="#758CA3" />
+                        fill="currentColor" />
                 </svg>
             </span>
             <span class="hidden md:block">Dashboard</span>
         </a>
 
-        <a href="<?= new moodle_url('/local/scholarship/admin/applicants/') ?>" class="flex items-center gap-3 px-3 py-1 rounded-xl text-slate-600 hover:text-slate-900 font-medium">
+        <a href="<?= new moodle_url('/local/scholarship/admin/applicants/') ?>" class="flex items-center gap-3 px-3 py-1 rounded-xl <?php if ($PAGE->url->get_path() === '/local/scholarship/admin/applicants/index.php'): ?> bg-blue-50 text-blue-600 font-semibold <?php else: ?> text-slate-600 hover:text-slate-900 font-medium <?php endif; ?>">
             <span>
                 <svg class="hover:text-slate-800" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M19 14C21.2091 14 23 16 23 17.5C23 18.3284 22.3284 19 21.5 19H21M17 11C18.6569 11 20 9.65685 20 8C20 6.34315 18.6569 5 17 5M5 14C2.79086 14 1 16 1 17.5C1 18.3284 1.67157 19 2.5 19H3M7 11C5.34315 11 4 9.65685 4 8C4 6.34315 5.34315 5 7 5M16.5 19H7.5C6.67157 19 6 18.3284 6 17.5C6 15 9 14 12 14C15 14 18 15 18 17.5C18 18.3284 17.3284 19 16.5 19ZM15 8C15 9.65685 13.6569 11 12 11C10.3431 11 9 9.65685 9 8C9 6.34315 10.3431 5 12 5C13.6569 5 15 6.34315 15 8Z"
-                        stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                        stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
             </span>
             <span class="hidden sm:block">Candidats</span>
@@ -27,7 +27,7 @@
 
         <a href="#" class="flex items-center gap-3 px-3 py-1 rounded-xl text-slate-600 hover:text-slate-800 font-medium">
             <span>
-                <svg width="24" height="24" viewBox="0 0 800 800" enable-background="new 0 0 800 800" id="GUIDE"
+                <svg fill="currentColor" width="24" height="24" viewBox="0 0 800 800" enable-background="new 0 0 800 800" id="GUIDE"
                     version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
                     xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/"
                     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
@@ -85,7 +85,7 @@
 
         <a href="#" class="flex items-center gap-3 px-3 py-1 rounded-xl text-slate-600 hover:text-slate-800 font-medium">
             <span>
-                <svg fill="#000000" height="24" width="24" version="1.1" id="Capa_1"
+                <svg fill="currentColor" height="24" width="24" version="1.1" id="Capa_1"
                     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                     viewBox="0 0 286.607 286.607" xml:space="preserve">
                     <g>

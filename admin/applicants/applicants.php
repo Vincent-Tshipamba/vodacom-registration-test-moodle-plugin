@@ -2,6 +2,13 @@
 
 $applicants = $data->applicants;
 ?>
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-slate-900"><?= get_string('applicants_title', 'local_scholarship') ?></h1>
+    <p class="text-slate-500 mt-1">
+        Gestion des candidatures
+    </p>
+</div>
+
 <div class="flex justify-between items-center mb-6">
     <!-- View Toggle -->
     <div class="inline-flex bg-gray-100 shadow-sm p-1 rounded-lg">
@@ -22,15 +29,16 @@ $applicants = $data->applicants;
         </button>
     </div>
     <!-- Search Button -->
-    <button id="searchModalButton" type="button" class="bg-blue-600 hover:bg-blue-700 text-white btn cursor-pointer z-10">
+    <button id="searchModalButton" type="button"
+        class="bg-blue-600 hover:bg-blue-700 text-white btn cursor-pointer z-10">
         <i data-lucide="search" class="inline-block mr-2 size-4"></i>
         Recherche avancée
     </button>
 </div>
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script src="https://cdn.datatables.net/2.3.6/js/dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/select/3.1.3/js/dataTables.select.js" defer></script>
-    <script src="https://cdn.datatables.net/select/3.1.3/js/select.dataTables.js" defer></script>
+<script src="https://cdn.datatables.net/select/3.1.3/js/dataTables.select.js" defer></script>
+<script src="https://cdn.datatables.net/select/3.1.3/js/select.dataTables.js" defer></script>
 <script src="https://cdn.datatables.net/searchpanes/2.3.5/js/dataTables.searchPanes.js"></script>
 <script src="https://cdn.datatables.net/searchpanes/2.3.5/js/searchPanes.dataTables.js"></script>
 <script src="https://cdn.datatables.net/buttons/3.2.6/js/dataTables.buttons.js"></script>

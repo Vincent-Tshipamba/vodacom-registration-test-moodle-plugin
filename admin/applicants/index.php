@@ -38,10 +38,14 @@ $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/chart.js'), tru
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/select.dataTables.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.select.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/sweetalert2.js'), true);
+
+$PAGE->add_body_class('local-scholarship-home');
+
 echo $OUTPUT->header();
 
 $data = AdminController::applicants();
 
+require(__DIR__ . '/../partials/topbar.php');
 require(__DIR__ . '/../partials/values.php');
 
 require(__DIR__ . '/applicants.php');

@@ -5,6 +5,20 @@ require('../partials/values.php');
 require('../../partials/values_for_registration.php');
 ?>
 
+<?php require(__DIR__ . '/../partials/topbar.php'); ?>
+
+<div class="mb-8">
+    <h1 class="text-3xl font-bold text-slate-900">
+        <?= get_string('applicant_details_title', 'local_scholarship', [
+            'fullname' => $applicant->fullname ?? ''
+        ]); ?>
+    </h1>
+    <p class="text-slate-500 mt-1">
+        
+    </p>
+</div>
+
+
 <nav class="flex my-3" aria-label="Breadcrumb">
     <ol class="inline-flex items-center space-x-1 md:space-x-3">
         <li class="inline-flex items-center">
@@ -19,7 +33,7 @@ require('../../partials/values_for_registration.php');
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M7.5 15L11.0858 11.4142C11.7525 10.7475 12.0858 10.4142 12.0858 10C12.0858 9.58579 11.7525 9.25245 11.0858 8.58579L7.5 5"
-                        stroke="#E5E7EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <a href="<?= new moodle_url('/local/scholarship/admin/applicants') ?>"
                     class="ml-1 md:ml-2 font-medium text-gray-700 hover:text-indigo-800 hover:font-bold dark:hover:font-bold text-base">
@@ -32,7 +46,7 @@ require('../../partials/values_for_registration.php');
                     xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M7.5 15L11.0858 11.4142C11.7525 10.7475 12.0858 10.4142 12.0858 10C12.0858 9.58579 11.7525 9.25245 11.0858 8.58579L7.5 5"
-                        stroke="#E5E7EB" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
                 </svg>
                 <span class="ml-1 md:ml-2 font-medium text-indigo-600 text-base"><?= $applicant->fullname ?></span>
             </div>

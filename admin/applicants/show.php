@@ -41,6 +41,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     AdminController::update_applicant_status();
 }
 
+$PAGE->add_body_class('local-scholarship-home');
+
 echo $OUTPUT->header();
 
 
