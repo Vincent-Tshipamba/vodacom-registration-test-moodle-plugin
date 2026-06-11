@@ -39,9 +39,9 @@
 }
 
 @layer components {
-  .scholarship-shell {
-    @apply mx-auto w-[min(1200px,calc(100%-1.5rem))] md:w-[min(1200px,calc(100%-2rem))];
-  }
+  /* .scholarship-shell {
+    @apply mx-auto w-[min(1200px, calc(100%-1.5rem))] md:w-[min(1200px, calc(100%-2rem))];
+  } */
 
   .scholarship-btn {
     @apply inline-flex items-center justify-center rounded-full px-6 py-4 font-bold no-underline transition duration-200 ease-out hover:-translate-y-0.5 hover:no-underline;
@@ -55,9 +55,9 @@
     @apply border border-white/20 bg-white/10 text-white;
   }
 
-  .scholarship-surface {
-    @apply rounded-[2rem] border border-red-100/40 bg-white/75 shadow-[0_24px_60px_rgba(15,23,42,0.12)] backdrop-blur;
-  }
+  /* .scholarship-surface {
+    @apply rounded-[2rem] border border-red-100/40 bg-white/75 shadow-[0_24px_60px_rgba(15, 23, 42, 0.12)] backdrop-blur;
+  } */
 
   .scholarship-wave-divider svg {
     @apply block h-14 w-[calc(100%+1.3px)] md:h-24;
@@ -73,6 +73,32 @@
   .scholarship-wave-divider--reverse svg {
     animation-direction: alternate-reverse;
   }
+
+  #styled-questions .rich-question-editor ul,
+  #styled-questions .question-html ul {
+    list-style-type: disc;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #styled-questions .rich-question-editor ol,
+  #styled-questions .question-html ol {
+    list-style-type: decimal;
+    padding-left: 1.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  #styled-questions .rich-question-editor li,
+  #styled-questions .question-html li {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  #styled-questions .rich-question-editor {
+    outline: none;
+  }
 }
 
 @layer utilities {
@@ -85,12 +111,29 @@
 }
 
 @keyframes scholarship-wave-drift {
-  0% { transform: translateX(0) translateY(0); }
-  50% { transform: translateX(-1.2%) translateY(2px); }
-  100% { transform: translateX(1.2%) translateY(0); }
+  0% {
+    transform: translateX(0) translateY(0);
+  }
+
+  50% {
+    transform: translateX(-1.2%) translateY(2px);
+  }
+
+  100% {
+    transform: translateX(1.2%) translateY(0);
+  }
 }
 
 @keyframes scholarship-wave-lift {
-  0%, 100% { transform: scaleY(1); opacity: 0.96; }
-  50% { transform: scaleY(1.04); opacity: 1; }
+
+  0%,
+  100% {
+    transform: scaleY(1);
+    opacity: 0.96;
+  }
+
+  50% {
+    transform: scaleY(1.04);
+    opacity: 1;
+  }
 }

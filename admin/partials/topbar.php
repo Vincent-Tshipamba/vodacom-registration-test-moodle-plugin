@@ -25,7 +25,7 @@
             <span class="hidden sm:block">Candidats</span>
         </a>
 
-        <a href="#" class="flex items-center gap-3 px-3 py-1 rounded-xl text-slate-600 hover:text-slate-800 font-medium">
+        <a href="<?= new moodle_url('/local/scholarship/admin/tests/') ?>" class="flex items-center gap-3 px-3 py-1 rounded-xl <?php if ($PAGE->url->get_path() === '/local/scholarship/admin/tests/index.php'): ?> bg-blue-50 text-blue-600 font-semibold <?php else: ?> text-slate-600 hover:text-slate-900 font-medium <?php endif; ?>">
             <span>
                 <svg fill="currentColor" width="24" height="24" viewBox="0 0 800 800" enable-background="new 0 0 800 800" id="GUIDE"
                     version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg"
