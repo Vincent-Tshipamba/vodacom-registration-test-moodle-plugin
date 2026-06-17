@@ -3,6 +3,7 @@
 module.exports = {
   content: [
     './admin/**/*.php',
+    './applicants/**/*.php',
     './templates/**/*.php',
     './index.php',
     './apply.php',
