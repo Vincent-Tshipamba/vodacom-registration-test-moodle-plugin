@@ -1,8 +1,6 @@
 import 'flowbite';
 import Alpine from "alpinejs";
-// import 'preline';
-
-// import { createIcons } from 'lucide';
+import 'preline';
 
 window.Alpine = Alpine;
 
