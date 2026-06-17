@@ -1,0 +1,141 @@
+#scholarship-auth {
+    background-image: url('../img/OR68WQ0.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.scholarship-auth-card {
+    position: relative;
+    width: 100%;
+    max-width: 790px;
+    min-height: 380px;
+    border-radius: 10px;
+}
+
+.scholarship-auth-forms-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    inset: 0;
+}
+
+.scholarship-auth-signin {
+    position: absolute;
+    top: 50%;
+    left: 75%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    display: grid;
+    grid-template-columns: 1fr;
+    z-index: 5;
+}
+
+.scholarship-auth-form {
+    overflow: hidden;
+}
+
+.scholarship-auth-panels-container {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    inset: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.scholarship-auth-card::before {
+    content: "";
+    position: absolute;
+    height: 2000px;
+    width: 2000px;
+    top: -10%;
+    right: 48%;
+    transform: translateY(-50%);
+    background-image: linear-gradient(#ff1453 20%, #ff1453 80%);
+    border-radius: 50%;
+    z-index: 6;
+}
+
+.scholarship-auth-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: center;
+    text-align: center;
+    z-index: 7;
+}
+
+.scholarship-auth-left-panel {
+    padding: 3rem 17% 2rem 12%;
+}
+
+.scholarship-auth-content {
+    color: #000000;
+}
+
+/* Responsive */
+@media (max-width: 870px) {
+    .scholarship-auth-card {
+        min-height: 650px;
+        max-width: 95%;
+    }
+
+    .scholarship-auth-signin {
+        width: 90%;
+        left: 50%;
+        top: 68%;
+        transform: translate(-50%, -50%);
+    }
+
+    .scholarship-auth-panels-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 220px 1fr;
+    }
+
+    .scholarship-auth-left-panel {
+        padding: 2rem 8%;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .scholarship-auth-panel {
+        align-items: center;
+    }
+
+    .scholarship-auth-card::before {
+        height: 1500px;
+        width: 1500px;
+        left: 50%;
+        right: initial;
+        top: initial;
+        bottom: 58%;
+        transform: translateX(-50%);
+    }
+
+    .scholarship-auth-content p {
+        line-height: 1.8;
+    }
+}
+
+@media (max-width: 520px) {
+    .scholarship-auth-wrapper {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .scholarship-auth-card {
+        min-height: 690px;
+    }
+
+    .scholarship-auth-signin {
+        top: 70%;
+        width: 95%;
+    }
+
+    .scholarship-auth-content p {
+        font-size: 0.9rem;
+        line-height: 1.7;
+    }
+}
