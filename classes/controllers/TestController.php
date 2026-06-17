@@ -3,6 +3,7 @@
 namespace local_scholarship\controllers;
 
 use local_scholarship\models\Edition;
+use local_scholarship\models\PhaseTest;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -72,6 +73,38 @@ class TestController
         $data->assertionSuggestions = self::get_assertion_suggestions();
 
         return $data;
+    }
+
+    public static function update_phase_status()
+    {
+        require_sesskey();
+
+        $id = optional_param('id', null, PARAM_INT);
+        $status = optional_param('status', null, PARAM_TEXT);
+
+        // retrieve applicant
+        $phase = PhaseTest::find($id);
+        if (!$phase) {
+            throw new \moodle_exception('phasenotfound', 'local_scholarship');
+        }
+        
+        if (($status ?? null) === 'IN_PROGRESS' && count(self::get_phase_questions($phase->id)) < 1) {
+            $message = 'Impossible de lancer la phase sans question.';
+            throw new \moodle_exception($message);
+        }
+
+        PhaseTest::update($id, (object) [
+            'status' => $status,
+        ]);
+
+        $message = get_string('statusupdated', 'local_scholarship');
+        $url = new \moodle_url('/local/scholarship/admin/tests/');
+        redirect(
+            $url,
+            $message,
+            null,
+            \core\output\notification::NOTIFY_SUCCESS
+        );
     }
 
     private static function get_question_suggestions(): array

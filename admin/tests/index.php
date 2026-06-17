@@ -26,7 +26,7 @@ $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/dat
 
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/build/app.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/sweetalert2.js'), true);
-$PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/lucide.js'), true);
+// $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/lucide.js'), true);
 // $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/init-phasetest.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.min.js'), true);
 
@@ -49,6 +49,11 @@ echo html_writer::div('', '', [
 $PAGE->add_body_class('local-scholarship-home');
 
 echo $OUTPUT->header();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    require_sesskey();
+    TestController::update_phase_status();
+}
 
 $data = TestController::index();
 $currentEdition = $data->currentEdition;

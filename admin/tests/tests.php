@@ -1,6 +1,35 @@
 <?php require(__DIR__ . '/../partials/topbar.php'); ?>
-<?php $payload = json_encode($phasePayload);
+<?php
+$phasefields = [
+    [
+        'name' => 'durationmin',
+        'label' => 'Durée du test',
+        'type' => 'number',
+        'icon' => 'timer',
+    ],
+    [
+        'name' => 'starttime',
+        'label' => 'Heure de début',
+        'type' => 'datetime-local',
+        'icon' => 'calendar-clock',
+    ],
+    [
+        'name' => 'endtime',
+        'label' => 'Heure de fin',
+        'type' => 'datetime-local',
+        'icon' => 'calendar-check',
+    ],
+    [
+        'name' => 'passingscore',
+        'label' => 'Score de réussite',
+        'type' => 'number',
+        'icon' => 'badge-check',
+    ],
+];
+
+$payload = json_encode($phasePayload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
 ?>
+
 
 <script src="<?= new moodle_url('/local/scholarship/assets/js/init-phasetest.js') ?>"></script>
 
@@ -47,7 +76,9 @@
 
     <div class="float-right flex items-center space-x-2">
         <a id="closeVote" href="#" data-modal-target="status-modal" data-modal-toggle="status-modal"
-            data-phase-status="COMPLETED" data-phase-message="Voulez-vous cloturer cette phase ?" data-phase-route=""
+            data-phase-id="<?= $phasePayload['id'] ?>" data-phase-status="COMPLETED"
+            data-phase-message="Voulez-vous cloturer cette phase ?"
+            data-phase-route="<?= new moodle_url('/local/scholarship/admin/tests/') ?>"
             class="inline-flex items-center bg-[#fe042c] hover:bg-[#fe042c]/80 dark:hover:bg-[#fe042c]/80 px-3 py-2 rounded-lg focus:outline-none focus:ring-[#fe042c]/50 focus:ring-4 dark:focus:ring-[#fe042c]/40 font-medium text-white text-sm text-center">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4"
                 style="margin-right: 0.5rem; display:none">
@@ -71,37 +102,41 @@
         </button>
         <!-- Dropdown menu -->
         <div id="dropdownLeftStatus"
-            class="hidden z-10 bg-white dark:bg-gray-700 shadow rounded-lg divide-y divide-gray-100 dark:divide-gray-600 w-15">
+            class="hidden z-10 bg-white shadow rounded-lg divide-y divide-gray-100 dark:divide-gray-600 w-15">
 
-            <ul class="py-1 text-gray-700 dark:text-gray-200 text-xs" aria-labelledby="dropdownLeftButtonStatus">
+            <ul class="py-1 text-gray-700 text-xs" aria-labelledby="dropdownLeftButtonStatus">
                 <li id="enCours" style="margin-right: 0.2rem; margin-left: 0.2rem;">
                     <?php $message = 'Voulez-vous lancer cette phase?'; ?>
                     <a href="#" data-modal-target="status-modal" data-modal-toggle="status-modal"
-                        data-phase-status="IN_PROGRESS" data-phase-message="Voulez-vous lancer cette phase ?"
-                        data-phase-route=""
+                        data-phase-id="<?= $phasePayload['id'] ?>" data-phase-status="IN_PROGRESS"
+                        data-phase-message="Voulez-vous lancer cette phase ?"
+                        data-phase-route="<?= new moodle_url('/local/scholarship/admin/tests/') ?>"
                         class="inline-flex items-center hover:bg-blue-100 dark:hover:bg-blue-600 px-3 py-1 rounded-md dark:hover:text-white text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5">
                             <path fill-rule="evenodd"
                                 d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14Zm3.844-8.791a.75.75 0 0 0-1.188-.918l-3.7 4.79-1.649-1.833a.75.75 0 1 0-1.114 1.004l2.25 2.5a.75.75 0 0 0 1.15-.043l4.25-5.5Z"
                                 clip-rule="evenodd" />
                         </svg>
-                        <p class="flex justify-inline items-center" style="margin-left: 0.2rem;">Lancer la
-                            phase </p>
+                        <p class="flex justify-inline items-center" style="margin-left: 0.2rem;">
+                            Lancer la phase
+                        </p>
                     </a>
                 </li>
 
                 <li id="fermer" style="margin-right: 0.2rem; margin-left: 0.2rem;">
                     <?php $message = 'Voulez-vous fermer cette phase?'; ?>
                     <a href="#" data-modal-target="status-modal" data-modal-toggle="status-modal"
-                        data-phase-status="CANCELLED" data-phase-message="Voulez-vous fermer cette phase ?"
-                        data-phase-route=""
+                        data-phase-id="<?= $phasePayload['id'] ?>" data-phase-status="CANCELLED"
+                        data-phase-message="Voulez-vous fermer cette phase ?"
+                        data-phase-route="<?= new moodle_url('/local/scholarship/admin/tests/') ?>"
                         class="inline-flex items-center hover:bg-red-100 dark:hover:bg-red-600 px-3 py-1 rounded-md dark:hover:text-white text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5">
                             <path
                                 d="M5.28 4.22a.75.75 0 0 0-1.06 1.06L6.94 8l-2.72 2.72a.75.75 0 1 0 1.06 1.06L8 9.06l2.72 2.72a.75.75 0 1 0 1.06-1.06L9.06 8l2.72-2.72a.75.75 0 0 0-1.06-1.06L8 6.94 5.28 4.22Z" />
                         </svg>
-                        <p class="flex justify-inline items-center" style="margin-left: 0.2rem;">Fermer la
-                            phase </p>
+                        <p class="flex justify-inline items-center" style="margin-left: 0.2rem;">
+                            Fermer la phase
+                        </p>
                     </a>
                 </li>
             </ul>
@@ -109,7 +144,13 @@
     </div>
 </nav>
 
-<div x-data='testPhaseEditor(<?= $payload ?>)' class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+<div id="scholarship-phase-editor"
+    class="bg-white border border-gray-200 rounded-xl shadow-sm p-6 mb-6">
+
+    <script type="application/json" id="test-phase-payload">
+        <?= $payload ?>
+    </script>
+
     <div class="flex justify-between items-center mb-5">
         <div>
             <h2 class="text-xl font-bold text-gray-900">
@@ -121,49 +162,49 @@
             </p>
         </div>
 
-        <span class="px-3 py-1 rounded-full text-xs font-semibold" :class="statusClass()" x-text="phase.status">
+        <span data-phase-status class="px-3 py-1 rounded-full text-xs font-semibold">
         </span>
     </div>
 
     <dl class="divide-y divide-gray-200">
-        <template x-for="field in fields" :key="field.name">
-            <div class="flex justify-between items-center py-2 gap-3">
+        <?php foreach ($phasefields as $field): ?>
+            <div class="flex justify-between items-center py-2 gap-3" data-phase-row data-field="<?= s($field['name']) ?>"
+                data-type="<?= s($field['type']) ?>">
+
                 <dt class="flex items-center gap-2 text-gray-500">
-                    <i :data-lucide="field.icon" class="w-4 h-4"></i>
-                    <span x-text="field.label"></span>
+                    <i data-lucide="<?= s($field['icon']) ?>" class="w-4 h-4"></i>
+                    <span><?= s($field['label']) ?></span>
                 </dt>
 
                 <dd class="flex-1 text-right">
-                    <template x-if="!editing[field.name]">
-                        <div class="flex justify-end items-center gap-3">
-                            <span class="font-semibold text-gray-900" x-text="displayValue(field.name)"></span>
 
-                            <button type="button" @click="edit(field.name)"
-                                class="text-blue-600 hover:underline text-sm">
-                                Modifier
-                            </button>
-                        </div>
-                    </template>
+                    <div data-view-mode class="flex justify-end items-center gap-3">
+                        <span data-phase-display class="font-semibold text-gray-900">
+                            Non défini
+                        </span>
 
-                    <template x-if="editing[field.name]">
-                        <div class="flex justify-end items-center gap-2">
-                            <input :type="field.type" x-model="values[field.name]"
-                                class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-56">
+                        <button type="button" data-action="edit" class="text-blue-600 hover:underline text-sm">
+                            Modifier
+                        </button>
+                    </div>
 
-                            <button type="button" @click="save(field.name)"
-                                class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">
-                                Sauver
-                            </button>
+                    <div data-edit-mode class="hidden justify-end items-center gap-2">
+                        <input type="<?= s($field['type']) ?>" data-phase-input
+                            class="border border-gray-300 rounded-lg px-3 py-2 text-sm w-56">
 
-                            <button type="button" @click="cancel(field.name)"
-                                class="text-gray-500 hover:text-gray-700 text-sm">
-                                ✕
-                            </button>
-                        </div>
-                    </template>
+                        <button type="button" data-action="save"
+                            class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-lg text-sm">
+                            Sauver
+                        </button>
+
+                        <button type="button" data-action="cancel" class="text-gray-500 hover:text-gray-700 text-sm">
+                            ✕
+                        </button>
+                    </div>
+
                 </dd>
             </div>
-        </template>
+        <?php endforeach; ?>
     </dl>
 </div>
 
@@ -741,7 +782,401 @@
 </div>
 
 <?php require(__DIR__ . '/../../partials/cdn-datatables.php') ?>
+<?php require(__DIR__ . '/../partials/change-phase-status.php') ?>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const container = document.getElementById('scholarship-phase-editor');
+        const payloadScript = document.getElementById('test-phase-payload');
+        const config = document.getElementById('scholarship-test-config');
+
+        if (!container || !payloadScript) {
+            return;
+        }
+
+        let initialPhase = {};
+
+        try {
+            initialPhase = JSON.parse(payloadScript.textContent || '{}');
+        } catch (error) {
+            console.error('Payload phase invalide', error);
+            initialPhase = {};
+        }
+
+        initTestPhaseEditor(config, container, initialPhase);
+    });
+
+    function initTestPhaseEditor(config, container, initialPhase) {
+        const state = {
+            phase: initialPhase || {},
+            editing: {},
+            values: {},
+        };
+
+        const fields = [
+            {
+                name: 'durationmin',
+                type: 'number',
+            },
+            {
+                name: 'starttime',
+                type: 'datetime-local',
+            },
+            {
+                name: 'endtime',
+                type: 'datetime-local',
+            },
+            {
+                name: 'passingscore',
+                type: 'number',
+            },
+        ];
+
+        fields.forEach(function (field) {
+            state.editing[field.name] = false;
+            state.values[field.name] = normalizeInputValue(field.name, state.phase[field.name]);
+        });
+
+        function normalizeInputValue(field, value) {
+            if (!value) {
+                return '';
+            }
+
+            if (field === 'starttime' || field === 'endtime') {
+                return toDatetimeLocal(value);
+            }
+
+            return value;
+        }
+
+        function toDatetimeLocal(value) {
+            if (!value) {
+                return '';
+            }
+
+            if (typeof value === 'string' && value.includes('T')) {
+                return value.substring(0, 16);
+            }
+
+            const timestamp = Number(value);
+
+            if (!timestamp) {
+                return '';
+            }
+
+            const date = new Date(timestamp * 1000);
+            date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+
+            return date.toISOString().slice(0, 16);
+        }
+
+        function displayValue(field) {
+            const value = state.phase[field];
+
+            if (!value) {
+                return 'Non défini';
+            }
+
+            if (field === 'durationmin') {
+                return value + ' min';
+            }
+
+            if (field === 'passingscore') {
+                return value + ' %';
+            }
+
+            if (field === 'starttime' || field === 'endtime') {
+                return formatDateTime(value);
+            }
+
+            return value;
+        }
+
+        function formatDateTime(value) {
+            if (!value) {
+                return 'Non défini';
+            }
+
+            let date;
+
+            if (typeof value === 'string' && value.includes('T')) {
+                date = new Date(value);
+            } else {
+                date = new Date(Number(value) * 1000);
+            }
+
+            if (isNaN(date.getTime())) {
+                return value;
+            }
+
+            return date.toLocaleString('fr-FR', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+            });
+        }
+
+        function statusClass(status) {
+            if (status === 'AWAITING') {
+                return 'bg-yellow-100 text-yellow-700';
+            }
+
+            if (status === 'IN_PROGRESS') {
+                return 'bg-green-100 text-green-700';
+            }
+
+            if (status === 'COMPLETED') {
+                return 'bg-blue-100 text-blue-700';
+            }
+
+            if (status === 'CANCELLED') {
+                return 'bg-red-100 text-red-700';
+            }
+
+            return 'bg-gray-100 text-gray-700';
+        }
+
+        function renderStatus() {
+            const badge = container.querySelector('[data-phase-status]');
+
+            if (!badge) {
+                return;
+            }
+
+            const status = state.phase.status || 'draft';
+
+            badge.textContent = status;
+            badge.className = 'px-3 py-1 rounded-full text-xs font-semibold ' + statusClass(status);
+        }
+
+        function renderRow(field) {
+            const row = container.querySelector('[data-phase-row][data-field="' + field + '"]');
+
+            if (!row) {
+                return;
+            }
+
+            const viewMode = row.querySelector('[data-view-mode]');
+            const editMode = row.querySelector('[data-edit-mode]');
+            const display = row.querySelector('[data-phase-display]');
+            const input = row.querySelector('[data-phase-input]');
+
+            if (display) {
+                display.textContent = displayValue(field);
+            }
+
+            if (input) {
+                input.value = state.values[field] ?? '';
+            }
+
+            if (state.editing[field]) {
+                viewMode.classList.add('hidden');
+                viewMode.classList.remove('flex');
+
+                editMode.classList.remove('hidden');
+                editMode.classList.add('flex');
+            } else {
+                editMode.classList.add('hidden');
+                editMode.classList.remove('flex');
+
+                viewMode.classList.remove('hidden');
+                viewMode.classList.add('flex');
+            }
+        }
+
+        function render() {
+            fields.forEach(function (field) {
+                renderRow(field.name);
+            });
+
+            renderStatus();
+
+            if (window.lucide) {
+                window.lucide.createIcons({
+                    icons: window.lucide.icons
+                });
+            }
+        }
+
+        function edit(field) {
+            state.editing[field] = true;
+            state.values[field] = normalizeInputValue(field, state.phase[field]);
+
+            renderRow(field);
+
+            const row = container.querySelector('[data-phase-row][data-field="' + field + '"]');
+            const input = row ? row.querySelector('[data-phase-input]') : null;
+
+            if (input) {
+                input.focus();
+            }
+        }
+
+        function cancel(field) {
+            state.editing[field] = false;
+            state.values[field] = normalizeInputValue(field, state.phase[field]);
+
+            renderRow(field);
+        }
+
+        async function save(field) {
+            const row = container.querySelector('[data-phase-row][data-field="' + field + '"]');
+            const input = row ? row.querySelector('[data-phase-input]') : null;
+
+            if (!input) {
+                return;
+            }
+
+            state.values[field] = input.value;
+
+            const formData = new FormData();
+
+            formData.append('sesskey', config.dataset.sesskey);
+            formData.append('field', field);
+            formData.append('value', state.values[field]);
+            formData.append('editionid', state.phase.editionid || '');
+
+            if (state.phase.id) {
+                formData.append('id', state.phase.id);
+            }
+            
+            try {
+                const response = await fetch(config.dataset.updateUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        Accept: 'application/json',
+                    },
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    showError(result.message || 'Erreur serveur');
+                    return;
+                }
+
+                state.phase = result.phase || state.phase;
+                state.values[field] = normalizeInputValue(field, state.phase[field]);
+                state.editing[field] = false;
+
+                render();
+
+                showSuccess('Modification enregistrée');
+
+            } catch (error) {
+                console.error(error);
+                showError('Erreur de connexion avec le serveur.');
+            }
+        }
+
+        function showError(message) {
+            if (window.Swal) {
+                Swal.fire('Erreur', message || 'Erreur serveur', 'error');
+                return;
+            }
+
+            alert(message || 'Erreur serveur');
+        }
+
+        function showSuccess(message) {
+            if (window.Swal) {
+                Swal.fire({
+                    toast: true,
+                    position: 'top-end',
+                    icon: 'success',
+                    title: message,
+                    showConfirmButton: false,
+                    timer: 2500,
+                });
+
+                return;
+            }
+
+            console.log(message);
+        }
+
+        container.addEventListener('click', function (event) {
+            const button = event.target.closest('[data-action]');
+
+            if (!button) {
+                return;
+            }
+
+            const row = button.closest('[data-phase-row]');
+
+            if (!row) {
+                return;
+            }
+
+            const field = row.dataset.field;
+            const action = button.dataset.action;
+
+            if (action === 'edit') {
+                edit(field);
+                return;
+            }
+
+            if (action === 'cancel') {
+                cancel(field);
+                return;
+            }
+
+            if (action === 'save') {
+                save(field);
+            }
+        });
+
+        container.addEventListener('keydown', function (event) {
+            if (event.key !== 'Enter') {
+                return;
+            }
+
+            const input = event.target.closest('[data-phase-input]');
+
+            if (!input) {
+                return;
+            }
+
+            const row = input.closest('[data-phase-row]');
+
+            if (!row) {
+                return;
+            }
+
+            event.preventDefault();
+
+            save(row.dataset.field);
+        });
+
+        render();
+    }
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const triggers = document.querySelectorAll('[data-phase-status]');
+        const form = document.getElementById('phase-status-form');
+        const statusInput = document.getElementById('phase-status-value');
+        const phaseInput = document.getElementById('phase-status-id');
+        const message = document.getElementById('phase-status-message');
+
+        triggers.forEach((trigger) => {
+            trigger.addEventListener('click', function () {
+                const route = this.dataset.phaseRoute || '';
+                if (!route) {
+                    return;
+                }
+
+                form.action = route;
+                phaseInput.value = this.dataset.phaseId || '';
+                statusInput.value = this.dataset.phaseStatus || '';
+                message.textContent = this.dataset.phaseMessage || '';
+            });
+        });
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const resultDetails = <?= $resultDetailsJson ?>;
@@ -752,7 +1187,7 @@
         const modalBody = document.getElementById('result-detail-body');
         const modalClose = document.getElementById('result-detail-close');
 
-        const config = document.getElementById('scholarship-test-config');
+        const config = document.getElementById('scholarship-phase-editor');
 
         document.getElementById('promotePassedButton')?.addEventListener('click', async function () {
             const confirmation = await Swal.fire({
