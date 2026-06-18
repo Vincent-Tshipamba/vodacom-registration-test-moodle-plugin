@@ -4,6 +4,7 @@ namespace local_scholarship\controllers;
 
 use local_scholarship\models\Edition;
 use local_scholarship\models\PhaseTest;
+use local_scholarship\models\Status;
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -87,7 +88,7 @@ class TestController
         if (!$phase) {
             throw new \moodle_exception('phasenotfound', 'local_scholarship');
         }
-        
+
         if (($status ?? null) === 'IN_PROGRESS' && count(self::get_phase_questions($phase->id)) < 1) {
             $message = 'Impossible de lancer la phase sans question.';
             throw new \moodle_exception($message);
@@ -597,49 +598,40 @@ class TestController
 
         $stats = new \stdClass();
 
-        $stats->completed = $DB->count_records_sql("
-        SELECT COUNT(1)
-          FROM {local_scholarship_testsess} ts
-          JOIN {local_scholarship_app} a ON a.id = ts.applicantid
-          JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
-         WHERE a.editionid = ?
-           AND pl.phasetestid = ?
-           AND ts.status = ?
-    ", [$editionid, $phaseid, 'completed']);
+        $basewhere = "
+            FROM {local_scholarship_testsess} ts
+            JOIN {local_scholarship_app} a ON a.id = ts.applicantid
+            JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
+            WHERE a.editionid = ?
+            AND pl.phasetestid = ?
+            AND ts.endtime IS NOT NULL
+        ";
 
-        $stats->passed = $DB->count_records_sql("
+        $params = [$editionid, $phaseid];
+
+        $stats->completed = (int) $DB->count_records_sql("
         SELECT COUNT(1)
-          FROM {local_scholarship_testsess} ts
-          JOIN {local_scholarship_app} a ON a.id = ts.applicantid
-          JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
-         WHERE a.editionid = ?
-           AND pl.phasetestid = ?
-           AND ts.status = ?
-           AND ts.ispassed = 1
-    ", [$editionid, $phaseid, 'completed']);
+        {$basewhere}
+    ", $params);
+
+        $stats->passed = (int) $DB->count_records_sql("
+        SELECT COUNT(1)
+        {$basewhere}
+         AND ts.ispassed = 1
+    ", $params);
 
         $stats->failed = max(0, $stats->completed - $stats->passed);
 
         $stats->average = (float) $DB->get_field_sql("
         SELECT COALESCE(AVG(ts.totalscore), 0)
-          FROM {local_scholarship_testsess} ts
-          JOIN {local_scholarship_app} a ON a.id = ts.applicantid
-          JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
-         WHERE a.editionid = ?
-           AND pl.phasetestid = ?
-           AND ts.status = ?
-    ", [$editionid, $phaseid, 'completed']);
+        {$basewhere}
+    ", $params);
 
-        $stats->autosubmitted = $DB->count_records_sql("
+        $stats->autosubmitted = (int) $DB->count_records_sql("
         SELECT COUNT(1)
-          FROM {local_scholarship_testsess} ts
-          JOIN {local_scholarship_app} a ON a.id = ts.applicantid
-          JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
-         WHERE a.editionid = ?
-           AND pl.phasetestid = ?
-           AND ts.status = ?
-           AND ts.autosubmitted = 1
-    ", [$editionid, $phaseid, 'completed']);
+        {$basewhere}
+         AND ts.autosubmitted = 1
+    ", $params);
 
         return $stats;
     }
@@ -746,19 +738,17 @@ class TestController
 
         $phaseid = required_param('phaseid', PARAM_INT);
 
-        $testpassedstatusid = $DB->get_field('local_scholarship_status', 'id', [
-            'name' => 'TEST_PASSED',
-        ], MUST_EXIST);
+        $testpassedstatusid = Status::get_status_by_name('TEST_PASSED');
 
         $passed = $DB->get_records_sql("
-        SELECT DISTINCT a.id, a.statusid
-          FROM {local_scholarship_testsess} ts
-          JOIN {local_scholarship_app} a ON a.id = ts.applicantid
-          JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
-         WHERE pl.phasetestid = ?
-           AND ts.status = ?
-           AND ts.ispassed = 1
-    ", [$phaseid, 'completed']);
+            SELECT DISTINCT a.id, a.statusid
+            FROM {local_scholarship_testsess} ts
+            JOIN {local_scholarship_app} a ON a.id = ts.applicantid
+            JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
+            WHERE pl.phasetestid = ?
+            AND ts.endtime IS NOT NULL
+            AND ts.ispassed = 1
+        ", [$phaseid]);
 
         $count = 0;
         $transaction = $DB->start_delegated_transaction();
@@ -771,14 +761,14 @@ class TestController
 
                 $DB->update_record('local_scholarship_app', (object) [
                     'id' => $applicant->id,
-                    'statusid' => $testpassedstatusid,
+                    'statusid' => $testpassedstatusid->id,
                     'timemodified' => time(),
                 ]);
 
                 $DB->insert_record('local_scholarship_statushist', (object) [
                     'applicantid' => $applicant->id,
                     'oldstatusid' => $applicant->statusid,
-                    'newstatusid' => $testpassedstatusid,
+                    'newstatusid' => $testpassedstatusid->id,
                     'changedby' => null,
                     'note' => 'Promotion automatique après réussite du test.',
                     'timecreated' => time(),

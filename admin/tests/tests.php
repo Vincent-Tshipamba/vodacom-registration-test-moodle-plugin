@@ -1187,7 +1187,7 @@ $payload = json_encode($phasePayload, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SL
         const modalBody = document.getElementById('result-detail-body');
         const modalClose = document.getElementById('result-detail-close');
 
-        const config = document.getElementById('scholarship-phase-editor');
+        const config = document.getElementById('scholarship-test-config');
 
         document.getElementById('promotePassedButton')?.addEventListener('click', async function () {
             const confirmation = await Swal.fire({

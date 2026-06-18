@@ -37,15 +37,6 @@ $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/sele
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.select.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/sweetalert2.js'), true);
 
-echo html_writer::div('', '', [
-    'id' => 'scholarship-test-config',
-    'data-promote-url' => (new moodle_url('/local/scholarship/admin/tests/promote-passed.php'))->out(false),
-    'data-save-questions-url' => (new moodle_url('/local/scholarship/admin/tests/save-questions.php'))->out(false),
-    'data-update-url' => (new moodle_url('/local/scholarship/admin/tests/update-field.php'))->out(false),
-    'data-status-url' => (new moodle_url('/local/scholarship/admin/tests/update-status.php'))->out(false),
-    'data-sesskey' => sesskey(),
-    'data-phaseid' => (int) $phaseTest->id
-]);
 $PAGE->add_body_class('local-scholarship-home');
 
 echo $OUTPUT->header();
@@ -99,6 +90,16 @@ $questionsjson = json_encode(
     $questionspayload,
     JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT
 );
+
+echo html_writer::div('', '', [
+    'id' => 'scholarship-test-config',
+    'data-promote-url' => (new moodle_url('/local/scholarship/admin/tests/promote-passed.php'))->out(false),
+    'data-save-questions-url' => (new moodle_url('/local/scholarship/admin/tests/save-questions.php'))->out(false),
+    'data-update-url' => (new moodle_url('/local/scholarship/admin/tests/update-field.php'))->out(false),
+    'data-status-url' => (new moodle_url('/local/scholarship/admin/tests/update-status.php'))->out(false),
+    'data-sesskey' => sesskey(),
+    'data-phaseid' => (int) $phaseTest->id
+]);
 // echo '<pre>';
 // print_r($builderJson);
 // die();
