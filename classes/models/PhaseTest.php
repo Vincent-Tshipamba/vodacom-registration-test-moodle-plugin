@@ -60,4 +60,19 @@ class PhaseTest
 
         return $DB->get_record('local_scholarship_phasetest', ['id' => $id]) ?: null;
     }
+
+    public static function get_current_phase(): ?\stdClass
+    {
+        global $DB;
+
+        $currentedition = Edition::get_current_edition();
+
+        if (!$currentedition) {
+            return null;
+        }
+
+        return $DB->get_record('local_scholarship_phasetest', [
+            'editionid' => (int) $currentedition->id,
+        ]) ?: null;
+    }
 }
