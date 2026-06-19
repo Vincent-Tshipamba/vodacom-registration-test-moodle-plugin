@@ -24,8 +24,6 @@ class TestController
 
         $data->phaseTest = PhaseTest::get_current_phase();
 
-        $data->lockstatus = self::get_phase_test_lock_status($data->phaseTest->id);
-
         if (!$data->phaseTest) {
             $record = (object) [
                 'editionid' => $data->currentEdition->id,
@@ -39,6 +37,8 @@ class TestController
             $record->id = $DB->insert_record('local_scholarship_phasetest', $record);
             $data->phaseTest = $record;
         }
+
+        $data->lockstatus = self::get_phase_test_lock_status($data->phaseTest->id);
 
         $data->categories = array_values($DB->get_records(
             'local_scholarship_qcategory',
