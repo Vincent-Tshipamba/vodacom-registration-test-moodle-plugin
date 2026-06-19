@@ -22,9 +22,9 @@ class TestController
             throw new \moodle_exception('nocurrentedition', 'local_scholarship');
         }
 
-        $data->phaseTest = $DB->get_record('local_scholarship_phasetest', [
-            'editionid' => $data->currentEdition->id,
-        ]);
+        $data->phaseTest = PhaseTest::get_current_phase();
+
+        $data->lockstatus = self::get_phase_test_lock_status($data->phaseTest->id);
 
         if (!$data->phaseTest) {
             $record = (object) [
@@ -241,6 +241,9 @@ class TestController
         global $DB;
 
         $phaseid = required_param('phaseid', PARAM_INT);
+
+        self::verify_phase_test_lock_status($phaseid);
+
         $questionsjson = required_param('questions', PARAM_RAW);
 
         $questions = json_decode($questionsjson, true);
@@ -344,7 +347,7 @@ class TestController
                 'questions' => self::get_phase_questions($phaseid),
             ];
 
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $transaction->rollback($e);
         }
     }
@@ -738,7 +741,7 @@ class TestController
 
         $phaseid = required_param('phaseid', PARAM_INT);
 
-        $testpassedstatusid = Status::get_status_by_name('TEST_PASSED');
+        $testpassedstatus = Status::get_status_by_name('TEST_PASSED');
 
         $passed = $DB->get_records_sql("
             SELECT DISTINCT a.id, a.statusid
@@ -755,20 +758,20 @@ class TestController
 
         try {
             foreach ($passed as $applicant) {
-                if ((int) $applicant->statusid === (int) $testpassedstatusid) {
+                if ((int) $applicant->statusid === (int) $testpassedstatus->id) {
                     continue;
                 }
 
                 $DB->update_record('local_scholarship_app', (object) [
                     'id' => $applicant->id,
-                    'statusid' => $testpassedstatusid->id,
+                    'statusid' => $testpassedstatus->id,
                     'timemodified' => time(),
                 ]);
 
                 $DB->insert_record('local_scholarship_statushist', (object) [
                     'applicantid' => $applicant->id,
                     'oldstatusid' => $applicant->statusid,
-                    'newstatusid' => $testpassedstatusid->id,
+                    'newstatusid' => $testpassedstatus->id,
                     'changedby' => null,
                     'note' => 'Promotion automatique après réussite du test.',
                     'timecreated' => time(),
@@ -786,5 +789,71 @@ class TestController
         } catch (\Throwable $e) {
             $transaction->rollback($e);
         }
+    }
+
+    private static function verify_phase_test_lock_status(int $phasetestid)
+    {
+        $lockstatus = self::get_phase_test_lock_status($phasetestid);
+
+        if ($lockstatus->locked) {
+            self::json_response([
+                'success' => false,
+                'message' => $lockstatus->message,
+                'locked' => true,
+                'active_count' => $lockstatus->activecount,
+                'completed_count' => $lockstatus->completedcount,
+            ], 423);
+        }
+
+        return;
+    }
+    private static function get_phase_test_lock_status(int $phasetestid): \stdClass
+    {
+        global $DB;
+
+        $activecount = (int) $DB->count_records_sql("
+        SELECT COUNT(1)
+          FROM {local_scholarship_testsess} ts
+          JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
+         WHERE pl.phasetestid = ?
+           AND ts.starttime IS NOT NULL
+           AND ts.endtime IS NULL
+    ", [
+            $phasetestid,
+        ]);
+
+        $completedcount = (int) $DB->count_records_sql("
+        SELECT COUNT(1)
+          FROM {local_scholarship_testsess} ts
+          JOIN {local_scholarship_phaseloc} pl ON pl.id = ts.phaselocid
+         WHERE pl.phasetestid = ?
+           AND ts.endtime IS NOT NULL
+    ", [
+            $phasetestid,
+        ]);
+
+        $status = new \stdClass();
+        $status->activecount = $activecount;
+        $status->completedcount = $completedcount;
+        $status->locked = $activecount > 0 || $completedcount > 0;
+
+        if ($activecount > 0) {
+            $status->reason = "Modification impossible : au moins un candidat est en train de passer ce test.";
+        } else if ($completedcount > 0) {
+            $status->reason = "Modification impossible : au moins un candidat a déjà terminé ce test.";
+        } else {
+            $status->reason = "";
+        }
+
+        return $status;
+    }
+
+    protected static function json_response(array $data, int $status = 200): void
+    {
+        http_response_code($status);
+        header('Content-Type: application/json; charset=utf-8');
+
+        echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        die;
     }
 }

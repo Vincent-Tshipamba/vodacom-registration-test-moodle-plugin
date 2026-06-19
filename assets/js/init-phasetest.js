@@ -7,6 +7,8 @@
             questions: [],
             sesskey: payload.sesskey || '',
             saveurl: payload.saveurl || '',
+            locked: !!payload.locked,
+            lockReason: payload.lock_reason || '',
             openUuid: '',
             backups: {},
             error: '',
@@ -23,6 +25,20 @@
             const q = emptyQuestion();
             state.questions.push(q);
             state.openUuid = q.uuid;
+        }
+
+        function ensureNotLocked() {
+            if (!state.locked) {
+                return true;
+            }
+
+            state.error = state.lockReason || 'Cette phase est verrouillée. Les questions ne peuvent plus être modifiées.';
+            state.success = '';
+            render();
+            if (state.error || state.success) {
+                scrollToFeedbackMessage();
+            }
+            return false;
         }
 
         function asArray(value) {
@@ -1081,6 +1097,9 @@
             state.success = '';
 
             if (action === 'add-question') {
+                if (!ensureNotLocked()) {
+                    return;
+                }
                 const q = emptyQuestion();
 
                 state.questions = [
@@ -1207,6 +1226,9 @@
             }
 
             if (action === 'open-edit') {
+                if (!ensureNotLocked()) {
+                    return;
+                }
                 state.backups[key] = clone(q);
                 state.openUuid = key;
                 render();
@@ -1240,6 +1262,9 @@
                     state.error = message;
                     state.openUuid = key;
                     render();
+                    if (state.error || state.success) {
+                        scrollToFeedbackMessage();
+                    }
                     return;
                 }
 
@@ -1252,6 +1277,9 @@
             }
 
             if (action === 'duplicate-question') {
+                if (!ensureNotLocked()) {
+                    return;
+                }
                 const copy = normalizeQuestion(clone(q), qIndex + 1);
 
                 copy.uuid = uid('q_');
@@ -1287,6 +1315,9 @@
             }
 
             if (action === 'delete-question') {
+                if (!ensureNotLocked()) {
+                    return;
+                }
                 const ok = await askConfirm(
                     'Supprimer cette question ?',
                     'Cette action retirera la question de cette phase de test.'
@@ -1404,6 +1435,9 @@
         }
 
         async function saveAll() {
+            if (!ensureNotLocked()) {
+                return;
+            }
             state.error = '';
             state.success = '';
 
