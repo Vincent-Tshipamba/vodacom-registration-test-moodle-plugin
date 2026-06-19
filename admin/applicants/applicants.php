@@ -32,7 +32,7 @@ $applicants = $data->applicants;
     <button id="searchModalButton" type="button"
         class="bg-blue-600 hover:bg-blue-700 text-white btn cursor-pointer z-10">
         <i data-lucide="search" class="inline-block mr-2 size-4"></i>
-        Recherche avancée
+        Recherche
     </button>
 </div>
 
@@ -53,9 +53,7 @@ $applicants = $data->applicants;
 </div>
 
 <!-- Loading Placeholders (initially hidden) -->
-<div id="loadingPlaceholders" class="hidden">
-    <?php include(__DIR__ . '/../partials/loading-placeholders.php'); ?>
-</div>
+<?php include(__DIR__ . '/../partials/loading-placeholders.php'); ?>
 
 <!-- Search Modal -->
 <?php include(__DIR__ . '/../partials/search-modal.php'); ?>

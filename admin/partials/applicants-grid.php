@@ -1,5 +1,5 @@
 <?php foreach ($applicants as $candidat): ?>
-    <div class="card cursor-pointer hover:bg-gray-100 hover:shadow-xl shadow-lg transition-all duration-200"
+    <div class="card cursor-pointer hover:bg-gray-100 hover:shadow-xl shadow-lg transition-all duration-200 mx-2"
         onclick="if (event.target.closest('a, button, .dropdown, .dropdown-menu, input, select, textarea, label')) return; window.location.href='<?= new moodle_url('/local/scholarship/admin/applicants/show', ['id' => $candidat->id]) ?>'">
         <div class="card-body">
             <div
@@ -22,7 +22,7 @@
                 </p>
                 <p class="mt-2 text-slate-800"><?= $candidat->regcode ?></p>
             </div>
-            <div class="flex gap-2 mt-5">
+            <div class="flex justify-center items-center gap-2 mt-5">
                 <a href="tel:<?= $candidat->phone ?>"
                     class="bg-white hover:bg-custom-600 focus:bg-custom-600 active:bg-custom-600 border-custom-500 hover:border-custom-600 focus:border-custom-600 active:border-custom-600 focus:ring active:ring focus:ring-custom-100 active:ring-custom-100 dark:ring-custom-400/20 text-custom-500 hover:font-medium btn grow"><i
                         data-lucide="messages-square" class="inline-block ltr:mr-1 rtl:ml-1 size-4"></i> <span

@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const listViewBtn = document.getElementById("listViewBtn");
     const gridView = document.getElementById("gridView");
     const listView = document.getElementById("listView");
-    const loadingPlaceholders = document.getElementById('loadingPlaceholders');
+    // const loadingPlaceholders = document.getElementById('loadingPlaceholders');
 
     // Restaurer la vue précédemment sélectionnée
     const savedView = localStorage.getItem('selectedView') || 'grid';
@@ -81,9 +81,19 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 
+let config = document.getElementById('scholarship-config');
+if (!config) {
+    throw new Error('Configuration div not found !');
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    const applicantsGrid = document.getElementById('applicantsGrid');
+    const loadingPlaceholders = document.getElementById('loadingPlaceholders');
+})
 let isLoading = false;
 let isScrolling = false;
-let nextPageUrl = '{{ $gridApplicants->nextPageUrl() }}';
+let nextPageUrl = config.dataset.nextPageUrl;
+
 window.addEventListener('scroll', () => {
     if (isScrolling) return;
 
@@ -94,7 +104,7 @@ window.addEventListener('scroll', () => {
         clientHeight
     } = document.documentElement;
 
-    if (!gridView.classList.contains('hidden') && scrollTop + clientHeight >= scrollHeight - 50) {
+    if (!gridView.classList.contains('hidden') && scrollTop + clientHeight >= scrollHeight - 80) {
         loadMoreApplicants();
     }
 
@@ -105,6 +115,77 @@ window.addEventListener('scroll', () => {
     passive: true
 });
 
+
+async function loadMoreApplicants() {
+    if (isLoading || !nextPageUrl || !applicantsGrid) {
+        return;
+    }
+
+    isLoading = true;
+
+    if (loadingPlaceholders) {
+        loadingPlaceholders.classList.remove('hidden');
+    }
+
+    try {
+        const response = await fetch(nextPageUrl, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        });
+
+        const html = await response.text();
+
+        if (!response.ok) {
+            throw new Error('Erreur HTTP : ' + response.status);
+        }
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const nextGrid = doc.getElementById('applicantsGrid');
+
+        if (!nextGrid) {
+            throw new Error('Grille candidats introuvable dans la page chargée.');
+        }
+
+        const newItems = nextGrid.querySelectorAll('.card');
+
+        newItems.forEach(function (item) {
+            applicantsGrid.appendChild(item);
+        });
+
+        nextPageUrl = nextGrid.dataset.nextPageUrl || '';
+
+        if (!nextPageUrl) {
+            const loadMoreContainer = document.getElementById('load-more-container');
+
+            if (loadMoreContainer) {
+                loadMoreContainer.remove();
+            }
+        }
+
+        if (window.lucide) {
+            window.lucide.createIcons({ icons: window.lucide.icons });
+        }
+
+    } catch (error) {
+        console.error('Error loading more applicants:', error);
+
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'col-span-1 md:col-span-2 xl:col-span-4 text-center p-4 text-red-500';
+        errorDiv.textContent = 'Erreur lors du chargement des candidats. Veuillez réessayer.';
+
+        applicantsGrid.appendChild(errorDiv);
+
+    } finally {
+        isLoading = false;
+
+        if (loadingPlaceholders) {
+            loadingPlaceholders.classList.add('hidden');
+        }
+    }
+}
 
 document.addEventListener('click', function (e) {
     const toggleBtn = e.target.closest('[data-scholarship-dropdown]');
@@ -128,7 +209,7 @@ document.addEventListener('click', function (e) {
         dropdown.classList.toggle('hidden');
 
         if (window.lucide) {
-            window.lucide.createIcons({icons: window.lucide.icons});
+            window.lucide.createIcons({ icons: window.lucide.icons });
         }
 
         return;
@@ -202,7 +283,7 @@ async function searchApplicants(query) {
         formData.append('query', query);
         formData.append('sesskey', sesskey);
         console.log(searchUrl);
-        
+
 
         const response = await fetch(searchUrl, {
             method: 'POST',
@@ -211,7 +292,7 @@ async function searchApplicants(query) {
                 'Accept': 'application/json'
             }
         });
-        
+
 
         const results = await response.json();
         displaySearchResults(results);
@@ -264,48 +345,6 @@ function escapeHtml(value) {
         .replaceAll('>', '&gt;')
         .replaceAll('"', '&quot;')
         .replaceAll("'", '&#039;');
-}
-
-// Load more applicants function
-async function loadMoreApplicants() {
-    if (isLoading || !nextPageUrl) return;
-
-    isLoading = true;
-    loadingPlaceholders.classList.remove('hidden');
-
-    try {
-        const response = await fetch(nextPageUrl + '&ajax=1');
-        const data = await response.json();
-
-        if (data.html) {
-            const temp = document.createElement('div');
-            temp.innerHTML = data.html;
-            const newItems = temp.querySelectorAll('.card');
-
-            newItems.forEach(item => {
-                if (gridView.classList.contains('hidden')) {
-                    return;
-                } else {
-                    document.getElementById('applicantsGrid').appendChild(item);
-                    lucide.createIcons({icons: lucide.icons});
-                }
-            });
-
-            nextPageUrl = data.next_page_url;
-            if (!nextPageUrl) {
-                document.getElementById('load-more-container')?.remove();
-            }
-        }
-    } catch (error) {
-        console.error('Error loading more applicants:', error);
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'col-span-1 md:col-span-2 xl:col-span-4 text-center p-4 text-red-500';
-        errorDiv.textContent = 'Erreur lors du chargement des candidats. Veuillez réessayer.';
-        document.getElementById('applicantsGrid').appendChild(errorDiv);
-    } finally {
-        isLoading = false;
-        loadingPlaceholders.classList.add('hidden');
-    }
 }
 
 // Fonction pour changer la vue

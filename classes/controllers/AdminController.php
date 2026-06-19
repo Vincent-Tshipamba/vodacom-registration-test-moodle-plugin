@@ -143,41 +143,132 @@ class AdminController
 
     public static function applicants(): \stdClass
     {
-        global $DB;
+        global $DB, $CFG;
 
         $currentedition = Edition::get_current_edition();
 
+        $page = optional_param('page', 0, PARAM_INT);
+        $ajax = optional_param('ajax', 0, PARAM_INT);
+
+        $page = max(0, $page);
+        $perpage = 2;
+        $offset = $page * $perpage;
+
         $applicants = [];
+        $total = 0;
+        $nextpageurl = null;
 
         if ($currentedition) {
+            $total = (int) $DB->count_records('local_scholarship_app', [
+                'editionid' => (int) $currentedition->id,
+            ]);
+
             $applicants = $DB->get_records_sql("
-                SELECT a.id,
-                    a.fullname,
-                    a.address,
-                    a.phone,
-                    a.regcode,
-                    a.examcode,
-                    a.percentage,
-                    a.submittedat,
-                    c.name AS diplomacityname,
-                    ci.name AS currentcityname,
-                    s.name AS statusname
+            SELECT
+                a.id,
+                a.fullname,
+                a.address,
+                a.phone,
+                a.regcode,
+                a.examcode,
+                a.percentage,
+                a.submittedat,
+                c.name AS diplomacityname,
+                ci.name AS currentcityname,
+                s.name AS statusname
                 FROM {local_scholarship_app} a
                 LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
                 LEFT JOIN {local_scholarship_city} c ON c.id = a.diplomacityid
                 LEFT JOIN {local_scholarship_city} ci ON ci.id = a.currentcityid
                 WHERE a.editionid = ?
                 ORDER BY a.submittedat DESC, a.timecreated DESC
-            ", [$currentedition->id]);
-        }
+            ", [(int) $currentedition->id,], $offset, $perpage);
 
-        foreach ($applicants as $applicant) {
-            $applicant->documents = Applicant::get_documents($applicant->id);
+            foreach ($applicants as $applicant) {
+                $applicant->documents = Applicant::get_documents($applicant->id);
+            }
+
+            if (($offset + $perpage) < $total) {
+                $nextpageurl = (new \moodle_url('/local/scholarship/admin/applicants/', [
+                    'page' => $page + 1,
+                    'ajax' => 1,
+                ]))->out(false);
+            }
         }
 
         return (object) [
             'applicants' => $applicants,
+            'total' => $total,
+            'page' => $page,
+            'perpage' => $perpage,
+            'nextpageurl' => $nextpageurl,
         ];
+    }
+
+    private static function get_status_classes(): array
+    {
+        return [
+            'PENDING' => [
+                'classes' => 'bg-yellow-100 text-yellow-700',
+                'svg' => '<i data-lucide="clock" class="w-4 h-4"></i>',
+            ],
+
+            'REJECTED' => [
+                'classes' => 'bg-red-100 text-red-700',
+                'svg' => '<i data-lucide="x-circle" class="w-4 h-4"></i>',
+            ],
+
+            'SHORTLISTED' => [
+                'classes' => 'bg-blue-100 text-blue-700',
+                'svg' => '<i data-lucide="list-checks" class="w-4 h-4"></i>',
+            ],
+
+            'TEST_PASSED' => [
+                'classes' => 'bg-green-100 text-green-700',
+                'svg' => '<i data-lucide="badge-check" class="w-4 h-4"></i>',
+            ],
+
+            'INTERVIEW_PASSED' => [
+                'classes' => 'bg-emerald-100 text-emerald-700',
+                'svg' => '<i data-lucide="user-check" class="w-4 h-4"></i>',
+            ],
+
+            'ADMITTED' => [
+                'classes' => 'bg-purple-100 text-purple-700',
+                'svg' => '<i data-lucide="graduation-cap" class="w-4 h-4"></i>',
+            ],
+
+            'DEFAULT' => [
+                'classes' => 'bg-gray-100 text-gray-700',
+                'svg' => '<i data-lucide="circle" class="w-4 h-4"></i>',
+            ],
+        ];
+    }
+
+    private static function get_status_labels(): array
+    {
+        return [
+            'PENDING' => 'En attente',
+            'REJECTED' => 'Rejeté',
+            'SHORTLISTED' => 'Présélectionné',
+            'TEST_PASSED' => 'Test réussi',
+            'INTERVIEW_PASSED' => 'Entretien réussi',
+            'ADMITTED' => 'Admis',
+            'DEFAULT' => 'Statut inconnu',
+        ];
+    }
+
+    private static function json_response(array $data, int $status = 200): void
+    {
+        while (ob_get_level()) {
+            ob_end_clean();
+        }
+
+        http_response_code($status);
+        header('Content-Type: application/json; charset=utf-8');
+
+        echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+        die;
     }
 
     public static function search()

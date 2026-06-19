@@ -21,15 +21,9 @@ $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/dat
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/buttons.dataTables.css'));
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/select.dataTables.css'));
 $PAGE->requires->css(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.dataTables.min.css'));
-echo html_writer::div('', '', [
-    'id' => 'scholarship-config',
-    'data-search-url' => (new moodle_url('/local/scholarship/admin/applicants/search.php'))->out(false),
-    'data-document-status-url' => (new moodle_url('/local/scholarship/admin/applicants/document-status.php'))->out(false),
-    'data-sesskey' => sesskey(),
-]);
 
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/build/app.js'), true);
-$PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/lucide.js'), true);
+// $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/lucide.js'), true);
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.min.js'), true);
 
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/dataTables.tailwindcss.js'), true);
@@ -40,11 +34,18 @@ $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/datatables/data
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/js/sweetalert2.js'), true);
 
 $PAGE->add_body_class('local-scholarship-home');
+$data = AdminController::applicants();
 
 echo $OUTPUT->header();
 
-$data = AdminController::applicants();
 
+echo html_writer::div('', '', [
+    'id' => 'scholarship-config',
+    'data-next-page-url' => s($data->nextpageurl),
+    'data-search-url' => (new moodle_url('/local/scholarship/admin/applicants/search.php'))->out(false),
+    'data-document-status-url' => (new moodle_url('/local/scholarship/admin/applicants/document-status.php'))->out(false),
+    'data-sesskey' => sesskey(),
+]);
 require(__DIR__ . '/../partials/topbar.php');
 require(__DIR__ . '/../partials/values.php');
 
