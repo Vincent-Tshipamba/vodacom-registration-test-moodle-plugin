@@ -10,10 +10,10 @@ $stats = [
 ];
 
 $whatisitcards = [
-    ['title' => get_string('home:what1_title', 'local_scholarship'), 'description' => get_string('home:what1_desc', 'local_scholarship')],
-    ['title' => get_string('home:what2_title', 'local_scholarship'), 'description' => get_string('home:what2_desc', 'local_scholarship')],
-    ['title' => get_string('home:what3_title', 'local_scholarship'), 'description' => get_string('home:what3_desc', 'local_scholarship')],
-    ['title' => get_string('home:what4_title', 'local_scholarship'), 'description' => get_string('home:what4_desc', 'local_scholarship')],
+    ['title' => get_string('home:what1_title', 'local_scholarship'), 'description' => get_string('home:what1_desc', 'local_scholarship'), 'image' => new moodle_url('/local/scholarship/assets/img/financial_support_picture.png'), 'alt' => 'Financial support picture'],
+    ['title' => get_string('home:what2_title', 'local_scholarship'), 'description' => get_string('home:what2_desc', 'local_scholarship'), 'image' => new moodle_url('/local/scholarship/assets/img/coaching_picture.png'), 'alt' => 'Coaching and mentoring picture'],
+    ['title' => get_string('home:what3_title', 'local_scholarship'), 'description' => get_string('home:what3_desc', 'local_scholarship'), 'image' => new moodle_url('/local/scholarship/assets/img/training_experience.png'), 'alt' => 'Training and professional experience picture'],
+    ['title' => get_string('home:what4_title', 'local_scholarship'), 'description' => get_string('home:what4_desc', 'local_scholarship'), 'image' => new moodle_url('/local/scholarship/assets/img/community_picture.jpeg'), 'alt' => 'Picture of the community'],
 ];
 
 $conditions = [
@@ -136,13 +136,17 @@ $faqitems = [
                     <?php echo get_string('home:what_description', 'local_scholarship'); ?>
                 </p>
             </div>
-            <div class="mt-14 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+            <div class="mt-14 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
                 <?php foreach ($whatisitcards as $card): ?>
                     <article
-                        class="rounded-3xl border border-slate-200/80 bg-white/80 p-7 shadow-[0_24px_60px_rgba(15,23,42,0.10)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(15,23,42,0.14)]">
-                        <h3 class="text-md md:text-xl font-bold text-slate-900"><?php echo s($card['title']); ?></h3>
-                        <p class="mt-3 text-sm md:text-base leading-7 text-slate-600"><?php echo s($card['description']); ?>
-                        </p>
+                        class="rounded-3xl border border-slate-200/80 bg-white/80 shadow-[0_24px_60px_rgba(15,23,42,0.10)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_28px_70px_rgba(15,23,42,0.14)]">
+                        <img class="rounded-t-3xl h-fit w-full" src="<?= $card['image'] ?>" alt="Home in Countryside" />
+                        <div class="p-4">
+                            <h3 class="text-md md:text-xl font-bold text-slate-900"><?php echo s($card['title']); ?></h3>
+                            <p class="mt-2 text-sm md:text-base leading-7 text-slate-600">
+                                <?php echo s($card['description']); ?>
+                            </p>
+                        </div>
                     </article>
                 <?php endforeach; ?>
             </div>
@@ -174,7 +178,7 @@ $faqitems = [
                     <article
                         class="rounded-[1.75rem] border border-slate-200/80 bg-white p-3 text-center shadow-[0_20px_50px_rgba(15,23,42,0.1)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
                         <div
-                            class="mx-auto mb-3 md:mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full border border-red-200 text-lg md:text-xl font-black tracking-[0.18em] text-red-600">
+                            class="animate-bounce mx-auto mb-3 md:mb-5 inline-flex h-16 w-16 items-center justify-center rounded-full border border-red-200 text-lg md:text-xl font-black tracking-[0.18em] text-red-600">
                             <?php echo s($step['number']); ?>
                         </div>
                         <h3 class="text-lg md:text-xl font-bold text-slate-900">
@@ -217,14 +221,14 @@ $faqitems = [
                         <article
                             class="flex gap-4 rounded-[1.5rem] border border-slate-200/80 bg-white p-5 shadow-[0_20px_50px_rgba(15,23,42,0.08)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
                             <span
-                                class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-100 font-bold text-red-600">✓</span>
+                                class="animate-pulse inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-red-100 font-bold text-red-600">✓</span>
                             <p class="text-sm md:text-base leading-7 text-slate-700"><?php echo s($condition); ?></p>
                         </article>
                     <?php endforeach; ?>
                 </div>
                 <div class="mt-8 border-t border-slate-200 pt-6">
                     <strong
-                        class="block text-sm font-black uppercase tracking-[0.16em] text-red-700"><?php echo get_string('home:important', 'local_scholarship'); ?></strong>
+                        class="animate-bounce block text-sm font-black uppercase tracking-[0.16em] text-red-700"><?php echo get_string('home:important', 'local_scholarship'); ?></strong>
                     <p class="mt-3 text-sm md:text-base leading-8 text-slate-600">
                         <?php echo get_string('home:conditions_note', 'local_scholarship'); ?>
                     </p>
@@ -244,21 +248,16 @@ $faqitems = [
 
     <!-- Process Section -->
     <section class="bg-white/70 py-20 backdrop-blur-sm">
-        <div class="scholarship-shell">
-            <div class="scholarship-surface p-8 md:p-10">
-                <div class="text-center">
-                    <h2 class="text-2xl font-bold tracking-tight text-slate-900 md:text-4xl">
-                        <?php echo get_string('home:how_to_apply_title', 'local_scholarship'); ?>
-                    </h2>
-                    <p class="mx-auto mt-4 max-w-3xl text-md md:text-lg leading-8 text-slate-600">
-                        <?php echo get_string('home:how_to_apply_title_description', 'local_scholarship'); ?>
-                    </p>
-                </div>
-                <div class="mt-12 grid gap-6 xl:grid-cols-5 md:grid-cols-2">
-
-                </div>
-            </div>
+        <div>
+            <h2 class="text-2xl font-bold tracking-tight text-slate-900 md:text-4xl">
+                <?php echo get_string('home:how_to_apply_title', 'local_scholarship'); ?>
+            </h2>
+            <p class="mt-4 max-w-3xl text-md md:text-lg leading-8 text-slate-600">
+                <?php echo get_string('home:how_to_apply_description', 'local_scholarship'); ?>
+            </p>
         </div>
+        <img src="<?= new moodle_url('/local/scholarship/assets/img/user_journey.png') ?>"
+            alt="Parcours utilisateur de souscription à la bourse Vodacom" class="h-full w-full">
     </section>
     <!-- End Process Section -->
 
@@ -282,21 +281,21 @@ $faqitems = [
                     <p class="mt-5 max-w-2xl text-md md:text-lg leading-8 text-slate-600">
                         <?php echo get_string('home:cta_description', 'local_scholarship'); ?>
                     </p>
-                    <div class="mt-8">
-                        <a class="scholarship-btn scholarship-btn--primary"
-                            href="<?php echo $registerurl; ?>"><?php echo get_string('home:cta_button', 'local_scholarship'); ?></a>
+                    <div class="mt-8 ">
+                        <span class="relative inline-block">
+                            <span class="absolute -inset-1 animate-ping rounded-full bg-red-400 opacity-85">
+                            </span>
+
+                            <a href="<?php echo $registerurl; ?>"
+                                class="relative inline-flex h-16 items-center rounded-full scholarship-btn scholarship-btn--primary animate-bounce">
+                                <?php echo get_string('home:cta_button', 'local_scholarship'); ?>
+                            </a>
+                        </span>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4 md:grid-cols-5 md:grid-rows-4">
-                    <div
-                        class="min-h-28 rounded-3xl bg-gradient-to-br from-red-200/70 via-red-100 to-white md:col-span-2 md:row-span-4">
-                    </div>
-                    <div
-                        class="min-h-28 rounded-3xl bg-gradient-to-br from-slate-200 to-white md:col-span-3 md:row-span-2">
-                    </div>
-                    <div
-                        class="min-h-28 rounded-3xl bg-gradient-to-br from-rose-100 to-white md:col-span-3 md:row-span-2">
-                    </div>
+                <div class="">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/cta-picture-square.png') ?>"
+                        alt="Call to action picture" class="w-full h-full rounded-xl">
                 </div>
             </div>
         </div>
@@ -329,7 +328,8 @@ $faqitems = [
                         <div
                             class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-rose-400 text-md md:text-lg font-black text-white">
                             <?php if ($testimonial['image']): ?>
-                                <img src="<?= $testimonial['image'] ?>" alt="Picture of scholar Vincent" class="w-14 h-14 rounded-full">
+                                <img src="<?= $testimonial['image'] ?>" alt="Picture of scholar Vincent"
+                                    class="w-14 h-14 rounded-full">
                             <?php else:
                                 echo s(core_text::substr($testimonial['name'], 0, 1)); ?>
                             <?php endif; ?>
@@ -365,20 +365,20 @@ $faqitems = [
                 <?php echo get_string('home:partners_description', 'local_scholarship'); ?>
             </p>
             <div class="max-w-7xl mx-auto flex flex-wrap justify-around gap-8 py-12 px-4">
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.launiversity.cd/" target="_blank" title="Leadership Academia University">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-lau.png') ?>"
                         class="sm:w-24 w-16 h-auto" alt="Logo de Leadership Academia University"
                         title="Leadership Academia University">
                 </a>
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.unikin.ac.cd/" target="_blank" title="Université de Kinshasa">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unikin.png') ?>"
                         alt="Logo de Université de Kinshasa" title="Université de Kinshasa"
                         class="h-auto sm:w-[4.2rem] w-12">
                 </a>
 
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.upc.ac.cd" target="_blank" title="Université Protestante du Congo">
 
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-upc.png') ?>"
@@ -386,7 +386,7 @@ $faqitems = [
                         class="h-auto sm:w-32 w-24">
                 </a>
 
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.isipa.cd" target="_blank"
                     title="Institut Supérieur d'Informatique Programmation et Analyse">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-isipa.png') ?>"
@@ -394,25 +394,25 @@ $faqitems = [
 
                 </a>
 
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.ucc.ovh/" target="_blank" title="Université Catholique du Congo">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ucc.png') ?>" alt="Logo de l'UCC"
                         title="Université Catholique du Congo" class="h-auto sm:w-18 w-12">
                 </a>
 
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.inbtp.ac.cd" target="_blank"
                     title="Institut National du Bâtiment et des Travaux Publics">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-inbtp.png') ?>"
                         alt="Logo de l'INBTP" title="Institut National du Bâtiment et des Travaux Publics"
                         class="h-auto sm:w-12 w-8">
                 </a>
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.ulc-icam.com/" target="_blank" title="Université Loyola du Congo">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ulc.png') ?>"
                         alt="Logo de l'ULC-Icam" title="Université Loyola du Congo" class="h-auto sm:w-36 w-16">
                 </a>
-                <a class="flex items-center justify-center text-gray-400 hover:text-gray-200"
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.ulc-icam.com/" target="_blank" title="Haute Ecole de Commerce de Kinshasa">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-hec.png') ?>"
                         alt="Logo de la Haute Ecole de Commerce de Kinshasa" title="Haute Ecole de Commerce de Kinshasa"
@@ -442,30 +442,74 @@ $faqitems = [
                     <?php echo get_string('home:contact_description', 'local_scholarship'); ?>
                 </p>
             </div>
-            <div class="mt-12 grid gap-3 md:gap-5 lg:grid-cols-3">
+            <div class="mt-12 grid gap-3 md:gap-6 lg:grid-cols-3">
+
+                <!-- Email -->
                 <article
-                    class="rounded-[1.75rem] border border-slate-200/80 bg-white p-7 text-center shadow-[0_20px_50px_rgba(15,23,42,0.08)]">
-                    <h3 class="text-xl font-bold text-slate-900">
+                    class="group rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                    <div
+                        class="animate-bounce mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21.75 7.5v9A2.25 2.25 0 0119.5 18.75h-15A2.25 2.25 0 012.25 16.5v-9m19.5 0L12 13.5 2.25 7.5m19.5 0A2.25 2.25 0 0019.5 5.25h-15A2.25 2.25 0 002.25 7.5" />
+                        </svg>
+                    </div>
+
+                    <h3 class="mt-5 text-md md:text-xl font-bold text-slate-900">
                         <?php echo get_string('home:contact_email', 'local_scholarship'); ?>
                     </h3>
-                    <a class="mt-3 text-base text-slate-600" href="mailto:fondation@vodacom.cd">fondation@vodacom.cd</a>
+
+                    <a href="mailto:fondation@vodacom.cd"
+                        class="mt-3 block text-md md:text-lg font-semibold text-red-600 hover:underline">
+                        fondation@vodacom.cd
+                    </a>
                 </article>
+
+                <!-- Téléphone -->
                 <article
-                    class="rounded-[1.75rem] border border-slate-200/80 bg-white p-7 text-center shadow-[0_20px_50px_rgba(15,23,42,0.08)]">
-                    <h3 class="text-xl font-bold text-slate-900">
+                    class="group rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                    <div
+                        class="animate-pulse mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372a1.5 1.5 0 00-1.09-1.443l-4.423-1.106a1.5 1.5 0 00-1.465.487l-.97 1.164a1.5 1.5 0 01-1.61.46A12.035 12.035 0 016.71 11.81a1.5 1.5 0 01.46-1.61l1.164-.97a1.5 1.5 0 00.487-1.465L7.715 3.34A1.5 1.5 0 006.272 2.25H4.9A2.25 2.25 0 002.65 4.5v2.25z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="mt-5 text-md md:text-xl font-bold text-slate-900">
                         <?php echo get_string('home:contact_phone', 'local_scholarship'); ?>
                     </h3>
-                    <a class="mt-3 text-base text-slate-600" href="tel:+243 824 444 444">+243 824 444 444</a>
+
+                    <a href="tel:+243824444444" class="mt-3 block text-md md:text-lg font-semibold text-red-600 hover:underline">
+                        +243 824 444 444
+                    </a>
                 </article>
+
+                <!-- Adresse -->
                 <article
-                    class="rounded-[1.75rem] border border-slate-200/80 bg-white p-7 text-center shadow-[0_20px_50px_rgba(15,23,42,0.08)]">
-                    <h3 class="text-xl font-bold text-slate-900">
+                    class="group rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                    <div
+                        class="animate-bounce mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M19.5 10.5c0 7.5-7.5 11.25-7.5 11.25S4.5 18 4.5 10.5a7.5 7.5 0 1115 0z" />
+                        </svg>
+                    </div>
+
+                    <h3 class="mt-5 text-md md:text-xl font-bold text-slate-900">
                         <?php echo get_string('home:contact_address', 'local_scholarship'); ?>
                     </h3>
-                    <p class="mt-3 text-base text-slate-600">
+
+                    <p class="mt-3 text-base leading-relaxed text-slate-600">
                         <?php echo get_string('home:contact_address_value', 'local_scholarship'); ?>
                     </p>
                 </article>
+
             </div>
             <div
                 class="mt-8 flex min-h-72 items-center justify-center rounded-[2rem] border border-dashed border-slate-300 bg-slate-50 text-slate-500">
@@ -504,7 +548,8 @@ $faqitems = [
                             <summary
                                 class="flex cursor-pointer items-center justify-between gap-6 text-left text-md md:text-lg font-semibold text-slate-800">
                                 <span><?php echo s($item['question']); ?></span>
-                                <span class="text-slate-400 transition duration-200 group-open:rotate-180">⌄</span>
+                                <span
+                                    class="animate-bounce text-slate-400 transition duration-200 group-open:rotate-180">⌄</span>
                             </summary>
                             <p class="mt-4 text-sm md:text-base leading-8 text-slate-600"><?php echo s($item['answer']); ?>
                             </p>
