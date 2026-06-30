@@ -8,7 +8,7 @@ require_login();
 
 $context = context_system::instance();
 $id = optional_param('id', null, PARAM_INT);
-$PAGE->set_url(new moodle_url('/local/scholarship/admin/applicants/show'), ['id' => $id]);
+$PAGE->set_url(new moodle_url('/local/scholarship/admin/applicants/show.php'), ['id' => $id]);
 
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');

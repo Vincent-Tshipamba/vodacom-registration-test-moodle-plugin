@@ -85,7 +85,7 @@ require('../../partials/values_for_registration.php');
         <?php if ($applicant->statusname === 'PENDING'): ?>
             <div class="flex sm:flex-row flex-col justify-center gap-3 mt-5">
                 <form method="POST"
-                    action="<?php new moodle_url('/local/scholarship/admin/applicants/show', ['id' => $applicant->id]) ?>">
+                    action="<?php new moodle_url('/local/scholarship/admin/applicants/show.php', ['id' => $applicant->id]) ?>">
                     <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
                     <input type="hidden" name="application_status" value="SHORTLISTED">
                     <button type="submit"
@@ -95,7 +95,7 @@ require('../../partials/values_for_registration.php');
                     </button>
                 </form>
                 <form method="POST"
-                    action="<?php new moodle_url('/local/scholarship/admin/applicants/show', ['id' => $applicant->id]) ?>">
+                    action="<?php new moodle_url('/local/scholarship/admin/applicants/show.php', ['id' => $applicant->id]) ?>">
                     <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
                     <input type="hidden" name="application_status" value="REJECTED">
                     <button type="submit"
@@ -149,14 +149,6 @@ require('../../partials/values_for_registration.php');
                             <dd class="font-semibold text-lg"><?= $applicant->phone ?></dd>
                         </div>
 
-                        <div class="flex flex-col py-3">
-                            <dt class="mb-1 text-gray-500 md:text-lg">
-                                <?= get_string('applicant_vulntype', 'local_scholarship') ?>
-                            </dt>
-                            <dd class="font-semibold hover:text-blue-500 text-lg">
-                                <?= $vulnerabilities[$applicant->vulntype] ?? '' ?>
-                            </dd>
-                        </div>
                         <div class="flex flex-col py-3">
                             <dt class="mb-1 text-gray-500 md:text-lg">
                                 <?= get_string('applicant_coupon', 'local_scholarship') ?>
@@ -304,22 +296,6 @@ require('../../partials/values_for_registration.php');
                                     <?= get_string('applicant_motivation', 'local_scholarship') ?>
                                 </dt>
                                 <dd class="font-semibold text-lg"><?= $applicant->motivation ?></dd>
-                            </div>
-                        </dl>
-                    </div>
-                    <div class="w-full">
-                        <dl class="divide-y divide-gray-200 dark:divide-gray-700 text-gray-900">
-                            <div class="flex flex-col py-3">
-                                <dt class="mb-1 text-gray-500 md:text-lg">
-                                    <?= get_string('applicant_careergoals', 'local_scholarship') ?>
-                                </dt>
-                                <dd class="font-semibold text-lg"><?= $applicant->careergoals ?></dd>
-                            </div>
-                            <div class="flex flex-col py-3">
-                                <dt class="mb-1 text-gray-500 md:text-lg">
-                                    <?= get_string('applicant_additionalinfo', 'local_scholarship') ?>
-                                </dt>
-                                <dd class="font-semibold text-lg"><?= $applicant->additionalinfo ?></dd>
                             </div>
                         </dl>
                     </div>

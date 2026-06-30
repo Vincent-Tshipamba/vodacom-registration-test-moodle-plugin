@@ -26,7 +26,7 @@
         <!-- Table body will be loaded via AJAX -->
         <tbody id="applicantsTableBody" class="divide-y divide-gray-200">
             <?php foreach ($applicants as $applicant): ?>
-                <tr class="cursor-pointer" onclick="window.location.href='<?= new moodle_url('/local/scholarship/admin/applicants/show', ['id' => $applicant->id]) ?>'">
+                <tr class="cursor-pointer" onclick="window.location.href='<?= new moodle_url('/local/scholarship/admin/applicants/show.php', ['id' => $applicant->id]) ?>'">
                     <td class="px-6 py-4 text-gray-900 text-sm whitespace-nowrap">
                         <?= $applicant->fullname ?>
                     </td>

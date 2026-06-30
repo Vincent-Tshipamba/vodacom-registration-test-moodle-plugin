@@ -1,6 +1,6 @@
 <?php foreach ($applicants as $candidat): ?>
     <div class="card cursor-pointer hover:bg-gray-100 hover:shadow-xl shadow-lg transition-all duration-200 mx-2"
-        onclick="if (event.target.closest('a, button, .dropdown, .dropdown-menu, input, select, textarea, label')) return; window.location.href='<?= new moodle_url('/local/scholarship/admin/applicants/show', ['id' => $candidat->id]) ?>'">
+        onclick="if (event.target.closest('a, button, .dropdown, .dropdown-menu, input, select, textarea, label')) return; window.location.href='<?= new moodle_url('/local/scholarship/admin/applicants/show.php', ['id' => $candidat->id]) ?>'">
         <div class="card-body">
             <div
                 class="relative flex justify-center items-center bg-slate-100 dark:bg-zink-600 mx-auto rounded-full size-16 text-lg">
@@ -50,7 +50,7 @@
                             </a>
                         <?php endforeach; ?>
 
-                        <a href="<?= new moodle_url('/local/scholarship/admin/applicant.php', ['id' => $candidat->id]) ?>"
+                        <a href="<?= new moodle_url('/local/scholarship/admin/applicants/show.php', ['id' => $candidat->id]) ?>"
                             class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-100">
                             <i data-lucide="user-round-search" class="w-4 h-4"></i>
                             <span>Voir tous les détails</span>
