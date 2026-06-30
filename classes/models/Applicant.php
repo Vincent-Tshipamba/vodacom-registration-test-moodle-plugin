@@ -14,7 +14,6 @@ class Applicant
     public ?int $birthdate;
     public ?string $phone;
     public ?string $email;
-    public ?string $vulntype;
     public ?int $diplomacityid;
     public ?int $currentcityid;
     public ?string $address;
@@ -24,8 +23,6 @@ class Applicant
     public ?string $schoolfield;
     public ?string $intendedfield;
     public ?string $motivation;
-    public ?string $careergoals;
-    public ?string $additionalinfo;
     public ?int $statusid;
     public ?int $submittedat;
     public ?int $timecreated;
@@ -41,7 +38,6 @@ class Applicant
         $this->birthdate = $data->birthdate ?? null;
         $this->phone = $data->phone ?? null;
         $this->email = $data->email ?? null;
-        $this->vulntype = $data->vulntype ?? null;
         $this->diplomacityid = $data->diplomacityid ?? null;
         $this->currentcityid = $data->currentcityid ?? null;
         $this->address = $data->address ?? null;
@@ -51,8 +47,6 @@ class Applicant
         $this->schoolfield = $data->schoolfield ?? null;
         $this->intendedfield = $data->intendedfield ?? null;
         $this->motivation = $data->motivation ?? null;
-        $this->careergoals = $data->careergoals ?? null;
-        $this->additionalinfo = $data->additionalinfo ?? null;
         $this->statusid = $data->statusid ?? null;
         $this->submittedat = $data->submittedat ?? null;
         $this->timecreated = $data->timecreated ?? null;

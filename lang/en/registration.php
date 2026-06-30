@@ -19,7 +19,7 @@ $string['apply_complete'] = 'Complete submission';
 // Form fields
 // Step 1 : Personal information
 $string['apply_browse_photo'] = 'Choose a photo';
-$string['apply_browse_photo_label'] = 'JPG/PNG/JPEG format, max 2MB';
+$string['apply_browse_photo_label'] = 'Please choose a clear, sharp selfie of the candidate. If you are a parent, use the candidate\'s photo, not your own.';
 $string['apply_input_fullname_label'] = 'Full name';
 $string['apply_input_fullname_placeholder'] = 'Your full name';
 $string['apply_input_gender_label'] = 'Gender';
@@ -32,12 +32,6 @@ $string['apply_input_birthdate_label'] = 'Date of birth';
 $string['apply_age_empty'] = 'Age will appear here after entering your birth date.';
 $string['apply_age_label'] = 'Age';
 $string['apply_years_old'] = 'years old';
-$string['apply_vulnerability_label'] = 'Vulnerability status';
-$string['apply_vulnerability_none'] = 'None';
-$string['apply_vulnerability_disabled'] = 'I live with a disability';
-$string['apply_vulnerability_albino'] = 'I have albinism';
-$string['apply_vulnerability_refugee'] = 'I am a refugee';
-$string['apply_vulnerability_orphan'] = 'I am an orphan';
 
 // Step 2 : Addresses
 $string['apply_educational_city_placeholder'] = 'City where you took the national exam...';
@@ -64,10 +58,8 @@ $string['apply_other_study_option_placeholder'] = 'Enter your study option';
 // Step 4 : Documents
 $string['apply_diploma_label'] = 'Diploma or success certificate';
 $string['apply_diploma_hint'] = 'Scan of your diploma or success certificate (PDF, JPG, PNG, max 2MB)';
-$string['apply_id_label'] = 'Identity document';
-$string['apply_id_hint'] = 'Voter card, passport or birth certificate (PDF, JPG, PNG, max 2MB)';
-$string['apply_recommendation_label'] = 'Recommendation letter (optional)';
-$string['apply_recommendation_hint'] = 'Recommendation letter (PDF, DOC, DOCX, max 2MB)';
+$string['apply_id_label'] = 'Birth certificate';
+$string['apply_id_hint'] = 'Passport or birth certificate (PDF, JPG, PNG, max 2MB)';
 
 // Step 5 : Ambitions
 $string['apply_university_field_label'] = 'Intended university field';
@@ -77,10 +69,8 @@ $string['apply_other_university_field_label'] = 'Specify the intended field';
 $string['apply_other_university_field_placeholder'] = 'Enter the field name';
 $string['apply_passion_label'] = 'Why this field?';
 $string['apply_passion_placeholder'] = 'Explain why this field interests you and what you want to build through it.';
-$string['apply_careergoals_label'] = 'Your career goals';
-$string['apply_careergoals_placeholder'] = 'Where do you see yourself in 5 years?...';
-$string['apply_additional_info_label'] = 'Additional information';
-$string['apply_additional_info_placeholder'] = 'Any other information you consider useful...';
+
+$string['apply_note'] = 'Before submitting, ensure that your information is correct, as you will not be able to modify it later.';
 
 // Submission page
 $string['apply_submit'] = 'Submit my application';
@@ -91,8 +81,8 @@ $string['or_drag_drop'] = 'or drag and drop';
 // Confirmation page
 $string['apply_confirmation_title'] = 'Registration confirmation';
 $string['apply_confirmation_message'] = 'Your registration has been successfully submitted!';
-$string['apply_confirmation_details'] = 'We will contact you very soon once your information has been reviewed. See you soon :firstname!';
-$string['apply_confirmation_coupon'] = 'Your tracking number is: ';
+$string['apply_confirmation_details'] = 'Your application has been successfully submitted. Please save your coupon for the next stage of the process. Thank you {$a->firstname} !';
+$string['apply_confirmation_coupon'] = 'Your coupon number is: ';
 $string['copy_label'] = 'Copy code to clipboard';
 $string['copy'] = 'Copy';
 $string['copied'] = 'Copied!';

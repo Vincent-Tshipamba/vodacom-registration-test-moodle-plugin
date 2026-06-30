@@ -15,7 +15,6 @@ class StoreApplicantRequest
         $data->birthdate = required_param('birthdate', PARAM_TEXT);
         $data->phone = required_param('phone', PARAM_TEXT);
         $data->email = optional_param('email', '', PARAM_EMAIL);
-        $data->vulntype = optional_param('vulntype', '', PARAM_TEXT);
 
         $data->diplomacityid = optional_param('diplomacityid', 0, PARAM_INT);
         $data->currentcityid = optional_param('currentcityid', 0, PARAM_INT);
@@ -30,8 +29,6 @@ class StoreApplicantRequest
         $data->other_university_field = optional_param('other_university_field', '', PARAM_TEXT);
 
         $data->motivation = required_param('motivation', PARAM_TEXT);
-        $data->careergoals = required_param('careergoals', PARAM_TEXT);
-        $data->additionalinfo = optional_param('additionalinfo', '', PARAM_TEXT);
 
         if ($data->percentage < 0 || $data->percentage > 100) {
             throw new \moodle_exception('invalidpercentage', 'local_scholarship');

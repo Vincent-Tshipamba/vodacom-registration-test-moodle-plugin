@@ -18,7 +18,6 @@ window.app = function () {
             gender: 'male',
             birthdate: '',
             age: 0,
-            vulntype: 'NONE',
 
             // Étape 2: Adresse
             diplomacityid: '',
@@ -40,8 +39,6 @@ window.app = function () {
             intendedfield: '',
             other_university_field: '',
             motivation: '',
-            careergoals: '',
-            additionalinfo: ''
         },
         errors: {},
 
@@ -53,6 +50,71 @@ window.app = function () {
         draftStorageKey: `scholarship_registration_draft_${document.documentElement.lang || 'fr'}`,
         submittingStorageKey: `scholarship_registration_submitting_${document.documentElement.lang || 'fr'}`,
         draftSaveTimeout: null,
+
+        previews: {},
+
+        handleDocumentUpload(event, field) {
+            const file = event.target.files[0];
+
+            this.formData[field] = file || null;
+
+            if (this.previews[field] && this.previews[field].url) {
+                URL.revokeObjectURL(this.previews[field].url);
+            }
+
+            if (!file) {
+                this.previews[field] = null;
+                return;
+            }
+
+            const extension = file.name.split('.').pop().toLowerCase();
+            const url = URL.createObjectURL(file);
+
+            let type = 'file';
+
+            if (file.type.startsWith('image/')) {
+                type = 'image';
+            } else if (file.type === 'application/pdf' || extension === 'pdf') {
+                type = 'pdf';
+            }
+
+            this.previews[field] = {
+                name: file.name,
+                url: url,
+                type: type,
+                size: this.formatFileSize(file.size),
+            };
+        },
+
+        formatFileSize(bytes) {
+            if (!bytes) {
+                return '0 Ko';
+            }
+
+            const kb = bytes / 1024;
+
+            if (kb < 1024) {
+                return kb.toFixed(1) + ' Ko';
+            }
+
+            return (kb / 1024).toFixed(1) + ' Mo';
+        },
+
+        clearDocument(field) {
+            this.formData[field] = null;
+
+            if (this.previews[field] && this.previews[field].url) {
+                URL.revokeObjectURL(this.previews[field].url);
+            }
+
+            this.previews[field] = null;
+
+            const input = document.getElementById(field);
+
+            if (input) {
+                input.value = '';
+            }
+        },
 
         init() {
             this.restoreDraft();
@@ -153,7 +215,7 @@ window.app = function () {
         },
 
         isValidVodacomNumber(value = '') {
-            return /^8[0-3][0-9]{7}$/.test(this.normalizePhoneNumber(value));
+            return /^8[01236][0-9]{7}$/.test(this.normalizePhoneNumber(value));
         },
 
         validatePhoneNumberField() {
@@ -331,6 +393,53 @@ window.app = function () {
             return isValid;
         },
 
+        validateAllSteps() {
+            this.errors = {};
+
+            for (let step = 1; step <= this.totalSteps; step++) {
+                const isValid = this.validateStep(step);
+
+                if (!isValid) {
+                    this.step = step;
+
+                    this.$nextTick(() => {
+                        this.focusFirstError();
+                    });
+
+                    return false;
+                }
+            }
+
+            return true;
+        },
+
+        focusFirstError() {
+            const firstError = Object.keys(this.errors)[0];
+
+            if (!firstError) {
+                return;
+            }
+
+            const field = document.getElementById(firstError);
+            const label = document.querySelector(`label[for="${CSS.escape(firstError)}"]`);
+
+            const target = label || field;
+
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'center',
+                });
+
+                if (target === field && field.type !== 'file') {
+                    field.focus?.();
+                } else if (label) {
+                    label.setAttribute('tabindex', '-1');
+                    label.focus?.();
+                }
+            }
+        },
+
         // Vérification des champs obligatoires
         validateStep(step) {
             this.errors = {};
@@ -444,11 +553,6 @@ window.app = function () {
                         'name': 'motivation',
                         'id': 'motivation',
                         'required': true,
-                    },
-                    {
-                        'name': 'careergoals',
-                        'id': 'careergoals',
-                        'required': true,
                     }
                 ];
 
@@ -501,9 +605,10 @@ window.app = function () {
             this.isSubmitting = true;
             sessionStorage.setItem(this.submittingStorageKey, '1');
 
-            if (!this.validateStep(this.step)) {
+            if (!this.validateAllSteps()) {
                 this.isSubmitting = false;
                 sessionStorage.removeItem(this.submittingStorageKey);
+                this.persistDraft();
                 return;
             }
 
@@ -577,7 +682,6 @@ window.app = function () {
                             phone: 'phone',
                             gender: 'gender',
                             birthdate: 'birthdate',
-                            vulntype: 'vulntype',
                             currentcityid: 'currentcityid',
                             diplomacityid: 'diplomacityid',
                             address: 'address',
@@ -591,16 +695,14 @@ window.app = function () {
                             intendedfield: 'intendedfield',
                             other_university_field: 'other_university_field',
                             passion: 'motivation',
-                            careergoals: 'careergoals',
-                            additionalinfo: 'additionalinfo'
                         };
 
                         const fieldStepMap = {
-                            fullname: 1, phone: 1, gender: 1, birthdate: 1, vulntype: 1,
+                            fullname: 1, phone: 1, gender: 1, birthdate: 1,
                             currentcityid: 2, diplomacityid: 2, address: 2,
                             schoolname: 3, schoolfield: 3, other_study_option: 3, percentage: 3, examcode: 3,
-                            id: 4, diploma: 4, 
-                            intendedfield: 5, other_university_field: 5, motivation: 5, careergoals: 5, additionalinfo: 5
+                            id: 4, diploma: 4,
+                            intendedfield: 5, other_university_field: 5, motivation: 5
                         };
 
                         let firstErrorFieldId = null;

@@ -13,7 +13,7 @@ $string['validation_photo_max'] = 'La photo ne doit pas dépasser 2MB.';
 $string['validation_fullname_required'] = 'Le nom complet est obligatoire.';
 $string['validation_fullname_max'] = 'Le nom complet ne doit pas dépasser 30 caractères.';
 $string['validation_phone_invalid'] = 'Numéro de téléphone invalide';
-$string['validation_phone_regex'] = 'Veuillez fournir uniquement un numéro Vodacom valide commençant par 80, 81, 82 ou 83.';
+$string['validation_phone_regex'] = 'Veuillez fournir uniquement un numéro Vodacom valide commençant par 80, 81, 82, 83 ou 86.';
 $string['validation_phone_required'] = 'Le numéro de téléphone est obligatoire.';
 $string['validation_gender_required'] = 'Le genre est obligatoire.';
 $string['validation_gender_invalid'] = 'Le genre sélectionné n\'est pas valide.';
@@ -21,8 +21,6 @@ $string['validation_birthdate'] = 'Date de naissance invalide';
 $string['validation_birthdate_required'] = 'La date de naissance est obligatoire.';
 $string['validation_age_requirement'] = 'Vous devez avoir entre 16 et 20 ans pour vous inscrire';
 $string['validation_age_integer'] = 'L\'âge doit être un nombre entier.';
-$string['validation_identification_type_required'] = 'Le type d\'identification est obligatoire.';
-$string['validation_identification_type_invalid'] = 'Le type d\'identification sélectionné n\'est pas valide.';
 
 // Adresse
 $string['validation_current_city_required'] = 'La ville actuelle est obligatoire.';
@@ -58,8 +56,6 @@ $string['validation_id_document_path_max'] = 'Le document d\'identité ne doit p
 $string['validation_diploma_path_required'] = 'Le diplôme est obligatoire.';
 $string['validation_diploma_path_mimes'] = 'Le diplôme doit être au format PDF, DOC, DOCX, JPG ou PNG.';
 $string['validation_diploma_path_max'] = 'Le diplôme ne doit pas dépasser 5MB.';
-$string['validation_recommendation_path_mimes'] = 'La lettre de recommandation doit être au format PDF, DOC, DOCX, JPG ou PNG.';
-$string['validation_recommendation_path_max'] = 'La lettre de recommandation ne doit pas dépasser 5MB.';
 
 // Ambitions personnelles
 $string['validation_university_field_required'] = 'Le domaine universitaire est obligatoire.';
@@ -68,9 +64,3 @@ $string['validation_passion_required'] = 'Le champ passion est obligatoire.';
 $string['validation_passion_max'] = 'Le champ passion ne doit pas dépasser 1000 caractères.';
 $string['validation_passion_locale_required'] = 'La langue du champ passion est obligatoire.';
 $string['validation_passion_locale_invalid'] = 'La langue du champ passion n\'est pas valide.';
-$string['validation_careergoals_required'] = 'Les objectifs de carrière sont obligatoires.';
-$string['validation_careergoals_max'] = 'Les objectifs de carrière ne doivent pas dépasser 1000 caractères.';
-$string['validation_careergoals_locale_required'] = 'La langue des objectifs de carrière est obligatoire.';
-$string['validation_careergoals_locale_invalid'] = 'La langue des objectifs de carrière n\'est pas valide.';
-$string['validation_additionalinfo_max'] = 'Les informations additionnelles ne doivent pas dépasser 1000 caractères.';
-$string['validation_additionalinfo_locale_invalid'] = 'La langue des informations additionnelles n\'est pas valide.';

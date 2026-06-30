@@ -216,7 +216,7 @@ function xmldb_local_scholarship_install()
             'year' => 2026,
             'description' => 'Huitième édition du programme de bourses',
             'quota' => 50,
-            'appstartdate' => '2026-07-01',
+            'appstartdate' => '2026-06-20',
             'appenddate' => '2026-08-31',
             'iscurrent' => true,
             'ismixed' => false,

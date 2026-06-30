@@ -14,7 +14,6 @@ $string['applicant_examcode'] = 'National Exam Code';
 $string['applicant_percentage'] = 'Percentage';
 $string['applicant_address'] = 'Address';
 $string['applicant_coupon'] = 'Registration code';
-$string['applicant_vulntype'] = 'Vulnerability type';
 
 $string['applicant_citiesinfo'] = 'Cities information';
 $string['applicant_diplomacity'] = 'Diploma city';
@@ -28,5 +27,3 @@ $string['applicant_documents'] = 'Documents';
 $string['applicant_ambitions'] = 'Personal ambitions';
 $string['applicant_intendedfield'] = 'Intended field of study';
 $string['applicant_motivation'] = 'Motivation for intended field of study';
-$string['applicant_careergoals'] = 'Career goals';
-$string['applicant_additionalinfo'] = 'Additional information';

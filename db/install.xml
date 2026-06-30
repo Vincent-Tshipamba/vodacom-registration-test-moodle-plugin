@@ -64,7 +64,6 @@
         <FIELD NAME="birthdate" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="phone" TYPE="char" LENGTH="50" NOTNULL="false"/>
         <FIELD NAME="email" TYPE="char" LENGTH="255" NOTNULL="false"/>
-        <FIELD NAME="vulntype" TYPE="char" LENGTH="255" NOTNULL="false" DEFAULT="NONE"/>
         <FIELD NAME="diplomacityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="currentcityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="address" TYPE="text" NOTNULL="false"/>
@@ -73,9 +72,7 @@
         <FIELD NAME="percentage" TYPE="number" LENGTH="5" DECIMALS="2" NOTNULL="false"/>
         <FIELD NAME="schoolfield" TYPE="char" LENGTH="255" NOTNULL="false"/>
         <FIELD NAME="intendedfield" TYPE="char" LENGTH="255" NOTNULL="false"/>
-        <FIELD NAME="careergoals" TYPE="text" NOTNULL="false"/>
         <FIELD NAME="motivation" TYPE="text" NOTNULL="false"/>
-        <FIELD NAME="additionalinfo" TYPE="text" NOTNULL="false"/>
         <FIELD NAME="statusid" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="submittedat" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true"/>

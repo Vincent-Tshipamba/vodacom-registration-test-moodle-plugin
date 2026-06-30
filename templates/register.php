@@ -2,7 +2,7 @@
 require(__DIR__ . '/../partials/values_for_registration.php');
 ?>
 
-<div class="scholarship-shell max-w-5xl">
+<div class=" max-w-5xl">
     <div class="mb-8 flex flex-wrap items-center justify-between gap-4">
         <div>
             <a href="<?php echo $homeurl; ?>"
@@ -16,11 +16,11 @@ require(__DIR__ . '/../partials/values_for_registration.php');
         </div>
     </div>
 
-    <div class="bg-slate-100  pb-24 min-h-screen text-slate-900 ">
-        <form action="<?= new moodle_url('/local/scholarship/apply.php') ?>" id="registrationForm" class="space-y-10" x-data="app()" x-init="init()" @submit="submitForm($event)"
-            x-cloak>
+    <div class="bg-slate-100  pb-24 min-h-screen text-slate-900">
+        <form action="<?= new moodle_url('/local/scholarship/apply.php') ?>" id="registrationForm" class="space-y-10"
+            x-data="app()" x-init="init()" @submit="submitForm($event)" novalidate x-cloak>
             <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
-            <div class="mx-auto px-4 py-10 max-w-4xl">
+            <div class="mx-auto px-4 py-10 max-w-4xl" :class="isSubmitting ? 'pointer-events-none opacity-60 select-none' : ''">
                 <div id="form-global-error" x-show="errors.general" x-text="errors.general"
                     class="bg-red-50 mb-4 p-4 rounded-md text-red-700 text-sm" style="display: none;">
                 </div>
@@ -29,8 +29,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                 <div x-show.transition="step === 'complete'" id="confirmation" tabindex="-1" role="status"
                     aria-live="polite">
                     <div class="bg-white  shadow-lg p-10 rounded-lg text-center">
-                        <div
-                            class="flex justify-center items-center bg-green-100  mx-auto mb-6 rounded-full w-20 h-20">
+                        <div class="flex justify-center items-center bg-green-100  mx-auto mb-6 rounded-full w-20 h-20">
                             <svg class="w-12 h-12 text-green-500 " fill="none" stroke="currentColor"
                                 viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -40,11 +39,11 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                         <h2 class="mb-2 font-bold text-2xl">
                             <?= get_string('apply_confirmation_title', 'local_scholarship'); ?>
                         </h2>
-                        <p id="confirmation_message" class="mb-6 text-gray-600 ">
+                        <p id="confirmation_message" class="mb-4 text-gray-600 ">
                             <?= get_string('apply_confirmation_message', 'local_scholarship'); ?>
                         </p>
                         <p id="confirmation_details" class="mb-8 text-gray-500  text-sm">
-                            
+
                         </p>
 
                         <div id="confirmation_coupon_block" class="bg-gray-100  mb-6 p-4 rounded-lg">
@@ -53,9 +52,8 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                             </p>
                             <div class="flex justify-center items-center space-x-2">
                                 <input type="hidden" id="confirmation_coupon_input" value="1234">
-                                <p id="confirmation_coupon"
-                                    class="font-mono font-bold text-gray-800 -xl">
-                                    
+                                <p id="confirmation_coupon" class="font-mono font-bold text-gray-800 -xl">
+
                                 </p>
                                 <button type="button" data-copy-to-clipboard-target="confirmation_coupon_input"
                                     data-tooltip-target="tooltip-copy-confirmation-coupon-button"
@@ -221,10 +219,9 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             class="left-0 absolute inset-y-0 flex items-center pl-3 pointer-events-none">
                                             <span class="text-gray-500">+243</span>
                                         </div>
-                                        <input type="tel" id="phone" name="phone"
-                                            x-model="formData.phone" inputmode="tel" maxlength="9"
-                                            pattern="8[0-3][0-9]{7}" @input="handlePhoneNumberInput()"
-                                            @blur="validatePhoneNumberField()"
+                                        <input type="tel" id="phone" name="phone" x-model="formData.phone"
+                                            inputmode="tel" maxlength="9" pattern="8[01236][0-9]{7}"
+                                            @input="handlePhoneNumberInput()" @blur="validatePhoneNumberField()"
                                             class=" py-2 pr-4 pl-16 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                             :class="{ 'border-red-500': errors.phone }"
                                             data-error-phone-regex="<?= get_string('validation_phone_regex', 'local_scholarship') ?>"
@@ -232,24 +229,24 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             data-error-required="<?= get_string('validation_phone_required', 'local_scholarship') ?>"
                                             placeholder="<?= get_string('apply_phone_placeholder', 'local_scholarship') ?>">
                                     </div>
-                                    <p x-show="errors.phone" class="mt-1 text-red-500 text-sm"
-                                        x-text="errors.phone">
+                                    <p x-show="errors.phone" class="mt-1 text-red-500 text-sm" x-text="errors.phone">
                                     </p>
                                 </div>
 
                                 <!-- Gender -->
                                 <div>
                                     <label class="block mb-2 font-medium text-sm">
-                                        <?= get_string('apply_input_gender_label', 'local_scholarship') ?> <span class="text-red-500">*</span>
+                                        <?= get_string('apply_input_gender_label', 'local_scholarship') ?> <span
+                                            class="text-red-500">*</span>
                                     </label>
                                     <div class="flex space-x-4">
                                         <?php foreach ($genders as $value => $label): ?>
-                                                <label class="inline-flex items-center">
-                                                    <input type="radio" name="gender" value="<?= $value ?>"
-                                                        x-model="formData.gender"
-                                                        class="w-4 h-4 text-red-600 border-4 border-gray-200 focus:ring-red-500">
-                                                    <span class="ml-2"><?= $label ?></span>
-                                                </label>
+                                            <label class="inline-flex items-center">
+                                                <input type="radio" name="gender" value="<?= $value ?>"
+                                                    x-model="formData.gender"
+                                                    class="w-4 h-4 text-red-600 border-4 border-gray-200 focus:ring-red-500">
+                                                <span class="ml-2"><?= $label ?></span>
+                                            </label>
                                         <?php endforeach; ?>
                                     </div>
                                     <p x-show="errors.gender" class="mt-1 text-red-500 text-sm" x-text="errors.gender">
@@ -262,41 +259,14 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <?= get_string('apply_input_birthdate_label', 'local_scholarship') ?><span
                                             class="text-red-500">*</span>
                                     </label>
-                                    <input type="date" id="birthdate" name="birthdate"
-                                        x-model="formData.birthdate" @change="calculateAge"
+                                    <input type="date" id="birthdate" name="birthdate" x-model="formData.birthdate"
+                                        @change="calculateAge"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.birthdate }"
                                         data-error-required="<?= get_string('validation_birthdate_required', 'local_scholarship') ?>"
                                         data-error-age="<?= get_string('validation_age_requirement', 'local_scholarship') ?>">
                                     <p x-show="errors.birthdate" class="mt-1 text-red-500 text-sm"
                                         x-text="errors.birthdate"></p>
-                                </div>
-
-                                <!-- Type d'identification -->
-                                <div>
-                                    <label class="block mb-2 font-medium text-sm">
-                                        <?= get_string('apply_vulnerability_label', 'local_scholarship') ?> <span
-                                            class="text-red-500">*</span>
-                                    </label>
-                                    <div class="space-y-2">
-                                        <?php foreach ($vulnerabilities as $value => $label): ?>
-                                                <div class="flex items-center">
-                                                    <input type="radio" id="<?= $value ?>"
-                                                        name="vulntype" value="<?= $value ?>"
-                                                        x-model="formData.vulntype"
-                                                        class=" w-4 h-4 text-red-600 border-4 border-gray-200 focus:ring-red-500"
-                                                        <?php if ($value === 'NONE'): ?>
-                                                            checked 
-                                                        <?php endif; ?>
-                                                    >
-                                                    <label for="<?= $value ?>" class="block ml-2 text-sm">
-                                                        <?= $label ?>
-                                                    </label>
-                                                </div>
-                                        <?php endforeach; ?>
-                                    </div>
-                                    <p x-show="errors.vulntype" class="mt-1 text-red-500 text-sm"
-                                        x-text="errors.vulntype"></p>
                                 </div>
 
                                 <!-- Age (auto-calculated) -->
@@ -321,18 +291,17 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <?= get_string('apply_current_city_label', 'local_scholarship') ?> <span
                                             class="text-red-500">*</span>
                                     </label>
-                                    <select id="currentcityid" name="currentcityid"
-                                        x-model="formData.currentcityid"
+                                    <select id="currentcityid" name="currentcityid" x-model="formData.currentcityid"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full "
                                         :class="{ 'border-red-500': errors.currentcityid }"
                                         data-error-exists="<?= get_string('validation_current_city_exists', 'local_scholarship') ?>"
                                         data-error-required="<?= get_string('validation_current_city_required', 'local_scholarship') ?>"
                                         required>
-                                        <option value="">
+                                        <option class="" value="">
                                             <?= get_string('apply_current_city_placeholder', 'local_scholarship') ?>
                                         </option>
                                         <?php foreach ($cities as $city): ?>
-                                                <option value="<?= $city->id ?>"><?= $city->name ?></option>
+                                            <option value="<?= $city->id ?>"><?= $city->name ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <p x-show="errors.currentcityid" class="mt-1 text-red-500 text-sm"
@@ -344,14 +313,13 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <?= get_string('apply_educational_city_label', 'local_scholarship') ?> <span
                                             class="text-red-500">*</span>
                                     </label>
-                                    <select id="diplomacityid" name="diplomacityid"
-                                        x-model="formData.diplomacityid"
+                                    <select id="diplomacityid" name="diplomacityid" x-model="formData.diplomacityid"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
                                         :class="{ 'border-red-500': errors.diplomacityid }"
                                         data-error-exists="<?= get_string('validation_educational_city_exists', 'local_scholarship') ?>"
                                         data-error-required="<?= get_string('validation_educational_city_required', 'local_scholarship') ?>"
                                         required>
-                                        <option value="">
+                                        <option class="" value="">
                                             <?= get_string('apply_educational_city_placeholder', 'local_scholarship') ?>
                                         </option>
                                         <?php foreach ($cities as $city): ?>
@@ -361,8 +329,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     <p class="mt-1 text-gray-500  text-xs">
                                         <?= get_string('apply_educational_city_help', 'local_scholarship') ?>
                                     </p>
-                                    <p x-show="errors.diplomacityid"
-                                        class="mt-1 text-red-500 text-sm"
+                                    <p x-show="errors.diplomacityid" class="mt-1 text-red-500 text-sm"
                                         x-text="errors.diplomacityid"></p>
                                 </div>
                                 <!-- Full Address -->
@@ -387,10 +354,10 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                 <!-- School Name -->
                                 <div class="md:col-span-2">
                                     <label for="schoolname" class="block mb-1 font-medium text-sm">
-                                        <?= get_string('apply_schoolname_label', 'local_scholarship') ?> <span class="text-red-500">*</span>
+                                        <?= get_string('apply_schoolname_label', 'local_scholarship') ?> <span
+                                            class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" id="schoolname" name="schoolname"
-                                        x-model="formData.schoolname"
+                                    <input type="text" id="schoolname" name="schoolname" x-model="formData.schoolname"
                                         data-error-required="<?= get_string('validation_schoolname_required', 'local_scholarship') ?>"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.schoolname }"
@@ -404,16 +371,16 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <?= get_string('apply_study_option_label', 'local_scholarship') ?> <span
                                             class="text-red-500">*</span>
                                     </label>
-                                    <select id="schoolfield" name="schoolfield"
-                                        x-model="formData.schoolfield"
+                                    <select id="schoolfield" name="schoolfield" x-model="formData.schoolfield"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
                                         :class="{ 'border-red-500': errors.schoolfield }"
-                                        data-error-required="<?= get_string('validation_study_option_required', 'local_scholarship') ?>" required>
+                                        data-error-required="<?= get_string('validation_study_option_required', 'local_scholarship') ?>"
+                                        required>
                                         <option value="">
                                             <?= get_string('apply_study_option_placeholder', 'local_scholarship') ?>
                                         </option>
                                         <?php foreach ($study_options as $value => $label): ?>
-                                                <option value="<?= $value ?>"><?= $label ?></option>
+                                            <option value="<?= $value ?>"><?= $label ?></option>
                                         <?php endforeach; ?>
                                     </select>
                                     <p x-show="errors.schoolfield" class="mt-1 text-red-500 text-sm"
@@ -448,7 +415,8 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             data-error-percentage="<?= get_string('validation_percentage', 'local_scholarship') ?>"
                                             class=" py-2 pr-4 pl-12 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                             :class="{ 'border-red-500': errors.percentage }"
-                                            placeholder="<?= get_string('apply_percentage_placeholder', 'local_scholarship') ?>" required>
+                                            placeholder="<?= get_string('apply_percentage_placeholder', 'local_scholarship') ?>"
+                                            required>
                                         <div
                                             class="left-0 absolute inset-y-0 flex items-center pl-3 pointer-events-none">
                                             <span class="text-gray-500">%</span>
@@ -464,15 +432,16 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <?= get_string('apply_examcode_label', 'local_scholarship') ?> <span
                                             class="text-red-500">*</span>
                                     </label>
-                                    <input type="text" id="examcode" name="examcode"
-                                        x-model="formData.examcode" inputmode="numeric"
+                                    <input type="text" id="examcode" name="examcode" x-model="formData.examcode"
+                                        inputmode="numeric"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         :class="{ 'border-red-500': errors.examcode }"
                                         data-error-required="<?= get_string('validation_examcode_required', 'local_scholarship') ?>"
                                         data-error-pattern="<?= get_string('validation_examcode_regex', 'local_scholarship') ?>"
                                         placeholder="<?= get_string('apply_examcode_placeholder', 'local_scholarship') ?>"
                                         maxlength="14" pattern="\d{14}"
-                                        title="<?= get_string('validation_examcode_size', 'local_scholarship') ?>" required>
+                                        title="<?= get_string('validation_examcode_size', 'local_scholarship') ?>"
+                                        required>
                                     <p x-show="errors.examcode" class="mt-1 text-red-500 text-sm"
                                         x-text="errors.examcode"></p>
                                 </div>
@@ -482,51 +451,144 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                         <div x-show.transition.in="step === 4">
                             <div class="space-y-8">
                                 <?php foreach ($document_types as $document): ?>
-                                        <div>
-                                            <label for="<?= strtolower($document['name']) ?>"
-                                                class="block mb-2 font-medium text-sm">
-                                                <?= $document['title'] ?>
-                                                <span class="text-red-500">*</span>
-                                            </label>
-                                            <div class="flex items-center mt-1">
-                                                <label for="<?= strtolower($document['name']) ?>"
-                                                    class="w-full cursor-pointer">
-                                                    <div
-                                                        class="px-4 py-6 border-2 border-gray-300 hover:border-red-400  border-dashed rounded-lg w-full text-center transition-colors">
-                                                        <svg class="mx-auto w-12 h-12 text-gray-400" stroke="currentColor"
-                                                            fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                                                            <path
-                                                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                                                stroke-width="2" stroke-linecap="round"
-                                                                stroke-linejoin="round" />
-                                                        </svg>
-                                                        <div class="mt-2 text-gray-600  text-sm">
-                                                            <span
-                                                                class="font-medium text-red-500 hover:text-red-600"><?= get_string('upload_file', 'local_scholarship') ?></span>
-                                                            <?= get_string('or_drag_drop', 'local_scholarship') ?>
-                                                        </div>
-                                                        <p class="mt-1 text-gray-500 text-xs"
-                                                            x-text="formData['<?= strtolower($document['name']) ?>']">
-                                                        </p>
+                                    <?php $field = strtolower($document['name']); ?>
+
+                                    <div>
+                                        <label for="<?= $field ?>" class="block mb-2 font-medium text-sm">
+                                            <?= $document['title'] ?>
+                                            <span class="text-red-500">*</span>
+                                        </label>
+
+                                        <div class="flex items-center mt-1">
+                                            <label for="<?= $field ?>" class="w-full cursor-pointer">
+                                                <div
+                                                    class="px-4 py-6 border-2 border-gray-300 hover:border-red-400 border-dashed rounded-lg w-full text-center transition-colors">
+
+                                                    <svg class="mx-auto w-12 h-12 text-gray-400" stroke="currentColor"
+                                                        fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                                                        <path
+                                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                            stroke-width="2" stroke-linecap="round"
+                                                            stroke-linejoin="round" />
+                                                    </svg>
+
+                                                    <div class="mt-2 text-gray-600 text-sm">
+                                                        <span class="font-medium text-red-500 hover:text-red-600">
+                                                            <?= get_string('upload_file', 'local_scholarship') ?>
+                                                        </span>
+                                                        <?= get_string('or_drag_drop', 'local_scholarship') ?>
                                                     </div>
-                                                    <input id="<?= strtolower($document['name']) ?>"
-                                                        name="<?= strtolower($document['name']) ?>" type="file"
-                                                        accept=".pdf,image/*,.doc,.docx,.jpg,.jpeg,.png"
-                                                        class="sr-only document-upload"
-                                                        data-error-size="<?= get_string('validation_file_size', 'local_scholarship') ?>"
-                                                        data-error-type="<?= get_string('validation_file_type', 'local_scholarship') ?>"
-                                                        data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
-                                                        required
-                                                        @change="formData['<?= strtolower($document['name']) ?>'] = $event.target.files[0]">
-                                                </label>
-                                            </div>
-                                            <p class="mt-1 text-gray-500  text-xs">
-                                                <?= $document['description'] ?>
-                                            </p>
-                                            <p x-show="errors['<?= strtolower($document['name']) ?>']"
-                                                class="mt-1 text-red-500 text-sm"
-                                                x-text="errors['<?= strtolower($document['name']) ?>']"></p>
+
+                                                    <p class="mt-1 text-gray-500 text-xs" x-show="previews['<?= $field ?>']"
+                                                        x-text="previews['<?= $field ?>'] ? previews['<?= $field ?>'].name + ' - ' + previews['<?= $field ?>'].size : ''">
+                                                    </p>
+                                                </div>
+
+                                                <input id="<?= $field ?>" name="<?= $field ?>" type="file"
+                                                    accept=".pdf,image/*,.doc,.docx,.jpg,.jpeg,.png"
+                                                    class="sr-only document-upload"
+                                                    data-error-size="<?= get_string('validation_file_size', 'local_scholarship') ?>"
+                                                    data-error-type="<?= get_string('validation_file_type', 'local_scholarship') ?>"
+                                                    data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
+                                                    required @change="handleDocumentUpload($event, '<?= $field ?>')">
+                                            </label>
                                         </div>
+
+                                        <!-- Prévisualisation -->
+                                        <div x-show="previews['<?= $field ?>']" x-transition
+                                            class="mt-4 border border-gray-200 rounded-lg overflow-hidden bg-gray-50">
+
+                                            <!-- Image -->
+                                            <template
+                                                x-if="previews['<?= $field ?>'] && previews['<?= $field ?>'].type === 'image'">
+                                                <div>
+                                                    <img :src="previews['<?= $field ?>'].url"
+                                                        :alt="previews['<?= $field ?>'].name"
+                                                        class="w-full max-h-80 object-contain bg-white">
+
+                                                    <div
+                                                        class="flex items-center justify-between px-4 py-3 border-t bg-white">
+                                                        <div>
+                                                            <p class="text-sm font-medium text-gray-700"
+                                                                x-text="previews['<?= $field ?>'].name"></p>
+                                                            <p class="text-xs text-gray-500"
+                                                                x-text="previews['<?= $field ?>'].size"></p>
+                                                        </div>
+
+                                                        <button type="button" @click="clearDocument('<?= $field ?>')"
+                                                            class="px-3 py-1.5 rounded-md bg-red-50 text-red-600 hover:bg-red-100 text-sm">
+                                                            Retirer
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                            <!-- PDF -->
+                                            <template
+                                                x-if="previews['<?= $field ?>'] && previews['<?= $field ?>'].type === 'pdf'">
+                                                <div>
+                                                    <iframe :src="previews['<?= $field ?>'].url"
+                                                        class="w-full h-80 bg-white" frameborder="0">
+                                                    </iframe>
+
+                                                    <div
+                                                        class="flex items-center justify-between px-4 py-3 border-t bg-white">
+                                                        <div>
+                                                            <p class="text-sm font-medium text-gray-700"
+                                                                x-text="previews['<?= $field ?>'].name"></p>
+                                                            <p class="text-xs text-gray-500"
+                                                                x-text="previews['<?= $field ?>'].size"></p>
+                                                        </div>
+
+                                                        <button type="button" @click="clearDocument('<?= $field ?>')"
+                                                            class="px-3 py-1.5 rounded-md bg-red-50 text-red-600 hover:bg-red-100 text-sm">
+                                                            Retirer
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </template>
+
+                                            <!-- Autre fichier : doc/docx -->
+                                            <template
+                                                x-if="previews['<?= $field ?>'] && previews['<?= $field ?>'].type === 'file'">
+                                                <div class="flex items-center justify-between gap-4 p-4 bg-white">
+                                                    <div class="flex items-center gap-3">
+                                                        <div
+                                                            class="flex items-center justify-center w-12 h-12 rounded-lg bg-gray-100 text-gray-500">
+                                                            <svg class="w-6 h-6" fill="none" stroke="currentColor"
+                                                                viewBox="0 0 24 24">
+                                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                                    stroke-width="2"
+                                                                    d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                                            </svg>
+                                                        </div>
+
+                                                        <div>
+                                                            <p class="text-sm font-medium text-gray-700"
+                                                                x-text="previews['<?= $field ?>'].name"></p>
+                                                            <p class="text-xs text-gray-500"
+                                                                x-text="previews['<?= $field ?>'].size"></p>
+                                                            <p class="text-xs text-gray-400">Prévisualisation non disponible
+                                                                pour ce type de fichier.</p>
+                                                        </div>
+                                                    </div>
+
+                                                    <button type="button" @click="clearDocument('<?= $field ?>')"
+                                                        class="px-3 py-1.5 rounded-md bg-red-50 text-red-600 hover:bg-red-100 text-sm">
+                                                        Retirer
+                                                    </button>
+                                                </div>
+                                            </template>
+                                        </div>
+
+                                        <p class="mt-1 text-gray-500 text-xs">
+                                            <?= $document['description'] ?>
+                                        </p>
+
+                                        <p x-show="errors['<?= $field ?>']" class="mt-1 text-red-500 text-sm"
+                                            x-text="errors['<?= $field ?>']">
+                                        </p>
+                                    </div>
                                 <?php endforeach; ?>
                             </div>
                         </div>
@@ -539,13 +601,14 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <?= get_string('apply_university_field_label', 'local_scholarship') ?> <span
                                             class="text-red-500">*</span>
                                     </label>
-                                    <select id="intendedfield" name="intendedfield"
-                                        x-model="formData.intendedfield" class="form-select"
+                                    <select id="intendedfield" name="intendedfield" x-model="formData.intendedfield"
+                                        class="form-select"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full"
                                         :class="{ 'border-red-500': errors.intendedfield }"
-                                        data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>" required
-                                        style="width: 100%">
-                                        <option value=""><?= get_string('select_option', 'local_scholarship') ?></option>
+                                        data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
+                                        required style="width: 100%">
+                                        <option value=""><?= get_string('select_option', 'local_scholarship') ?>
+                                        </option>
                                         <?php foreach ($intendedfields as $value => $label): ?>
                                             <option value="<?= $value ?>"><?= $label ?></option>
                                         <?php endforeach; ?>
@@ -556,11 +619,11 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     <!-- Champ pour "Autre" -->
                                     <div x-show="formData.intendedfield === 'other'" class="mt-3" x-transition>
                                         <label for="other_university_field" class="block mb-1 font-medium text-sm">
-                                            <?= get_string('apply_other_university_field_label', 'local_scholarship') ?> <span
-                                                class="text-red-500">*</span>
+                                            <?= get_string('apply_other_university_field_label', 'local_scholarship') ?>
+                                            <span class="text-red-500">*</span>
                                         </label>
-                                        <input type="text" id="other_university_field"
-                                            name="other_university_field" x-model="formData.other_university_field"
+                                        <input type="text" id="other_university_field" name="other_university_field"
+                                            x-model="formData.other_university_field"
                                             class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                             :class="{ 'border-red-500': errors.other_university_field }"
                                             data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
@@ -572,10 +635,10 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                 <!-- Passion -->
                                 <div>
                                     <label for="motivation" class="block mb-1 font-medium text-sm">
-                                        <?= get_string('apply_passion_label', 'local_scholarship') ?> <span class="text-red-500">*</span>
+                                        <?= get_string('apply_passion_label', 'local_scholarship') ?> <span
+                                            class="text-red-500">*</span>
                                     </label>
-                                    <textarea id="motivation" name="motivation" rows="3"
-                                        x-model="formData.motivation"
+                                    <textarea id="motivation" name="motivation" rows="3" x-model="formData.motivation"
                                         class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
                                         data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
                                         :class="{ 'border-red-500': errors.motivation }"
@@ -583,35 +646,20 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                     <p x-show="errors.motivation" class="mt-1 text-red-500 text-sm"
                                         x-text="errors.motivation"></p>
                                 </div>
-                                <!-- Career Goals -->
-                                <div>
-                                    <label for="careergoals" class="block mb-1 font-medium text-sm">
-                                        <?= get_string('apply_careergoals_label', 'local_scholarship') ?> <span
-                                            class="text-red-500">*</span>
-                                    </label>
-                                    <textarea id="careergoals" name="careergoals" rows="3" x-model="formData.careergoals"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
-                                        data-error-required="<?= get_string('validation_required', 'local_scholarship') ?>"
-                                        :class="{ 'border-red-500': errors.careergoals }"
-                                        placeholder="<?= get_string('apply_careergoals_placeholder', 'local_scholarship') ?>"></textarea>
-                                    <p x-show="errors.careergoals" class="mt-1 text-red-500 text-sm"
-                                        x-text="errors.careergoals"></p>
-                                </div>
-                                <!-- Additional Information -->
-                                <div>
-                                    <label for="additionalinfo" class="block mb-1 font-medium text-sm">
-                                        <?= get_string('apply_additional_info_label', 'local_scholarship') ?>
-                                    </label>
-                                    <textarea id="additionalinfo" name="additionalinfo" rows="3" x-model="formData.additionalinfo"
-                                        class=" px-4 py-2 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
-                                        placeholder="<?= get_string('apply_additional_info_placeholder', 'local_scholarship') ?>"></textarea>
-                                </div>
+                            </div>
+
+                            <div class="mt-8 border-t border-slate-200 pt-6">
+                                <strong
+                                    class="block text-sm font-black uppercase tracking-[0.16em] text-red-700"><?php echo get_string('home:important', 'local_scholarship'); ?>
+                                </strong>
+                                <p class="mt-3 text-sm md:text-base leading-8 text-slate-600">
+                                    <?php echo get_string('apply_note', 'local_scholarship'); ?>
+                                </p>
                             </div>
                         </div>
-                    
+
                         <!-- Bottom Navigation -->
-                        <div class="right-0 bottom-0 left-0 fixed bg-white  shadow-md py-5"
-                            x-show="step != 'complete'">
+                        <div class="right-0 bottom-0 left-0 fixed bg-white  shadow-md py-5" x-show="step != 'complete'">
                             <div class="mx-auto px-4 max-w-3xl">
                                 <div class="flex justify-between">
                                     <div class="w-1/2">
@@ -626,10 +674,9 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                         <button type="submit" x-show="step === 5" :disabled="isSubmitting"
                                             class="inline-flex justify-center items-center gap-2 bg-red-500 hover:bg-red-600 disabled:opacity-60 shadow-sm px-5 py-2 border border-transparent rounded-lg focus:outline-none w-32 font-medium text-white text-center disabled:cursor-not-allowed">
                                             <svg x-show="isSubmitting" class="w-4 h-4 text-white animate-spin"
-                                                xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                viewBox="0 0 24 24">
-                                                <circle class="opacity-25" cx="12" cy="12" r="10"
-                                                    stroke="currentColor" stroke-width="4"></circle>
+                                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                                    stroke-width="4"></circle>
                                                 <path class="opacity-75" fill="currentColor"
                                                     d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
                                             </svg>
