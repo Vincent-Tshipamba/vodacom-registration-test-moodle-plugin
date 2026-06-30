@@ -30,9 +30,11 @@ $applicants = $data->applicants;
     </div>
     <!-- Search Button -->
     <button id="searchModalButton" type="button"
-        class="bg-blue-600 hover:bg-blue-700 text-white btn cursor-pointer z-10">
+        class="w-fit bg-blue-600 hover:bg-blue-700 text-white btn cursor-pointer z-10 flex justify-center items-center space-x-1">
         <i data-lucide="search" class="inline-block mr-2 size-4"></i>
-        Recherche
+        <span>
+            Recherche
+        </span>
     </button>
 </div>
 
@@ -42,7 +44,7 @@ $applicants = $data->applicants;
 
 <!-- Grid View -->
 <div id="gridView" class="w-full">
-    <div id="applicantsGrid" class="gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4">
+    <div id="applicantsGrid" class="gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mb-6">
         <?php include(__DIR__ . '/../partials/applicants-grid.php'); ?>
     </div>
 </div>
