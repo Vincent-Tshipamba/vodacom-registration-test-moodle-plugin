@@ -85,14 +85,6 @@ $intendedfields = [
     'other' => get_string('apply_other_university_field_label', 'local_scholarship'),
 ];
 
-$vulnerabilities = [
-    'NONE' => get_string('apply_vulnerability_none', 'local_scholarship'),
-    'DISABLED' => get_string('apply_vulnerability_disabled', 'local_scholarship'),
-    'ALBINOS' => get_string('apply_vulnerability_albino', 'local_scholarship'),
-    'REFUGEE' => get_string('apply_vulnerability_refugee', 'local_scholarship'),
-    'ORPHAN' => get_string('apply_vulnerability_orphan', 'local_scholarship'),
-];
-
 $cities = City::get_all();
 
 $document_types = [
@@ -112,12 +104,6 @@ $document_types = [
     //     'name' => 'PHOTO',
     //     'title' => get_string('apply_browse_photo_label', 'local_scholarship'),
     //     'description' => get_string('apply_browse_photo_hint', 'local_scholarship'),
-    //     'is_for_candidats' => true,
-    // ],
-    // [
-    //     'name' => 'RECO_LETTER',
-    //     'title' => get_string('apply_recommendation_letter_label', 'local_scholarship'),
-    //     'description' => get_string('apply_recommendation_letter_hint', 'local_scholarship'),
     //     'is_for_candidats' => true,
     // ],
 ];

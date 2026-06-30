@@ -14,7 +14,6 @@ $string['applicant_examcode'] = 'Code d\'examen national';
 $string['applicant_percentage'] = 'Pourcentage obtenu';
 $string['applicant_address'] = 'Adresse complète';
 $string['applicant_coupon'] = 'Coupon unique de candidature';
-$string['applicant_vulntype'] = 'Type de vulnérabilité';
 
 $string['applicant_citiesinfo'] = 'Informations sur les villes';
 $string['applicant_diplomacity'] = 'Ville du diplôme';
@@ -29,5 +28,3 @@ $string['applicant_documents'] = 'Documents';
 $string['applicant_ambitions'] = 'Ambitions personnelles';
 $string['applicant_intendedfield'] = 'Domaine d\'étude souhaité';
 $string['applicant_motivation'] = 'Motivation pour le domaine d\'étude souhaité';
-$string['applicant_careergoals'] = 'Objectifs de carrière';
-$string['applicant_additionalinfo'] = 'Informations supplémentaires';
