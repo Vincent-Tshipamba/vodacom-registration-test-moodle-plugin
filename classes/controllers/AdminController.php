@@ -151,7 +151,7 @@ class AdminController
         $ajax = optional_param('ajax', 0, PARAM_INT);
 
         $page = max(0, $page);
-        $perpage = 2;
+        $perpage = 12;
         $offset = $page * $perpage;
 
         $applicants = [];
@@ -228,7 +228,6 @@ class AdminController
                 phone,
                 percentage,
                 address,
-                careergoals,
                 regcode,
                 examcode
             FROM {local_scholarship_app}
@@ -251,10 +250,9 @@ class AdminController
                 'phone' => $record->phone,
                 'percentage' => $record->percentage,
                 'address' => $record->address,
-                'careergoals' => $record->careergoals,
                 'regcode' => $record->regcode,
                 'examcode' => $record->examcode,
-                'url' => (new \moodle_url('/local/scholarship/admin/applicants/show', [
+                'url' => (new \moodle_url('/local/scholarship/admin/applicants/show.php', [
                     'id' => $record->id,
                 ]))->out(false),
             ];
@@ -354,7 +352,7 @@ class AdminController
         ]);
 
         $message = get_string('statusupdated', 'local_scholarship');
-        $url = new \moodle_url('/local/scholarship/admin/applicants/show', ['id' => $id]);
+        $url = new \moodle_url('/local/scholarship/admin/applicants/show.php', ['id' => $id]);
         redirect(
             $url,
             $message,
