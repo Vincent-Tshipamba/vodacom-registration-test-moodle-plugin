@@ -603,15 +603,15 @@ $redirecturl = new moodle_url('/local/scholarship/applicants/tests/submitted-lay
             }
         });
 
-        // document.addEventListener('visibilitychange', function () {
-        //     if (document.hidden) {
-        //         registerViolation();
-        //     }
-        // });
+        document.addEventListener('visibilitychange', function () {
+            if (document.hidden) {
+                registerViolation();
+            }
+        });
 
-        // window.addEventListener('blur', function () {
-        //     registerViolation();
-        // });
+        window.addEventListener('blur', function () {
+            registerViolation();
+        });
 
         examState.countdownInterval = window.setInterval(updateTimer, 1000);
 
