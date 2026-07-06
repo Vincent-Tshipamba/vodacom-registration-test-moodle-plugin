@@ -118,6 +118,26 @@ class ApplicantController
         }
     }
 
+    public static function followup()
+    {
+        global $DB;
+
+
+        $regcode = $_REQUEST['coupon'];
+
+
+        $applicant = $DB->get_record_sql("
+                SELECT a.id, a.fullname, a.examcode, a.regcode, s.name AS statusname
+                FROM {local_scholarship_app} a
+                LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
+                WHERE a.regcode = ?
+            ", [$regcode], MUST_EXIST);
+
+        $applicant->documents = Applicant::get_documents($applicant->id);
+
+        return $applicant;
+    }
+
     private function store_application_documents(int $applicantid, string $applicantfullname, int $doctypeid, string $doctypename, string $inputname)
     {
         global $DB;
@@ -1426,7 +1446,7 @@ class ApplicantController
         }
 
         $testsession = self::resolve_completed_test_session($applicant);
-        
+
         if (!$testsession || empty($testsession->endtime)) {
             redirect($instructionsurl);
         }
