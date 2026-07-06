@@ -143,15 +143,17 @@ class AdminController
 
     public static function applicants(): \stdClass
     {
-        global $DB, $CFG;
+        global $DB;
 
         $currentedition = Edition::get_current_edition();
 
         $page = optional_param('page', 0, PARAM_INT);
-        $ajax = optional_param('ajax', 0, PARAM_INT);
+        $search = optional_param('q', '', PARAM_TEXT);
 
         $page = max(0, $page);
-        $perpage = 12;
+        $search = trim($search);
+
+        $perpage = 16;
         $offset = $page * $perpage;
 
         $applicants = [];
@@ -159,9 +161,37 @@ class AdminController
         $nextpageurl = null;
 
         if ($currentedition) {
-            $total = (int) $DB->count_records('local_scholarship_app', [
-                'editionid' => (int) $currentedition->id,
-            ]);
+            $where = "a.editionid = ?";
+            $params = [
+                (int) $currentedition->id,
+            ];
+
+            if ($search !== '') {
+                $searchlike = '%' . $DB->sql_like_escape(\core_text::strtolower($search)) . '%';
+
+                $where .= "
+                AND (
+                    " . $DB->sql_like('LOWER(a.fullname)', '?', false) . "
+                    OR " . $DB->sql_like('LOWER(a.regcode)', '?', false) . "
+                    OR " . $DB->sql_like('LOWER(a.phone)', '?', false) . "
+                    OR " . $DB->sql_like('LOWER(a.examcode)', '?', false) . "
+                )
+            ";
+
+                $params[] = $searchlike;
+                $params[] = $searchlike;
+                $params[] = $searchlike;
+                $params[] = $searchlike;
+            }
+
+            $total = (int) $DB->count_records_sql("
+            SELECT COUNT(1)
+              FROM {local_scholarship_app} a
+         LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
+         LEFT JOIN {local_scholarship_city} c ON c.id = a.diplomacityid
+         LEFT JOIN {local_scholarship_city} ci ON ci.id = a.currentcityid
+             WHERE {$where}
+        ", $params);
 
             $applicants = $DB->get_records_sql("
             SELECT
@@ -176,23 +206,28 @@ class AdminController
                 c.name AS diplomacityname,
                 ci.name AS currentcityname,
                 s.name AS statusname
-                FROM {local_scholarship_app} a
-                LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
-                LEFT JOIN {local_scholarship_city} c ON c.id = a.diplomacityid
-                LEFT JOIN {local_scholarship_city} ci ON ci.id = a.currentcityid
-                WHERE a.editionid = ?
-                ORDER BY a.submittedat DESC, a.timecreated DESC
-            ", [(int) $currentedition->id,], $offset, $perpage);
+            FROM {local_scholarship_app} a
+            LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
+            LEFT JOIN {local_scholarship_city} c ON c.id = a.diplomacityid
+            LEFT JOIN {local_scholarship_city} ci ON ci.id = a.currentcityid
+            WHERE {$where}
+            ORDER BY a.submittedat DESC, a.timecreated DESC
+        ", $params, $offset, $perpage);
 
             foreach ($applicants as $applicant) {
                 $applicant->documents = Applicant::get_documents($applicant->id);
             }
 
             if (($offset + $perpage) < $total) {
-                $nextpageurl = (new \moodle_url('/local/scholarship/admin/applicants/', [
+                $urlparams = [
                     'page' => $page + 1,
-                    'ajax' => 1,
-                ]))->out(false);
+                ];
+
+                if ($search !== '') {
+                    $urlparams['q'] = $search;
+                }
+
+                $nextpageurl = (new \moodle_url('/local/scholarship/admin/applicants.php', $urlparams))->out(false);
             }
         }
 
@@ -201,6 +236,7 @@ class AdminController
             'total' => $total,
             'page' => $page,
             'perpage' => $perpage,
+            'search' => $search,
             'nextpageurl' => $nextpageurl,
         ];
     }

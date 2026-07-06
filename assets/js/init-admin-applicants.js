@@ -41,7 +41,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    setupModal();
     const gridViewBtn = document.getElementById("gridViewBtn");
     const listViewBtn = document.getElementById("listViewBtn");
     const gridView = document.getElementById("gridView");
@@ -82,17 +81,143 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 let config = document.getElementById('scholarship-config');
+
 if (!config) {
     throw new Error('Configuration div not found !');
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener('DOMContentLoaded', () => {
     const applicantsGrid = document.getElementById('applicantsGrid');
     const loadingPlaceholders = document.getElementById('loadingPlaceholders');
 })
+const gridSearchInput = document.getElementById('gridSearchInput');
+const gridNoResults = document.getElementById('gridNoResults');
+
 let isLoading = false;
 let isScrolling = false;
-let nextPageUrl = config.dataset.nextPageUrl;
+let nextPageUrl = config.dataset.nextPageUrl || '';
+let searchUrl = config.dataset.searchUrl || '';
+let searchTimeout = null;
+let currentController = null;
+
+async function fetchApplicantsPage(url, replace = false) {
+    if (isLoading || !applicantsGrid) {
+        return;
+    }
+
+    if (replace && currentController) {
+        currentController.abort();
+    }
+
+    currentController = new AbortController();
+
+    isLoading = true;
+
+    if (loadingPlaceholders) {
+        loadingPlaceholders.classList.remove('hidden');
+    }
+
+    try {
+        const response = await fetch(url, {
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        });
+
+        const html = await response.text();
+
+        if (!response.ok) {
+            throw new Error('Erreur HTTP : ' + response.status);
+        }
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(html, 'text/html');
+
+        const nextGrid = doc.getElementById('applicantsGrid');
+
+        if (!nextGrid) {
+            throw new Error('Grille candidats introuvable dans la page chargée.');
+        }
+
+        const newItems = nextGrid.querySelectorAll('.card');
+
+        if (replace) {
+            applicantsGrid.innerHTML = '';
+        }
+        
+        newItems.forEach(function (item) {
+            applicantsGrid.appendChild(item);
+        });
+
+        const newConfig = doc.getElementById('scholarship-config');
+
+        if (newConfig) {
+            nextPageUrl = newConfig.dataset.nextPageUrl || '';
+        } else {
+            nextPageUrl = '';
+        }
+
+        if (gridNoResults) {
+            if (newItems.length === 0 && replace) {
+                gridNoResults.classList.remove('hidden');
+            } else {
+                gridNoResults.classList.add('hidden');
+            }
+        }
+
+        if (window.lucide) {
+            window.lucide.createIcons({icons: window.lucide.icons});
+        }
+
+    } catch (error) {
+        if (error.name === 'AbortError') {
+            return;
+        }
+        console.error('Erreur chargement candidats:', error);
+
+        if (replace) {
+            applicantsGrid.innerHTML = '';
+        }
+
+        if (gridNoResults) {
+            gridNoResults.classList.remove('hidden');
+            gridNoResults.textContent = 'Erreur lors de la recherche. Veuillez réessayer.';
+        }
+
+    } finally {
+        isLoading = false;
+
+        if (loadingPlaceholders) {
+            loadingPlaceholders.classList.add('hidden');
+        }
+    }
+}
+
+function searchApplicants() {
+    const query = gridSearchInput?.value || '';
+    
+    const url = buildSearchUrl(query, 0);
+
+    fetchApplicantsPage(url, true);
+}
+
+function loadMoreApplicants() {
+    if (isLoading || !nextPageUrl || !applicantsGrid) {
+        return;
+    }
+
+    fetchApplicantsPage(nextPageUrl, false);
+}
+
+if (gridSearchInput) {
+    gridSearchInput.addEventListener('input', function () {
+        clearTimeout(searchTimeout);
+
+        searchTimeout = setTimeout(function () {
+            searchApplicants();
+        }, 250);
+    });
+}
 
 window.addEventListener('scroll', () => {
     if (isScrolling) return;
@@ -116,76 +241,22 @@ window.addEventListener('scroll', () => {
 });
 
 
-async function loadMoreApplicants() {
-    if (isLoading || !nextPageUrl || !applicantsGrid) {
-        return;
+function buildSearchUrl(query, page = 0) {
+    const url = new URL(searchUrl, window.location.origin);
+
+    url.searchParams.set('page', page);
+
+    query = String(query || '').trim();
+
+    if (query !== '') {
+        url.searchParams.set('q', query);
+    } else {
+        url.searchParams.delete('q');
     }
 
-    isLoading = true;
-
-    if (loadingPlaceholders) {
-        loadingPlaceholders.classList.remove('hidden');
-    }
-
-    try {
-        const response = await fetch(nextPageUrl, {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-            },
-        });
-
-        const html = await response.text();
-
-        if (!response.ok) {
-            throw new Error('Erreur HTTP : ' + response.status);
-        }
-
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        const nextGrid = doc.getElementById('applicantsGrid');
-
-        if (!nextGrid) {
-            throw new Error('Grille candidats introuvable dans la page chargée.');
-        }
-
-        const newItems = nextGrid.querySelectorAll('.card');
-
-        newItems.forEach(function (item) {
-            applicantsGrid.appendChild(item);
-        });
-
-        nextPageUrl = nextGrid.dataset.nextPageUrl || '';
-
-        if (!nextPageUrl) {
-            const loadMoreContainer = document.getElementById('load-more-container');
-
-            if (loadMoreContainer) {
-                loadMoreContainer.remove();
-            }
-        }
-
-        if (window.lucide) {
-            window.lucide.createIcons({ icons: window.lucide.icons });
-        }
-
-    } catch (error) {
-        console.error('Error loading more applicants:', error);
-
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'col-span-1 md:col-span-2 xl:col-span-4 text-center p-4 text-red-500';
-        errorDiv.textContent = 'Erreur lors du chargement des candidats. Veuillez réessayer.';
-
-        applicantsGrid.appendChild(errorDiv);
-
-    } finally {
-        isLoading = false;
-
-        if (loadingPlaceholders) {
-            loadingPlaceholders.classList.add('hidden');
-        }
-    }
+    return url.toString();
 }
+
 
 document.addEventListener('click', function (e) {
     const toggleBtn = e.target.closest('[data-scholarship-dropdown]');
@@ -222,121 +293,6 @@ document.addEventListener('click', function (e) {
     }
 });
 
-function setupModal() {
-    const modal = document.getElementById('searchModal');
-    const modalBackdrop = document.getElementById('modalBackdrop');
-    const closeModal = document.getElementById('closeModal');
-    const searchModalButton = document.getElementById('searchModalButton');
-
-    function openModal() {
-        modal.classList.remove('hidden');
-        document.body.classList.add('overflow-hidden');
-
-        const searchInput = document.getElementById('searchInput');
-        const searchResults = document.getElementById('searchResults');
-        const noResults = document.getElementById('noResults');
-
-        let searchTimeout;
-
-        if (searchInput) {
-            searchInput.addEventListener('input', (e) => {
-                clearTimeout(searchTimeout);
-
-                const query = e.target.value.trim();
-
-                if (query.length < 2) {
-                    searchResults.classList.add('hidden');
-                    noResults.classList.add('hidden');
-                    return;
-                }
-
-                searchTimeout = setTimeout(() => {
-                    searchApplicants(query);
-                }, 300);
-            });
-        }
-    }
-
-    function closeModalHandler() {
-        modal.classList.add('hidden');
-        document.body.classList.remove('overflow-hidden');
-    }
-    if (searchModalButton) {
-        searchModalButton.addEventListener('click', openModal);
-    }
-    if (closeModal) {
-        closeModal.addEventListener('click', closeModalHandler);
-    }
-    if (modalBackdrop) {
-        modalBackdrop.addEventListener('click', closeModalHandler);
-    }
-}
-
-async function searchApplicants(query) {
-    try {
-        const config = document.getElementById('scholarship-config');
-
-        const searchUrl = config.dataset.searchUrl;
-        const sesskey = config.dataset.sesskey;
-
-        const formData = new FormData();
-        formData.append('query', query);
-        formData.append('sesskey', sesskey);
-        console.log(searchUrl);
-
-
-        const response = await fetch(searchUrl, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        });
-
-
-        const results = await response.json();
-        displaySearchResults(results);
-
-    } catch (error) {
-        console.error('Error searching applicants:', error);
-    }
-}
-
-function displaySearchResults(results) {
-    const resultsContainer = document.querySelector('#searchResults ul');
-
-    resultsContainer.innerHTML = '';
-
-    if (!results || results.length === 0) {
-        noResults.classList.remove('hidden');
-        searchResults.classList.add('hidden');
-        return;
-    }
-
-    noResults.classList.add('hidden');
-
-    results.forEach(applicant => {
-        const li = document.createElement('li');
-
-        li.className = 'p-3 hover:bg-gray-100 cursor-pointer';
-
-        li.innerHTML = `
-            <a href="${applicant.url}" class="block">
-                <div class="font-medium text-gray-900">
-                    ${escapeHtml(applicant.fullname || '')}
-                </div>
-                <div class="text-gray-500 text-sm">
-                    ${applicant.regcode ? '• ' + escapeHtml(applicant.regcode) : ''}
-                    ${applicant.phone ? ' • ' + escapeHtml(applicant.phone) : ''}
-                </div>
-            </a>
-        `;
-
-        resultsContainer.appendChild(li);
-    });
-
-    searchResults.classList.remove('hidden');
-}
 
 function escapeHtml(value) {
     return String(value)

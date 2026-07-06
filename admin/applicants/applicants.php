@@ -9,9 +9,9 @@ $applicants = $data->applicants;
     </p>
 </div>
 
-<div class="flex justify-between items-center mb-6">
+<div class="flex-col md:flex justify-between items-center mb-6">
     <!-- View Toggle -->
-    <div class="inline-flex bg-gray-100 shadow-sm p-1 rounded-lg">
+    <div class="inline-flex bg-gray-100 shadow-sm p-1 rounded-lg md:w-1/2 w-full">
         <button id="gridViewBtn"
             class="inline-flex items-center hover:bg-white px-3 py-2 rounded-md font-medium text-gray-800 text-sm transition-all duration-200 active">
             <svg class="mr-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -29,13 +29,15 @@ $applicants = $data->applicants;
         </button>
     </div>
     <!-- Search Button -->
-    <button id="searchModalButton" type="button"
-        class="w-fit bg-blue-600 hover:bg-blue-700 text-white btn cursor-pointer z-10 flex justify-center items-center space-x-1">
-        <i data-lucide="search" class="inline-block mr-2 size-4"></i>
-        <span>
-            Recherche
-        </span>
-    </button>
+    <div id="gridSearchWrapper" class="relative md:w-1/2 w-full mt-1 md:mt-0">
+        <input type="search" id="gridSearchInput" value="<?= s($data->search ?? '') ?>"
+            class="w-full px-4 py-2 pl-14 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            placeholder="Rechercher par nom, coupon ou téléphone..." autocomplete="off">
+
+        <div class="absolute left-0 inset-y-0 flex items-center px-3 pointer-events-none">
+            <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+        </div>
+    </div>
 </div>
 
 <?php require(__DIR__ . '/../../partials/cdn-datatables.php') ?>
@@ -45,7 +47,11 @@ $applicants = $data->applicants;
 <!-- Grid View -->
 <div id="gridView" class="w-full">
     <div id="applicantsGrid" class="gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mb-6">
-        <?php include(__DIR__ . '/../partials/applicants-grid.php'); ?>
+        <?php include(__DIR__ . '/../partials/applicants-grid.php'); ?> 
+    </div>
+
+    <div id="gridNoResults" class="<?= empty($data->applicants) ? '' : 'hidden' ?> text-center py-10 text-slate-500">
+        Aucun candidat ne correspond à votre recherche.
     </div>
 </div>
 
@@ -58,4 +64,3 @@ $applicants = $data->applicants;
 <?php include(__DIR__ . '/../partials/loading-placeholders.php'); ?>
 
 <!-- Search Modal -->
-<?php include(__DIR__ . '/../partials/search-modal.php'); ?>

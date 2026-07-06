@@ -42,7 +42,7 @@ echo $OUTPUT->header();
 echo html_writer::div('', '', [
     'id' => 'scholarship-config',
     'data-next-page-url' => s($data->nextpageurl),
-    'data-search-url' => (new moodle_url('/local/scholarship/admin/applicants/search.php'))->out(false),
+    'data-search-url' => (new moodle_url('/local/scholarship/admin/applicants/index.php'))->out(false),
     'data-document-status-url' => (new moodle_url('/local/scholarship/admin/applicants/document-status.php'))->out(false),
     'data-sesskey' => sesskey(),
 ]);
@@ -50,3 +50,5 @@ require(__DIR__ . '/../partials/topbar.php');
 require(__DIR__ . '/../partials/values.php');
 
 require(__DIR__ . '/applicants.php');
+
+echo $OUTPUT->footer();

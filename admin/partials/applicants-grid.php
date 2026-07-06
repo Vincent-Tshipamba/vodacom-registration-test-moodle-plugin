@@ -1,5 +1,12 @@
 <?php foreach ($applicants as $candidat): ?>
-    <div class="card cursor-pointer hover:bg-gray-100 hover:shadow-xl shadow-lg transition-all duration-200 mx-2"
+    <div class="card applicant-card cursor-pointer hover:bg-gray-100 hover:shadow-xl shadow-lg transition-all duration-200 mx-2"
+        data-fullname="<?= s(mb_strtolower($candidat->fullname ?? '')) ?>"
+        data-regcode="<?= s(mb_strtolower($candidat->regcode ?? '')) ?>"
+        data-phone="<?= s(preg_replace('/\s+/', '', $candidat->phone ?? '')) ?>" data-search="<?= s(mb_strtolower(
+                  ($candidat->fullname ?? '') . ' ' .
+                  ($candidat->regcode ?? '') . ' ' .
+                  preg_replace('/\s+/', '', $candidat->phone ?? '')
+              )) ?>"
         onclick="if (event.target.closest('a, button, .dropdown, .dropdown-menu, input, select, textarea, label')) return; window.location.href='<?= new moodle_url('/local/scholarship/admin/applicants/show.php', ['id' => $candidat->id]) ?>'">
         <div class="card-body">
             <div
