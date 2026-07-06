@@ -17,7 +17,7 @@ $PAGE->requires->css(new moodle_url('/local/scholarship/assets/build/tailwind.cs
 $PAGE->requires->js(new moodle_url('/local/scholarship/assets/build/app.js'), true);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data =ApplicantController::followup();
+    $data = ApplicantController::followup();
 }
 
 // $data = ApplicantController::instructions();

@@ -125,13 +125,19 @@ class ApplicantController
 
         $regcode = $_REQUEST['coupon'];
 
-
         $applicant = $DB->get_record_sql("
                 SELECT a.id, a.fullname, a.examcode, a.regcode, s.name AS statusname
                 FROM {local_scholarship_app} a
                 LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
                 WHERE a.regcode = ?
-            ", [$regcode], MUST_EXIST);
+            ", [$regcode]);
+
+        if (!$applicant) {
+            return (object) [
+                'error' => 'Le coupon saisi ne correspond à aucun candidat. Veuillez vérifier le code et réessayer.',
+                'regcode' => $regcode
+            ];
+        }
 
         $applicant->documents = Applicant::get_documents($applicant->id);
 
