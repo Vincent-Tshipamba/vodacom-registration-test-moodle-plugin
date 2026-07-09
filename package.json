@@ -18,6 +18,8 @@
         "chart.js": "^4.5.1",
         "flowbite": "^4.0.2",
         "lucide": "^1.16.0",
-        "preline": "^4.2.0"
+        "preline": "^4.2.0",
+        "qr-scanner": "^1.4.2",
+        "qrcode": "^1.5.4"
     }
 }
