@@ -7,6 +7,8 @@ require('../../../../config.php');
 require_login();
 
 $context = context_system::instance();
+require_capability('local/scholarship:manage', $context);
+
 $id = optional_param('id', null, PARAM_INT);
 $PAGE->set_url(new moodle_url('/local/scholarship/admin/applicants/show.php'), ['id' => $id]);
 

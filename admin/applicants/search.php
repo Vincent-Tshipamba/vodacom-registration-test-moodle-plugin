@@ -9,6 +9,8 @@ require_sesskey();
 
 $context = context_system::instance();
 
+require_capability('local/scholarship:manage', $context);
+
 header('Content-Type: application/json; charset=utf-8');
 
 $results = AdminController::search();

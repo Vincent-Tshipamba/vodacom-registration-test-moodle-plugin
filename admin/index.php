@@ -11,6 +11,8 @@ require_login();
 
 $context = context_system::instance();
 
+require_capability('local/scholarship:manage', $context);
+
 $PAGE->set_url(new moodle_url('/local/scholarship/admin/index.php'));
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('admin');
