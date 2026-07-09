@@ -4,9 +4,9 @@ $registerurl = new moodle_url('/local/scholarship/apply.php');
 $learnmoreurl = new moodle_url('/login/index.php');
 
 $stats = [
-    ['count' => '500+', 'description' => get_string('home:stat1_desc', 'local_scholarship')],
-    ['count' => '100%', 'description' => get_string('home:stat2_desc', 'local_scholarship')],
-    ['count' => '50+', 'description' => get_string('home:stat3_desc', 'local_scholarship')],
+    ['count' => '+300', 'description' => get_string('home:stat1_desc', 'local_scholarship')],
+    ['count' => '+900', 'description' => get_string('home:stat2_desc', 'local_scholarship')],
+    ['count' => '+50', 'description' => get_string('home:stat3_desc', 'local_scholarship')],
 ];
 
 $whatisitcards = [
@@ -34,9 +34,9 @@ $processsteps = [
 ];
 
 $testimonials = [
-    ['name' => 'Vincent Tshipamba', 'role' => get_string('home:testimonial1_role', 'local_scholarship'), 'text' => get_string('home:testimonial1_text', 'local_scholarship'), 'image' => new moodle_url('/local/scholarship/assets/img/scholar_vincent.jpg')],
-    ['name' => 'Joediv Ilunga.', 'role' => get_string('home:testimonial2_role', 'local_scholarship'), 'text' => get_string('home:testimonial2_text', 'local_scholarship')],
-    ['name' => 'Andrea Muhima.', 'role' => get_string('home:testimonial3_role', 'local_scholarship'), 'text' => get_string('home:testimonial3_text', 'local_scholarship')],
+    ['name' => 'Andrea Muhima.', 'role' => get_string('home:testimonial1_role', 'local_scholarship'), 'text' => get_string('home:testimonial3_text', 'local_scholarship'), 'image' => new moodle_url('/local/scholarship/assets/img/scholar_andy.jpeg')],
+    ['name' => 'Vincent Tshipamba', 'role' => get_string('home:testimonial2_role', 'local_scholarship'), 'text' => get_string('home:testimonial1_text', 'local_scholarship'), 'image' => new moodle_url('/local/scholarship/assets/img/scholar_vincent.jpg')],
+    ['name' => 'Joediv Ilunga.', 'role' => get_string('home:testimonial3_role', 'local_scholarship'), 'text' => get_string('home:testimonial2_text', 'local_scholarship')],
 ];
 
 $partners = [
@@ -76,8 +76,11 @@ $faqitems = [
             <p class="mx-auto mb-8 max-w-2xl text-gray-200 text-lg md:text-xl">
                 <?php echo get_string('home:description', 'local_scholarship'); ?>
             </p>
+            <p class="mx-auto mb-8 max-w-2xl text-gray-200 text-lg md:text-xl">
+                <?php echo get_string('home:subdescription', 'local_scholarship'); ?>
+            </p>
             <div class="flex md:flex-row flex-col gap-4">
-                <a class="px-5 py-3 md:px-8 md:py-4 text-base md:text-lg transform animate-bounce rounded-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 font-semibold text-white no-underline shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:text-white hover:no-underline focus:text-white focus:no-underline active:text-white active:no-underline"
+                <a class="px-5 py-3 md:px-8 md:py-4 text-base md:text-lg transform animate-bounce rounded-full bg-gradient-to-r from-red-700 to-red-500 font-semibold text-white no-underline shadow-lg transition duration-300 ease-in-out hover:scale-105 hover:text-white hover:no-underline focus:text-white focus:no-underline active:text-white active:no-underline"
                     href="<?php echo $registerurl; ?>"><?php echo get_string('home:cta_apply', 'local_scholarship'); ?></a>
                 <a class="px-5 py-3 md:px-8 md:py-4 text-base md:text-lg rounded-full border-2 border-white font-semibold text-white no-underline transition duration-300 ease-in-out hover:bg-white hover:!text-slate-900 hover:no-underline focus:!text-slate-900 focus:no-underline active:!text-slate-900 active:no-underline"
                     href="<?php echo $learnmoreurl; ?>"><?php echo get_string('home:learn_more', 'local_scholarship'); ?></a>
@@ -226,13 +229,6 @@ $faqitems = [
                         </article>
                     <?php endforeach; ?>
                 </div>
-                <div class="mt-8 border-t border-slate-200 pt-6">
-                    <strong
-                        class="animate-bounce block text-sm font-black uppercase tracking-[0.16em] text-red-700"><?php echo get_string('home:important', 'local_scholarship'); ?></strong>
-                    <p class="mt-3 text-sm md:text-base leading-8 text-slate-600">
-                        <?php echo get_string('home:conditions_note', 'local_scholarship'); ?>
-                    </p>
-                </div>
             </div>
         </div>
     </section>
@@ -326,10 +322,10 @@ $faqitems = [
                     <article
                         class="rounded-[1.75rem] border border-slate-200/80 bg-white p-7 text-center shadow-[0_20px_50px_rgba(15,23,42,0.08)] transition duration-200 hover:-translate-y-1 hover:shadow-[0_24px_60px_rgba(15,23,42,0.12)]">
                         <div
-                            class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-rose-400 text-md md:text-lg font-black text-white">
+                            class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-red-600 to-rose-400 text-md md:text-lg font-black text-white">
                             <?php if ($testimonial['image']): ?>
                                 <img src="<?= $testimonial['image'] ?>" alt="Picture of scholar Vincent"
-                                    class="w-14 h-14 rounded-full">
+                                    class="w-16 h-16 rounded-full">
                             <?php else:
                                 echo s(core_text::substr($testimonial['name'], 0, 1)); ?>
                             <?php endif; ?>
@@ -361,16 +357,64 @@ $faqitems = [
             <h2 class="text-2xl font-bold tracking-tight md:text-4xl">
                 <?php echo get_string('home:partners_title', 'local_scholarship'); ?>
             </h2>
-            <p class="mx-auto my-4 max-w-3xl text-md md:text-lg leading-8 text-gray-700">
-                <?php echo get_string('home:partners_description', 'local_scholarship'); ?>
-            </p>
             <div class="max-w-7xl mx-auto flex flex-wrap justify-around gap-8 py-12 px-4">
+                <!-- Kinshasa -->
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://ascitech.cd/" target="_blank" title="Académie des Sciences et Technologies">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ascitech.png') ?>"
+                        class="sm:w-24 w-16 h-auto" alt="Logo de Académie des Sciences et Technologies"
+                        title="Académie des Sciences et Technologies">
+                </a>
+
                 <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.launiversity.cd/" target="_blank" title="Leadership Academia University">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-lau.png') ?>"
                         class="sm:w-24 w-16 h-auto" alt="Logo de Leadership Academia University"
                         title="Leadership Academia University">
                 </a>
+
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://uwbcongo.org/" target="_blank" title="Université William Booth">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-uwb.png') ?>"
+                        class="sm:w-24 w-16 h-auto" alt="Logo de Université William Booth"
+                        title="Université William Booth">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://belcampusrdc.net/" target="_blank" title="Université Technologique Bel Campus">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-UTBC_Kinshasa.png') ?>"
+                        class="sm:w-24 w-16 h-auto" alt="Logo de Université Technologique Bel Campus"
+                        title="Université Technologique Bel Campus">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://unisic.ac.cd/" target="_blank" title="Université des Sciences de l'Information et de la Communication">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unisic.webp') ?>"
+                        class="sm:w-24 w-16 h-auto" alt="Logo de Université des Sciences de l'Information et de la Communication"
+                        title="Université des Sciences de l'Information et de la Communication">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://upn.ac.cd/" target="_blank" title="Université Pédagogique Nationale">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-upn.png') ?>"
+                        class="sm:w-20 w-16 h-auto" alt="Logo de Université Pédagogique Nationale"
+                        title="Université Pédagogique Nationale">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="http://www.ista-kin.org/" target="_blank" title="Institut Supérieur des Techniques Appliquées">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ista.png') ?>"
+                        class="sm:w-24 w-16 h-auto" alt="Logo de Institut Supérieur des Techniques Appliquées"
+                        title="Institut Supérieur des Techniques Appliquées">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://isau.optsolution.net/" target="_blank" title="Institut Supérieur d'Architecture et d'Urbanisme">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-isau.png') ?>"
+                        class="sm:w-24 w-16 h-auto" alt="Logo de Institut Supérieur d'Architecture et d'Urbanisme"
+                        title="Institut Supérieur d'Architecture et d'Urbanisme">
+                </a>
+
                 <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.unikin.ac.cd/" target="_blank" title="Université de Kinshasa">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unikin.png') ?>"
@@ -397,7 +441,7 @@ $faqitems = [
                 <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.ucc.ovh/" target="_blank" title="Université Catholique du Congo">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ucc.png') ?>" alt="Logo de l'UCC"
-                        title="Université Catholique du Congo" class="h-auto sm:w-18 w-12">
+                        title="Université Catholique du Congo" class="h-auto sm:w-20 w-14">
                 </a>
 
                 <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
@@ -407,17 +451,156 @@ $faqitems = [
                         alt="Logo de l'INBTP" title="Institut National du Bâtiment et des Travaux Publics"
                         class="h-auto sm:w-12 w-8">
                 </a>
+
                 <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.ulc-icam.com/" target="_blank" title="Université Loyola du Congo">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ulc.png') ?>"
                         alt="Logo de l'ULC-Icam" title="Université Loyola du Congo" class="h-auto sm:w-36 w-16">
                 </a>
+
                 <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
                     href="https://www.ulc-icam.com/" target="_blank" title="Haute Ecole de Commerce de Kinshasa">
                     <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-hec.png') ?>"
                         alt="Logo de la Haute Ecole de Commerce de Kinshasa" title="Haute Ecole de Commerce de Kinshasa"
                         class="h-auto sm:w-18 w-12">
                 </a>
+                <!-- End Kinshasa -->
+
+                <!-- Kasai -->
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200" href="#"
+                    title="Université Notre Dame du Kasai">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-uka.png') ?>"
+                        alt="Logo de l'Université Notre Dame du Kasai" title="Université Notre Dame du Kasai"
+                        class="h-auto sm:w-16 w-14">
+                </a>
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200" href="#"
+                    title="Université Officielle de Mbuji-Mayi">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-uom.png') ?>"
+                        alt="Logo de l'Université Officielle de Mbuji-Mayi" title="Université Officielle de Mbuji-Mayi"
+                        class="h-auto sm:w-16 w-14">
+                </a>
+                <a href="https://universitemapon.ac.cd/" class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    title="Université Mapon">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-mapon.png') ?>"
+                        alt="Logo de l'Université Mapon" title="Université Mapon"
+                        class="h-auto sm:w-16 w-14">
+                </a>
+
+                <!-- Katanga -->
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://upl-univ.ac/" title="Université Protestante de Lubumbashi">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-upl.png') ?>"
+                        alt="Logo de l'Université Protestante de Lubumbashi"
+                        title="Université Protestante de Lubumbashi" class="h-auto sm:w-14 w-12">
+                </a>
+
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://esisalama.netlify.app/" title="École supérieure d'informatique Salama">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-esis-salama.png') ?>"
+                        alt="Logo de l'École supérieure d'informatique Salama"
+                        title="École supérieure d'informatique Salama" class="h-auto sm:w-14 w-12">
+                </a>
+
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://www.unilu.ac.cd/" title="Université de Lubumbashi">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unilu.png') ?>"
+                        alt="Logo de l'Université de Lubumbashi" title="Université de Lubumbashi"
+                        class="h-auto sm:w-16 w-14">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://unikol.ac/index.php" title="Université de Kolwezi">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unikol.png') ?>"
+                        alt="Logo de l'Université de Kolwezi" title="Université de Kolwezi"
+                        class="h-auto sm:w-16 w-14">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://www.unhorizons.org/" title="Université Nouveaux Horizons">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unh.png') ?>"
+                        alt="Logo de l'Université Nouveaux Horizons" title="Université Nouveaux Horizons"
+                        class="h-auto sm:w-20 w-16">
+                </a>
+                <!-- End Katanga -->
+                <!-- P.O -->
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://unikis.net/" title="Université de Kisangani">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unikis.png') ?>"
+                        alt="Logo de l'Université de Kisangani"
+                        title="Université de Kisangani" class="h-auto sm:w-24 w-20">
+                </a>
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://unishabunia.org/" title="Université Shalom de Bunia">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-usb.png') ?>"
+                        alt="Logo de l'Université Shalom de Bunia"
+                        title="Université Shalom de Bunia" class="h-auto sm:w-16 w-14">
+                </a>
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="#" title="Institut Supérieur Pédagogique de Kisangani">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-isp-kisangani.png') ?>"
+                        alt="Logo de l'Institut Supérieur Pédagogique de Kisangani"
+                        title="Institut Supérieur Pédagogique de Kisangani" class="h-auto sm:w-20 w-16">
+                </a>
+                <!-- End P.O -->
+
+                <!-- Nord Kivu -->
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://ulpgl.net/" title="Université Libre des Pays des Grands Lacs">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ulpgl.png') ?>"
+                        alt="Logo de l'Université Libre des Pays des Grands Lacs"
+                        title="Université Libre des Pays des Grands Lacs" class="h-auto sm:w-24 w-20">
+                </a>
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://isig.ac.cd/" title="Institut Supérieur d'Informatique et de Gestion">
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-isig.png') ?>"
+                        alt="Logo de l'Institut Supérieur d'Informatique et de Gestion"
+                        title="Institut Supérieur d'Informatique et de Gestion" class="h-auto sm:w-16 w-14">
+                </a>
+                <!-- End Nord Kivu -->
+
+                <!-- Sud Kivu -->
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://uob.ac.cd/" title="Université Officielle de Bukavu">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-uob.png') ?>"
+                        alt="Logo de l'Université Officielle de Bukavu" title="Université Officielle de Bukavu"
+                        class="h-auto sm:w-24 w-20">
+                </a>
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://ucbukavu.ac.cd/" title="Université Catholique de Bukavu">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-ucb.png') ?>"
+                        alt="Logo de l'Université Catholique de Bukavu" title="Université Catholique de Bukavu"
+                        class="h-auto sm:w-24 w-20">
+                </a>
+                <!-- End Sud Kivu -->
+                <!-- Kongo Central -->
+                 <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200" href="#"
+                    title="Université Libre de Matadi">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-unimat.png') ?>"
+                        alt="Logo de l'Université Libre de Matadi" title="Université Libre de Matadi" class="h-auto sm:w-24 w-20">
+                </a>
+
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://universitekongo.cd/" title="Université de Kongo">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-uni-kongo.png') ?>"
+                        alt="Logo de l'Université de Kongo" title="Université de Kongo"
+                        class="h-auto sm:w-24 w-20">
+                </a>
+                
+                <a class="animate-bounce flex items-center justify-center text-gray-400 hover:text-gray-200"
+                    href="https://www.groupe-horeb.net/" title="Université Technologique Horeb">
+
+                    <img src="<?= new moodle_url('/local/scholarship/assets/img/logo-uni-horeb.png') ?>"
+                        alt="Logo de l'Université Technologique Horeb" title="Université Technologique Horeb"
+                        class="h-auto sm:w-20 w-16">
+                </a>
+
             </div>
         </div>
     </section>
@@ -449,8 +632,8 @@ $faqitems = [
                     class="group rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
                     <div
                         class="animate-bounce mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="1.8">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21.75 7.5v9A2.25 2.25 0 0119.5 18.75h-15A2.25 2.25 0 012.25 16.5v-9m19.5 0L12 13.5 2.25 7.5m19.5 0A2.25 2.25 0 0019.5 5.25h-15A2.25 2.25 0 002.25 7.5" />
                         </svg>
@@ -471,8 +654,8 @@ $faqitems = [
                     class="group rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
                     <div
                         class="animate-pulse mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="1.8">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372a1.5 1.5 0 00-1.09-1.443l-4.423-1.106a1.5 1.5 0 00-1.465.487l-.97 1.164a1.5 1.5 0 01-1.61.46A12.035 12.035 0 016.71 11.81a1.5 1.5 0 01.46-1.61l1.164-.97a1.5 1.5 0 00.487-1.465L7.715 3.34A1.5 1.5 0 006.272 2.25H4.9A2.25 2.25 0 002.65 4.5v2.25z" />
                         </svg>
@@ -482,8 +665,9 @@ $faqitems = [
                         <?php echo get_string('home:contact_phone', 'local_scholarship'); ?>
                     </h3>
 
-                    <a href="tel:+243824444444" class="mt-3 block text-md md:text-lg font-semibold text-red-600 hover:underline">
-                        +243 824 444 444
+                    <a href="tel:+243824444444"
+                        class="mt-3 block text-md md:text-lg font-semibold text-red-600 hover:underline">
+                        +243 815 560 508
                     </a>
                 </article>
 
@@ -492,8 +676,8 @@ $faqitems = [
                     class="group rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
                     <div
                         class="animate-bounce mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-100 text-red-600 group-hover:bg-red-600 group-hover:text-white transition-colors">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="1.8">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 md:h-8 w-6 md:w-8" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
                             <path stroke-linecap="round" stroke-linejoin="round"
