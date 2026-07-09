@@ -3,6 +3,18 @@
 use local_scholarship\controllers\ApplicantController;
 require('../../config.php');
 
+require_login();
+
+force_current_language('fr');
+
+if (!isloggedin() || isguestuser()) {
+    $loginurl = new moodle_url('/login/index.php', [
+        'wantsurl' => qualified_me(),
+    ]);
+
+    redirect($loginurl);
+}
+
 $context = context_system::instance();
 
 $PAGE->set_url(new moodle_url('/local/scholarship/apply.php'));
@@ -40,6 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'apply_confirmation_details' => get_string('apply_confirmation_details', 'local_scholarship', [
                 'fullname' => $result['fullname'] ?? '',
             ]),
+            'qrvalue' => $result['qrvalue'] ?? null,
             'apply_confirmation_coupon' => $result['regcode'] ?? null,
         ]);
         exit;
@@ -69,6 +82,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 echo $OUTPUT->header();
+
+global $USER;
+
+$profilefullname = trim(fullname($USER));
+$profilephone = trim((string) ($USER->phone1 ?? ''));
+
+// Adapter le téléphone à ton format local à 9 chiffres.
+$profilephone = preg_replace('/\D+/', '', $profilephone);
+
+if (str_starts_with($profilephone, '243')) {
+    $profilephone = substr($profilephone, 3);
+}
+
+if (str_starts_with($profilephone, '0')) {
+    $profilephone = substr($profilephone, 1);
+}
+
+$profilephone = substr($profilephone, 0, 9);
+
 require(__DIR__ . '/templates/register.php');
 
 echo $OUTPUT->footer();

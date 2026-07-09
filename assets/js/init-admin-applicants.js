@@ -1,3 +1,95 @@
+
+document.addEventListener('DOMContentLoaded', () => {
+    const openQrScannerButton = document.getElementById('openQrScanner');
+    const closeQrScannerButton = document.getElementById('closeQrScanner');
+    const qrScannerModal = document.getElementById('qrScannerModal');
+    const qrScannerBackdrop = document.getElementById('qrScannerBackdrop');
+    const qrScannerError = document.getElementById('qrScannerError');
+
+    openQrScannerButton?.addEventListener('click', openQrScanner);
+    closeQrScannerButton?.addEventListener('click', closeQrScanner);
+    qrScannerBackdrop?.addEventListener('click', closeQrScanner);
+});
+
+let qrScanner = null;
+let qrScanHandled = false;
+
+function extractScholarshipRegcode(decodedText) {
+    const value = String(decodedText || '').trim();
+    const prefix = 'SCHOLARSHIP:';
+
+    if (!value.startsWith(prefix)) {
+        return null;
+    }
+
+    const regcode = value.slice(prefix.length).trim();
+
+    if (!regcode) {
+        return null;
+    }
+
+    return regcode;
+}
+
+async function closeQrScanner() {
+    qrScannerModal.classList.add('hidden');
+
+    if (qrScanner) {
+        await qrScanner.stop();
+        qrScanner.destroy();
+        qrScanner = null;
+    }
+}
+
+async function openQrScanner() {
+    qrScanHandled = false;
+    qrScannerModal.classList.remove('hidden');
+
+    const video = document.getElementById('qrReader');
+
+    qrScanner = new QrScanner(
+        video,
+        async result => {
+            if (qrScanHandled) {
+                return;
+            }
+            if ('vibrate' in navigator) {
+                navigator.vibrate(200); // vibration de 200 ms
+            }
+            qrScanHandled = true;
+            console.log(result);
+            const decodedText = result.data;
+
+            const regcode = extractScholarshipRegcode(decodedText);
+
+            if (!regcode) {
+                qrScanHandled = false;
+                qrScannerError.textContent = 'QR Code invalide.';
+                qrScannerError.classList.remove('hidden');
+                return;
+            }
+
+            await closeQrScanner();
+
+            gridSearchInput.value = regcode;
+
+            gridSearchInput.dispatchEvent(
+                new Event('input', {
+                    bubbles: true
+                })
+            );
+            gridSearchInput.focus();
+        },
+        {
+            highlightScanRegion: true,
+            highlightCodeOutline: true,
+            preferredCamera: 'environment',
+            returnDetailedScanResult: true
+        }
+    );
+    await qrScanner.start();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // Initialiser DataTable avec les options de pagination
     const dataTable = $('#applicants-table').DataTable({
@@ -144,7 +236,7 @@ async function fetchApplicantsPage(url, replace = false) {
         if (replace) {
             applicantsGrid.innerHTML = '';
         }
-        
+
         newItems.forEach(function (item) {
             applicantsGrid.appendChild(item);
         });
@@ -166,7 +258,7 @@ async function fetchApplicantsPage(url, replace = false) {
         }
 
         if (window.lucide) {
-            window.lucide.createIcons({icons: window.lucide.icons});
+            window.lucide.createIcons({ icons: window.lucide.icons });
         }
 
     } catch (error) {
@@ -195,7 +287,7 @@ async function fetchApplicantsPage(url, replace = false) {
 
 function searchApplicants() {
     const query = gridSearchInput?.value || '';
-    
+
     const url = buildSearchUrl(query, 0);
 
     fetchApplicantsPage(url, true);

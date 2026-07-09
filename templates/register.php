@@ -18,9 +18,14 @@ require(__DIR__ . '/../partials/values_for_registration.php');
 
     <div class="bg-slate-100  pb-24 min-h-screen text-slate-900">
         <form action="<?= new moodle_url('/local/scholarship/apply.php') ?>" id="registrationForm" class="space-y-10"
-            x-data="app()" x-init="init()" @submit="submitForm($event)" novalidate x-cloak>
+            x-data='app(<?= json_encode([
+                'userid' => (int) $USER->id,
+                'fullname' => $profilefullname,
+                'phone' => $profilephone,
+            ], JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE) ?>)' x-init="init()" @submit="submitForm($event)" novalidate x-cloak>
             <input type="hidden" name="sesskey" value="<?php echo sesskey(); ?>">
-            <div class="mx-auto px-4 py-10 max-w-4xl" :class="isSubmitting ? 'pointer-events-none opacity-60 select-none' : ''">
+            <div class="mx-auto px-4 py-10 max-w-4xl"
+                :class="isSubmitting ? 'pointer-events-none opacity-60 select-none' : ''">
                 <div id="form-global-error" x-show="errors.general" x-text="errors.general"
                     class="bg-red-50 mb-4 p-4 rounded-md text-red-700 text-sm" style="display: none;">
                 </div>
@@ -46,55 +51,76 @@ require(__DIR__ . '/../partials/values_for_registration.php');
 
                         </p>
 
-                        <div id="confirmation_coupon_block" class="bg-gray-100  mb-6 p-4 rounded-lg">
+                        <div id="confirmation_coupon_block" class="bg-gray-100 mb-3 p-4 rounded-lg">
                             <p class="mb-1 text-gray-500  text-sm">
                                 <?= get_string('apply_confirmation_coupon', 'local_scholarship'); ?>
                             </p>
                             <div class="flex justify-center items-center space-x-2">
                                 <input type="hidden" id="confirmation_coupon_input" value="1234">
                                 <p id="confirmation_coupon" class="font-mono font-bold text-gray-800 -xl">
-
+                        
                                 </p>
                                 <button type="button" data-copy-to-clipboard-target="confirmation_coupon_input"
-                                    data-tooltip-target="tooltip-copy-confirmation-coupon-button"
-                                    data-tooltip-placement="right"
+                                    data-tooltip-target="tooltip-copy-confirmation-coupon-button" data-tooltip-placement="right"
                                     class="flex items-center bg-white hover:bg-white/50  -800/50 mt-7 px-3 py-1.5 border border-default-strong  focus:outline-none focus:ring-4 focus:ring-neutral-tertiary-soft font-medium text-body hover:text-heading  text-xs leading-5 -translate-y-1/2 end-1.5">
                                     <span id="default-message">
                                         <span class="flex items-center">
-                                            <svg class="me-1.5 w-4 h-4" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
+                                            <svg class="me-1.5 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+                                                height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 5h6m-6 4h6M10 3v4h4V3h-4Z" />
                                             </svg>
-                                            <span
-                                                class="font-semibold text-xs"><?= get_string('copy', 'local_scholarship'); ?></span>
+                                            <span class="font-semibold text-xs">
+                                                <?= get_string('copy', 'local_scholarship'); ?>
+                                            </span>
                                         </span>
                                     </span>
                                     <span id="success-message" class="hidden">
                                         <span class="flex items-center">
                                             <svg class="me-1.5 w-4 h-4 text-fg-brand text-green-500" aria-hidden="true"
-                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
-                                                viewBox="0 0 24 24">
-                                                <path stroke="currentColor" stroke-linecap="round"
-                                                    stroke-linejoin="round" stroke-width="2"
+                                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M15 4h3a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h3m0 3h6m-6 7 2 2 4-4m-5-9v4h4V3h-4Z" />
                                             </svg>
-                                            <span
-                                                class="font-semibold text-green-600 text-xs"><?= get_string('copied', 'local_scholarship'); ?></span>
+                                            <span class="font-semibold text-green-600 text-xs">
+                                                <?= get_string('copied', 'local_scholarship'); ?>
+                                            </span>
                                         </span>
                                     </span>
                                 </button>
                                 <div id="tooltip-copy-confirmation-coupon-button" role="tooltip"
                                     class="invisible inline-block z-10 absolute bg-white  shadow-xs px-3 py-2 rounded-base font-medium text-gray-700  text-sm transition-opacity duration-300 tooltip">
-                                    <span
-                                        id="default-tooltip-message"><?= get_string('copy_label', 'local_scholarship'); ?></span>
-                                    <span id="success-tooltip-message"
-                                        class="hidden"><?= get_string('copied', 'local_scholarship'); ?></span>
+                                    <span id="default-tooltip-message">
+                                        <?= get_string('copy_label', 'local_scholarship'); ?>
+                                    </span>
+                                    <span id="success-tooltip-message" class="hidden">
+                                        <?= get_string('copied', 'local_scholarship'); ?>
+                                    </span>
                                     <div class="tooltip-arrow" data-popper-arrow></div>
                                 </div>
                             </div>
+                        </div>
+                        
+                        <div id="confirmation_qr_block"
+                            class="hidden bg-white border border-gray-200 shadow-sm mb-5 p-5 rounded-xl">
+
+                            <p class="mb-2 font-semibold text-gray-800">
+                                Votre code QR de candidature
+                            </p>
+
+                            <p class="mb-4 text-gray-500 text-sm">
+                                Téléchargez le code QR ci-dessous. Vous en aurez besoin pour la suite du processus de candidature.
+                            </p>
+
+                            <div class="flex justify-center">
+                                <canvas id="confirmation_qr_canvas" class="border border-gray-200 rounded-lg">
+                                </canvas>
+                            </div>
+
+                            <button type="button" id="downloadQrButton"
+                                class="mt-4 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white text-sm">
+                                Télécharger le code QR
+                            </button>
                         </div>
                         <a href="<?= $homeurl; ?>"
                             class="inline-block bg-blue-600 hover:bg-blue-700 px-6 py-2 rounded-lg font-bold text-white transition duration-200">
@@ -156,7 +182,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                     <!-- Step content -->
                     <div class="bg-white  shadow-md mb-6 p-8 rounded-lg">
                         <!-- Step 1: Personal Information -->
-                        <div x-show.transition.in="step === 1">
+                        <div x-show.transition.in="step === 1" data-step="1">
                             <!-- Photo Upload -->
                             <div class="mb-5 text-center">
                                 <div
@@ -219,7 +245,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                                             class="left-0 absolute inset-y-0 flex items-center pl-3 pointer-events-none">
                                             <span class="text-gray-500">+243</span>
                                         </div>
-                                        <input type="tel" id="phone" name="phone" x-model="formData.phone"
+                                        <input type="tel" id="phone" name="phone" x-model="formData.phone" value="<?= $profilephone ?? '' ?>"
                                             inputmode="tel" maxlength="9" pattern="8[01236][0-9]{7}"
                                             @input="handlePhoneNumberInput()" @blur="validatePhoneNumberField()"
                                             class=" py-2 pr-4 pl-16 border border-gray-300 focus:border-transparent  rounded-lg focus:ring-2 focus:ring-red-500 w-full placeholder:text-slate-400"
@@ -283,7 +309,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                         </div>
 
                         <!-- Step 2: Address Information -->
-                        <div x-show.transition.in="step === 2">
+                        <div x-show.transition.in="step === 2" data-step="2">
                             <div class="gap-4 grid md:grid-cols-2">
                                 <!-- Current City -->
                                 <div class="md:col-span-2">
@@ -349,7 +375,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                             </div>
                         </div>
                         <!-- Step 3: Academic Information -->
-                        <div x-show.transition.in="step === 3">
+                        <div x-show.transition.in="step === 3" data-step="3">
                             <div class="gap-4 grid md:grid-cols-2">
                                 <!-- School Name -->
                                 <div class="md:col-span-2">
@@ -448,7 +474,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                             </div>
                         </div>
                         <!-- Step 4: Documents -->
-                        <div x-show.transition.in="step === 4">
+                        <div x-show.transition.in="step === 4" data-step="4">
                             <div class="space-y-8">
                                 <?php foreach ($document_types as $document): ?>
                                     <?php $field = strtolower($document['name']); ?>
@@ -593,7 +619,7 @@ require(__DIR__ . '/../partials/values_for_registration.php');
                             </div>
                         </div>
                         <!-- Step 5: Personal Ambitions -->
-                        <div x-show.transition.in="step === 5">
+                        <div x-show.transition.in="step === 5" data-step="5">
                             <div class="space-y-6">
                                 <!-- University Field -->
                                 <div>

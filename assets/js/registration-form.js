@@ -1,7 +1,6 @@
 // Récupérer les traductions depuis la balise meta
 // const translations = JSON.parse(document.querySelector('meta[name="translations"]')?.getAttribute('content') || '{}');
-
-window.app = function () {
+window.app = function (profile = {}) {
     return {
         // idempotency token to prevent duplicate submissions
         submissionToken: null,
@@ -13,8 +12,8 @@ window.app = function () {
         formData: {
             // Étape 1: Informations personnelles
             photo: null,
-            fullname: '',
-            phone: '',
+            fullname: profile.fullname || '',
+            phone: profile.phone || '',
             gender: 'male',
             birthdate: '',
             age: 0,
@@ -52,6 +51,38 @@ window.app = function () {
         draftSaveTimeout: null,
 
         previews: {},
+
+        async renderApplicantQr(qrValue, regcode) {
+            const canvas = document.getElementById('confirmation_qr_canvas');
+            const block = document.getElementById('confirmation_qr_block');
+            const downloadButton = document.getElementById('downloadQrButton');
+
+            if (!canvas || !block || !qrValue) {
+                return;
+            }
+
+            try {
+                await window.QRCode.toCanvas(canvas, qrValue, {
+                    width: 260,
+                    margin: 2,
+                    errorCorrectionLevel: 'H',
+                });
+
+                block.classList.remove('hidden');
+
+                if (downloadButton) {
+                    downloadButton.onclick = () => {
+                        const link = document.createElement('a');
+
+                        link.download = `candidature-${regcode || 'qr'}.png`;
+                        link.href = canvas.toDataURL('image/png');
+                        link.click();
+                    };
+                }
+            } catch (error) {
+                console.error('Impossible de générer le QR code :', error);
+            }
+        },
 
         handleDocumentUpload(event, field) {
             const file = event.target.files[0];
@@ -100,6 +131,50 @@ window.app = function () {
             return (kb / 1024).toFixed(1) + ' Mo';
         },
 
+        focusFirstFieldInStep(step) {
+            this.$nextTick(() => {
+                const stepContainer = document.querySelector(`[data-step="${step}"]`);
+
+                if (!stepContainer) {
+                    return;
+                }
+
+                const firstField = stepContainer.querySelector(`
+                    input:not([type="hidden"]):not([disabled]),
+                    select:not([disabled]),
+                    textarea:not([disabled])
+                `);
+
+                if (!firstField) {
+                    return;
+                }
+
+                let target = firstField;
+
+                if (firstField.type === 'file') {
+                    const label = stepContainer.querySelector(
+                        `label[for="${CSS.escape(firstField.id)}"]`
+                    );
+
+                    if (label) {
+                        label.setAttribute('tabindex', '-1');
+                        target = label;
+                    }
+                }
+
+                setTimeout(() => {
+                    target.focus?.({
+                        preventScroll: true,
+                    });
+
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'center',
+                    });
+                }, 80);
+            });
+        },
+
         clearDocument(field) {
             this.formData[field] = null;
 
@@ -119,7 +194,6 @@ window.app = function () {
         init() {
             this.restoreDraft();
             this.validatePhoneNumberField();
-
             const form = document.getElementById('registrationForm');
             if (form) {
                 const saveDraft = () => this.queueDraftSave();
@@ -272,24 +346,6 @@ window.app = function () {
                 setTimeout(() => {
                     this.formData = { ...this.formData };
                 }, 0);
-            }
-        },
-
-        nextStep() {
-            if (this.isSubmitting) return;
-
-            if (this.step < this.totalSteps) {
-                if (this.validateStep(this.step)) {
-                    this.step++;
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    const firstError = Object.keys(this.errors)[0];
-                    if (firstError) {
-                        const el = document.getElementById(firstError);
-                        el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        el?.focus?.();
-                    }
-                }
             }
         },
 
@@ -569,6 +625,7 @@ window.app = function () {
                 if (this.step < this.totalSteps) {
                     this.step++;
                     this.persistDraft();
+                    this.focusFirstFieldInStep(this.step);
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 }
             } else {
@@ -588,6 +645,7 @@ window.app = function () {
             if (this.step > 1) {
                 this.step--;
                 this.persistDraft();
+                this.focusFirstFieldInStep(this.step);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         },
@@ -639,6 +697,7 @@ window.app = function () {
                 .then(async (response) => {
                     if (response.ok) {
                         const data = await response.json();
+                        console.log('data : ', data);
                         if (data && data.success) {
                             try {
                                 if (data.apply_confirmation_details) {
@@ -652,6 +711,9 @@ window.app = function () {
                                     if (couponEl) couponEl.textContent = data.apply_confirmation_coupon;
                                     if (couponInput) couponInput.value = data.apply_confirmation_coupon;
                                     if (couponBlock) couponBlock.style.display = '';
+                                }
+                                if (data.qrvalue) {
+                                    await this.renderApplicantQr(data.qrvalue, data.regcode);
                                 }
                             } catch (err) {
                                 console.warn('Could not inject confirmation details:', err);

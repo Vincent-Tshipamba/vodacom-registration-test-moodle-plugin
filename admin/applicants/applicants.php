@@ -37,6 +37,45 @@ $applicants = $data->applicants;
         <div class="absolute left-0 inset-y-0 flex items-center px-3 pointer-events-none">
             <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
         </div>
+
+    </div>
+    <button type="button" id="openQrScanner"
+        class="inline-flex justify-center items-center gap-2 bg-red-600 hover:bg-red-700 px-4 py-2 rounded-lg text-white">
+        <i data-lucide="scan-line" class="w-5 h-5"></i>
+        <span class="hidden md:inline">Scanner</span>
+    </button>
+</div>
+<div id="qrScannerModal" class="hidden fixed inset-0 flex items-center justify-center p-4" style="z-index: 10000;">
+
+    <div id="qrScannerBackdrop" class="absolute inset-0 bg-black/60">
+    </div>
+
+    <div class="relative bg-white shadow-xl rounded-xl w-full max-w-lg overflow-hidden">
+        <div class="flex justify-between items-center px-5 py-4 border-b">
+            <div>
+                <h3 class="font-semibold text-gray-900 text-lg">
+                    Scanner le QR du candidat
+                </h3>
+
+                <p class="text-gray-500 text-sm">
+                    Placez le QR code devant la caméra.
+                </p>
+            </div>
+
+            <button type="button" id="closeQrScanner" class="text-gray-500 hover:text-gray-900">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+        </div>
+
+        <div class="p-5">
+
+            <video id="qrReader" class="mx-auto rounded-xl w-full max-w-md" playsinline>
+            </video>
+
+            <p id="qrScannerError" class="hidden mt-3 text-red-600 text-sm">
+            </p>
+
+        </div>
     </div>
 </div>
 
@@ -47,7 +86,7 @@ $applicants = $data->applicants;
 <!-- Grid View -->
 <div id="gridView" class="w-full">
     <div id="applicantsGrid" class="gap-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 mb-6">
-        <?php include(__DIR__ . '/../partials/applicants-grid.php'); ?> 
+        <?php include(__DIR__ . '/../partials/applicants-grid.php'); ?>
     </div>
 
     <div id="gridNoResults" class="<?= empty($data->applicants) ? '' : 'hidden' ?> text-center py-10 text-slate-500">

@@ -15,6 +15,7 @@ class ApplicantController
     public function store()
     {
         global $DB;
+        global $USER;
 
         require_sesskey();
 
@@ -28,13 +29,32 @@ class ApplicantController
 
         $data->editionid = $edition->id;
 
-        $existing = Applicant::find_by_examcode($data->examcode, $edition->id);
+        $existingbyuser = $DB->get_record('local_scholarship_app', [
+            'userid' => (int) $USER->id,
+            'editionid' => (int) $edition->id,
+        ]);
 
+        if ($existingbyuser) {
+            return [
+                'success' => true,
+                'message' => get_string(
+                    'apply_confirmation_message',
+                    'local_scholarship'
+                ),
+                'regcode' => $existingbyuser->regcode,
+                'qrvalue' => 'SCHOLARSHIP:' . $existingbyuser->regcode,
+                'applicantid' => $existingbyuser->id,
+                'fullname' => $existingbyuser->fullname,
+                'existing' => true,
+            ];
+        }
+        $existing = Applicant::find_by_examcode($data->examcode, $edition->id);
         if ($existing) {
             return [
                 'success' => true,
                 'message' => get_string('apply_confirmation_message', 'local_scholarship'),
                 'regcode' => $existing->regcode,
+                'qrvalue' => 'SCHOLARSHIP:' . $existing->regcode,
                 'existing' => true,
             ];
         }
@@ -42,7 +62,9 @@ class ApplicantController
         $transaction = $DB->start_delegated_transaction();
 
         try {
+            $data->userid = (int) $USER->id;
             $data->regcode = $this->generate_unique_regcode();
+            $qrvalue = 'SCHOLARSHIP:' . $data->regcode;
             $status = Status::get_status_by_name('PENDING');
             $birthdate = new DateTimeImmutable($data->birthdate);
             $data->birthdate = $birthdate->getTimestamp();
@@ -108,6 +130,7 @@ class ApplicantController
             return [
                 'success' => true,
                 'regcode' => $data->regcode,
+                'qrvalue' => $qrvalue,
                 'applicantid' => $applicantid,
                 'existing' => false,
                 'fullname' => $data->fullname,
