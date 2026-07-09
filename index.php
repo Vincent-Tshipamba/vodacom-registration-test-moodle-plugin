@@ -3,6 +3,8 @@ require('../../config.php');
 
 $context = context_system::instance();
 
+force_current_language('fr');
+
 $PAGE->set_url(new moodle_url('/local/scholarship/index.php'));
 $PAGE->set_context($context);
 $PAGE->set_pagelayout('base');
