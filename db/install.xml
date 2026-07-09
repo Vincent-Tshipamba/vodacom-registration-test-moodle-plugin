@@ -64,6 +64,7 @@
         <FIELD NAME="birthdate" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="phone" TYPE="char" LENGTH="50" NOTNULL="false"/>
         <FIELD NAME="email" TYPE="char" LENGTH="255" NOTNULL="false"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="diplomacityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="currentcityid" TYPE="int" LENGTH="10" NOTNULL="false"/>
         <FIELD NAME="address" TYPE="text" NOTNULL="false"/>
@@ -80,6 +81,7 @@
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="userid_fk" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
         <KEY NAME="editionid" TYPE="foreign" FIELDS="editionid" REFTABLE="local_scholarship_edition" REFFIELDS="id"/>
         <KEY NAME="diplomacityid" TYPE="foreign" FIELDS="diplomacityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
         <KEY NAME="currentcityid" TYPE="foreign" FIELDS="currentcityid" REFTABLE="local_scholarship_city" REFFIELDS="id"/>
