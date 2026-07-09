@@ -8,8 +8,9 @@ $string['nocurrentedition'] = 'Aucune édition active de la bourse n\'a été tr
 $string['server_error'] = 'Une erreur est survenue lors de la soumission de votre candidature. Veuillez réessayer plus tard.';
 
 // Homepage
-$string['home:title'] = 'Boostez votre avenir avec la bourse Vodacom';
-$string['home:description'] = 'La Fondation Vodacom soutient les nouveaux diplômés ambitieux en leur offrant une bourse pour propulser leurs projets et leurs carrières.';
+$string['home:title'] = 'Bourse Vodacom Exetat '. date('Y');
+$string['home:description'] = 'La Fondation Vodacom offre un soutien financier aux élèves de la RDC ayant obtenu un minimum de 70% à l\'Examen d\'Etat organisé par le ministère de l\'EPST. ';
+$string['home:subdescription'] = 'Pour cette 8e édition, la bourse Vodacom célèbre l\'excellence au féminin: elle est exclusivement dédiée aux jeunes filles qui désirent embrasser les filières STEM (Sciences, Technologies, Ingénieries et Mathématiques) à l\'université.';
 $string['home:cta_apply'] = 'Postulez maintenant';
 $string['home:learn_more'] = 'En savoir plus';
 $string['home:cta_login'] = 'Se connecter';
@@ -17,16 +18,16 @@ $string['home:phases'] = 'Phases de sélection';
 $string['home:phase1'] = 'Vérification des candidatures';
 $string['home:phase2'] = 'Test de sélection';
 $string['home:phase3'] = 'Interviews et décision finale';
-$string['home:stats_title'] = 'Boostez votre carrière avec la bourse Vodacom';
-$string['home:stats_description'] = 'Rejoignez les diplômés ambitieux qui ont déjà transformé leur avenir grâce au soutien de la Fondation Vodacom. Postulez dès maintenant et faites le premier pas vers votre réussite.';
-$string['home:stat1_desc'] = 'Diplômés d\'État ayant déjà obtenu la bourse Vodaeduc';
-$string['home:stat2_desc'] = 'Accompagnement complet tout au long du processus de sélection';
-$string['home:stat3_desc'] = 'Événements et ateliers organisés chaque année';
+$string['home:stats_title'] = 'Boostez votre avenir en souscrivant au programme de bourses Vodacom Exetat';
+$string['home:stats_description'] = 'Des centaines de jeunes talents ont déjà bénéficié du programme de bourses de la Fondation Vodacom et poursuivent aujourd\'hui leurs ambitions académiques et professionnelles. Rejoignez une communauté de bénéficiaires qui construisent l\'avenir grâce à l\'éducation.';
+$string['home:stat1_desc'] = 'Diplômés d\'État ayant déjà bénéficié de bourses Vodacom Exetat';
+$string['home:stat2_desc'] = 'Élèves ayant déjà bénéficié de bourses Vodaeduc';
+$string['home:stat3_desc'] = 'Formations et ateliers organisés chaque année';
 
 $string['home:what_title'] = 'Qu\'est-ce que la bourse ?';
-$string['home:what_description'] = 'La bourse Vodacom est un programme de soutien destiné aux nouveaux diplômés ambitieux. Elle offre une aide financière, un accompagnement personnalisé et l\'accès à des ateliers et événements pour booster votre carrière et concrétiser vos projets.';
+$string['home:what_description'] = 'Le programme de bourses Vodacom Exetat est destiné aux nouveaux diplômés ambitieux. Il offre une aide financière, un accompagnement personnalisé et l\'accès à des ateliers et formations pour booster leur avenir.';
 $string['home:what1_title'] = 'Aide financière';
-$string['home:what1_desc'] = 'Soutien d\'une valeur de 1000 $ par an tout au long du cursus universitaire.';
+$string['home:what1_desc'] = 'Soutien d\'une valeur de 1000 $ par an tout au long du cursus universitaire sans échec.';
 $string['home:what2_title'] = 'Mentorat & Coaching';
 $string['home:what2_desc'] = 'Conseils et suivi tout au long du parcours académique.';
 $string['home:what3_title'] = 'Formation et Expérience professionnelle';
@@ -45,19 +46,18 @@ $string['home:process3_desc'] = 'Les candidats présélectionnés sont invités 
 $string['home:process4_title'] = 'Interview';
 $string['home:process4_desc'] = 'Les candidats ayant réussi le test écrit sont appelés à passer une interview en présentiel.';
 $string['home:process5_title'] = 'Publication des résultats';
-$string['home:process5_desc'] = 'La liste des lauréats sélectionnés est publiée à travers les canaux officiels de communication de la fondation Vodacom.';
+$string['home:process5_desc'] = 'La liste des lauréats sélectionnés est publiée à travers les canaux officiels de communication de la Fondation Vodacom.';
 
 $string['home:conditions_badge'] = 'Conditions d\'éligibilité';
 $string['home:conditions_title'] = 'Qui peut postuler ?';
 $string['home:conditions_description'] = 'Avant de soumettre votre candidature, assurez-vous de remplir les critères essentiels du programme.';
 $string['home:condition1'] = 'Être de nationalité congolaise ou réfugié résidant sur le territoire de la RDC.';
 $string['home:condition2'] = 'Être âgé de 16 à 20 ans.';
-$string['home:condition3'] = 'Avoir obtenu au moins 70% à l\'examen d\'État de l\'année en cours.';
+$string['home:condition3'] = 'Avoir obtenu au moins 70% à l\'Examen d\'État de l\'année en cours.';
 $string['home:condition4'] = 'Envisager une filière STEM à l\'université.';
-$string['home:condition5'] = 'Avoir consulté ses résultats via le réseau Vodacom.';
+$string['home:condition5'] = 'Avoir consulté ses résultats via le réseau Vodacom. (*42202#)';
 $string['home:condition6'] = 'Pour les mineurs, utiliser le numéro d\'un parent pour la procédure d\'inscription.';
 $string['home:important'] = 'Important';
-$string['home:conditions_note'] = 'Avant de commencer votre inscription, assurez-vous d\'utiliser un seul et même numéro de téléphone, correctement enregistré, joignable et identique à celui utilisé pour consulter vos résultats.';
 
 $string['home:how_to_apply_title'] = 'Comment postuler ?';
 $string['home:how_to_apply_description'] = 'La démarche à suivre pour soumettre sa candidature.';
@@ -68,12 +68,12 @@ $string['home:cta_button'] = 'Postulez maintenant';
 
 $string['home:testimonials_title'] = 'Témoignages';
 $string['home:testimonials_description'] = 'Quelques voix représentatives de l\'expérience des candidats et boursiers.';
-$string['home:testimonial1_role'] = 'Boursier';
-$string['home:testimonial1_text'] = 'La bourse Vodacom m\'a offert l\'opportunité de poursuivre mes études supérieures dans le domaine qui me passionne.';
-$string['home:testimonial2_role'] = 'Candidat';
-$string['home:testimonial2_text'] = 'Le processus semble clair, moderne et rassurant. Vous savez toujours où vous en êtes.';
-$string['home:testimonial3_role'] = 'Boursière';
-$string['home:testimonial3_text'] = 'Grâce à ce programme, non seulement j\'ai pu poursuivre mon rêve à l\'université mais j\'ai également bénéficié de nombreuses occasions d\'acquérir une expérience professionnelle.';
+$string['home:testimonial1_role'] = 'Boursière';
+$string['home:testimonial1_text'] = 'Grâce à ce programme, non seulement j\'ai pu poursuivre mon rêve à l\'université mais j\'ai également bénéficié de nombreuses occasions d\'acquérir une expérience professionnelle.';
+$string['home:testimonial2_role'] = 'Boursier';
+$string['home:testimonial2_text'] = 'La bourse Vodacom m\'a offert l\'opportunité de poursuivre mes études supérieures dans le domaine qui me passionne.';
+$string['home:testimonial3_role'] = 'Candidat';
+$string['home:testimonial3_text'] = 'Le processus semble clair, moderne et rassurant. Vous savez toujours où vous en êtes.';
 
 $string['home:partners_title'] = 'Partenaires académiques';
 $string['home:partners_description'] = 'Institutions de référence alignées avec la vision du programme.';
@@ -102,16 +102,16 @@ $string['home:faq4_q'] = 'Sur quelle base les candidats sont-ils sélectionnés 
 $string['home:faq4_a'] = 'Les candidats sont sélectionnés sur la base de plusieurs critères, notamment leur performance scolaire, leur motivation et leurs objectifs de carrière.';
 
 $string['home:faq5_q'] = 'Combien de temps dure le processus de sélection ?';
-$string['home:faq5_a'] = 'Le processus de sélection peut varier en fonction du nombre de candidatures reçues, mais nous nous efforçons de terminer le processus dans les 2 à 3 semaines suivant la date limite de candidature.';
+$string['home:faq5_a'] = 'Le processus de sélection peut varier en fonction du nombre de candidatures reçues. La Fondation Vodacom se rassure de publier à l\'avance le calendrier des activités liées au processus de sélection.';
 
 $string['home:faq6_q'] = 'Sur quelles matières porte le test de sélection ?';
-$string['home:faq6_a'] = 'Le test de sélection porte sur plusieurs matières, notamment les mathématiques, le français, l\'anglais, la psychotechnique et la culture générale. Nous recommandons aux candidats de se préparer à ces matières pour maximiser leurs chances de réussite.';
-        
+$string['home:faq6_a'] = 'Le test de sélection porte sur plusieurs matières, notamment les mathématiques, le français, l\'anglais, la psychotechnique et la culture générale. Nous recommandons aux candidats de se préparer à ces matières sur <a href="https://vodaeduc.vodacom.cd/items/exetat" target="_blank" rel="noopener noreferrer" title="VodaEduc">VodaEduc</a> pour maximiser leurs chances de réussite.';
+
 $string['home:faq7_q'] = 'Y a-t-il des ressources de préparation disponibles pour le test de sélection ?';
 $string['home:faq7_a'] = 'Oui, nous encourageons les candidats à consulter la plateforme Vodaeduc pour se préparer efficacement au test.';
 
 $string['home:faq8_q'] = 'Où se déroulera le test de sélection ?';
-$string['home:faq8_a'] = 'Le lieu du test de sélection sera communiqué aux candidats retenus après la clôture des candidatures. Nous nous efforçons de choisir des lieux accessibles et bien situés pour faciliter la participation de tous les candidats.';
+$string['home:faq8_a'] = 'Le lieu du test de sélection sera communiqué aux candidats retenus après la clôture des candidatures. La Fondation Vodacom se rassure que ces lieux sont accessibles afin de faciliter la participation des candidats.';
 
 // $string['apply_title'] = 'Formulaire de candidature';
 

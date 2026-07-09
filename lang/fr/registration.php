@@ -70,7 +70,7 @@ $string['apply_other_university_field_placeholder'] = 'Entrez le nom de votre fi
 $string['apply_passion_label'] = 'Pourquoi cette filière ?';
 $string['apply_passion_placeholder'] = 'Expliquez pourquoi cette filière vous attire et ce que vous souhaitez y construire.';
 
-$string['apply_note'] = 'Avant de soumettre, assurez-vous que vos informations sont correctes car vous ne pourrez plus les modifier par la suite.';
+$string['apply_note'] = 'Avant de soumettre votre candidature, veuillez vous assurer que toutes les informations fournies sont exactes et complètes, car elles ne pourront plus être modifiées après la soumission.';
 
 // Page de soumission
 $string['apply_submit'] = 'Soumettre';
@@ -81,7 +81,7 @@ $string['or_drag_drop'] = 'ou glisser-déposer';
 // Confirmation page
 $string['apply_confirmation_title'] = 'Confirmation d\'inscription';
 $string['apply_confirmation_message'] = 'Votre inscription a été enregistrée avec succès !';
-$string['apply_confirmation_details'] = 'Votre candidature a bien été soumise. Veuillez enregistrer votre coupon pour la suite du processus. Merci {$a->fullname} !';
+$string['apply_confirmation_details'] = 'Votre candidature a bien été soumise. Veuillez enregistrer votre code QR et votre coupon pour la suite du processus. Merci {$a->fullname} !';
 $string['apply_confirmation_coupon'] = 'Votre code coupon est : ';
 $string['copy_label'] = 'Copier le code au presse-papiers';
 $string['copy'] = 'Copier';
