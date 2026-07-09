@@ -7,13 +7,10 @@
     <div class="absolute inset-0 bg-black opacity-50"></div>
 
     <!-- Content -->
-    <di class="relative z-10 text-white max-w-2xl">
+    <div class="relative z-10 text-white max-w-2xl">
         <h1 class="text-2xl md:text-4xl font-bold leading-tight">
-            Verifiez en un clic le statut de votre candidature !
+            Verification du statut de votre candidature !
         </h1>
-        <p class="mt-4 text-md md:text-lg">
-            Vous n'avez qu'à saisir votre code coupon reçu lors de la soumission de la candidature
-        </p>
 
         <!-- Resultat de la verification -->
         <?php if (isset($data)): ?>
@@ -80,31 +77,10 @@
                                     </span>
                                 <?php endif; ?>
                             </p>
-                            <span class="flex items-center justify-start text-gray-500">
-                                <?= $data->examcode ?>
-                            </span>
                         </div>
                     </div>
                 </div>
             <?php endif; ?>
         <?php endif; ?>
-        <form action="<?= new moodle_url('/local/scholarship/applicants/followup-layout.php') ?>" method="post">
-            <div class="mt-2 flex-col md:flex items-center justify-center space-x-1">
-                <div class="flex items-center bg-gray-900 p-4 rounded-md max-w-xl mb-2">
-                    <span class="text-green-500">&gt;</span>
-                    <input type="text" value="<?= $data->regcode ?>" autofocus autocapitalize="characters" name="coupon"
-                        class="border-none placeholder-gray-400 bg-gray-900 text-white p-0.5 outline-none ml-2 w-full"
-                        placeholder="Saisissez votre coupon ici">
-                </div>
-                <div>
-                    <button type="submit"
-                        class="px-6 py-3 bg-red-500 hover:bg-red-600 rounded-lg text-lg font-semibold transition inline-flex items-center">
-                        Vérifier
-                        <i class="fa-solid fa-arrow-right ml-2 transition-transform group-hover:translate-x-1"></i>
-                    </button>
-                </div>
-            </div>
-        </form>
-
-        </div>
+    </div>
 </section>

@@ -144,6 +144,7 @@ class ApplicantController
     public static function followup()
     {
         global $DB;
+        global $USER;
 
 
         $regcode = $_REQUEST['coupon'];
@@ -152,13 +153,12 @@ class ApplicantController
                 SELECT a.id, a.fullname, a.examcode, a.regcode, s.name AS statusname
                 FROM {local_scholarship_app} a
                 LEFT JOIN {local_scholarship_status} s ON s.id = a.statusid
-                WHERE a.regcode = ?
-            ", [$regcode]);
+                WHERE a.userid = ?
+            ", [$USER->id]);
 
         if (!$applicant) {
             return (object) [
-                'error' => 'Le coupon saisi ne correspond à aucun candidat. Veuillez vérifier le code et réessayer.',
-                'regcode' => $regcode
+                'error' => 'Aucune candidature trouvée pour votre compte. Veuillez vérifier que vous êtes connecté avec le bon compte et que vous avez soumis une candidature.',
             ];
         }
 
